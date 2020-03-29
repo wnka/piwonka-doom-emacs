@@ -61,9 +61,9 @@
 (global-set-key "\M-p" 'backward-list)
 
 ;; Display continuous lines
-;; (setq-default truncate-lines nil)
+(setq-default truncate-lines nil)
 ;; truncate even even when screen is split into multiple windows
-;; (setq-default truncate-partial-width-windows nil)
+(setq-default truncate-partial-width-windows nil)
 
 ;; Various Preferences
 (setq kill-whole-line t)
@@ -82,8 +82,11 @@
 (use-package! org
   :config
   (progn
-    (global-set-key "\C-c\C-r" 'org-refile)
-    (global-set-key "\C-cr" 'org-refile)
+    (global-set-key "\C-cnr" 'org-refile)
+    (defun my-org-archive-done-tasks ()
+      (interactive)
+      (org-map-entries 'org-archive-subtree "/DONE" 'file))
+    (global-set-key "\C-cnh" 'my-org-archive-done-tasks)
     (setq wnka/org-path "~/ws/orgmode/src/PiwonkaOrgMode/")
     (setq wnka/org-notes-path "~/ws/orgmode/src/PiwonkaOrgMode/notes/")
     (setq org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
@@ -133,16 +136,21 @@
 
 ;;; ORG-JOURNAL config
 (use-package! org-journal
+  :after org
   :config
   (progn
     (setq org-journal-dir "~/ws/orgmode/src/PiwonkaOrgMode/journal/")
-    ;;; New journal entry on both C-j and j so I can be sloppy
-    (global-set-key "\C-c\C-j" 'org-journal-new-entry)
-    (global-set-key "\C-cj" 'org-journal-new-entry)
+    (map! :leader
+      (:prefix ("j" . "journal") ;; org-journal bindings
+        :desc "Create new journal entry" "j" #'org-journal-new-entry
+        :desc "Open previous entry" "p" #'org-journal-open-previous-entry
+        :desc "Open next entry" "n" #'org-journal-open-next-entry
+        :desc "Search journal" "s" #'org-journal-search-forever))
     ))
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
+  :after org-agenda
   :config
   (progn
     (setq org-super-agenda-groups
