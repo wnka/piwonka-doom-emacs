@@ -158,3 +158,8 @@
     (org-super-agenda-mode)
     )
   )
+
+;;; Never wrap my shit
+(add-hook 'org-mode-hook #'turn-off-auto-fill)
+(add-hook 'org-journal-mode-hook #'turn-off-auto-fill)
+(add-hook 'markdown-mode-hook #'turn-off-auto-fill)
