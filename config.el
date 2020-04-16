@@ -87,18 +87,15 @@
       (interactive)
       (org-map-entries 'org-archive-subtree "/DONE" 'file))
     (global-set-key "\C-cnh" 'my-org-archive-done-tasks)
-    (setq wnka/org-path "~/ws/orgmode/src/PiwonkaOrgMode/")
+    (setq wnka/org-path "~/Dropbox/org/")
     (setq wnka/org-notes-path "~/ws/orgmode/src/PiwonkaOrgMode/notes/")
     (setq org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
                                    (list
                                     "inbox.org"
+                                    "personal.org"
                                     "work.org"
                                     "web.org"
                                     )))
-
-    (setq org-agenda-custom-commands
-          '(("n" todo "NEXT") ; Todo items that are marked "NEXT"
-            ))
 
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
@@ -127,12 +124,18 @@
     (setq org-agenda-start-on-weekday nil)
     (setq org-refile-targets '(
                                ("work.org" . (:level . 1))
+                               ("personal.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
     )
   )
+
+;;; ORG-HABIT config
+(after! org
+  (add-to-list 'org-modules 'org-habit t)
+  (setq org-habit-show-habits t))
 
 ;;; ORG-JOURNAL config
 (use-package! org-journal
@@ -153,9 +156,31 @@
   :after org-agenda
   :config
   (progn
-    (setq org-super-agenda-groups
-          '((:auto-outline-path t)))
     (org-super-agenda-mode)
+    (setq org-agenda-custom-commands
+      '(("g" "Good View"
+         ((agenda ""
+                  ((org-agenda-overriding-header "TODAY")
+                   (org-agenda-span 'day)
+                   (org-agenda-start-day (org-today))
+                   (org-super-agenda-groups
+                    '((:auto-outline-path t)))
+                   ))
+          (todo ""
+                ((org-agenda-overriding-header "NEXT")
+                 (org-agenda-skip-function
+                  '(or
+                    (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
+                 (org-super-agenda-groups
+                  '((:auto-parent t)))))
+          (todo ""
+                 ((org-agenda-overriding-header "TO FILE")
+                  (org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
+                                            (list
+                                             "inbox.org"
+                                             "web.org"
+                                             )))))
+          ))))
     )
   )
 
