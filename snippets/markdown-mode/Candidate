@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Candidate
+# key: c
+# --
+**Candidate:** $0
