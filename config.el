@@ -138,11 +138,11 @@
   (setq org-habit-show-habits t))
 
 ;;; ORG-JOURNAL config
-(use-package! org-journal
-  :after org
-  :config
+(after! org
+  (add-to-list 'org-modules 'org-journal t)
   (progn
     (setq org-journal-dir "~/ws/orgmode/src/PiwonkaOrgMode/journal/")
+    (setq org-journal-file-format "%Y%m%d.org")
     (map! :leader
       (:prefix ("j" . "journal") ;; org-journal bindings
         :desc "Create new journal entry" "j" #'org-journal-new-entry

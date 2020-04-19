@@ -53,3 +53,5 @@
 (package! org-journal)
 (package! org-super-agenda)
 (package! graphviz-dot-mode)
+(package! gnuplot)
+(package! gnuplot-mode)
