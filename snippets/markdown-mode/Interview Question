@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Interview Question
+# key: q
+# --
+**Me:** ${1:question}
+**Candidate:** $0
