@@ -55,3 +55,4 @@
 (package! graphviz-dot-mode)
 (package! gnuplot)
 (package! gnuplot-mode)
+(package! kaolin-themes)
