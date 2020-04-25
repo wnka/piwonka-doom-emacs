@@ -129,6 +129,31 @@
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
+
+    ;; Make it so global clock in shows recent tasks
+    (defun pdp80/org-clock-in ()
+      (interactive)
+      (org-clock-in '(4)))
+
+    (global-set-key "\C-cI" 'pdp80/org-clock-in)
+    (global-set-key "\C-cO" 'org-clock-out)
+    (global-set-key "\C-cG" 'org-clock-goto)
+    (map! (:map org-mode-map
+        :localleader
+        :desc "Org clock in"                        "i" #'org-clock-in
+        :desc "Org clock out"                       "o" #'org-clock-out
+        :desc "Org clock goto"                      "g" #'org-clock-goto
+        :desc "Org pomodoro"                        "p" #'org-pomodoro
+        :desc "Org focus subtree"                   "f" #'org-narrow-to-subtree
+        :desc "Org unfocus subtree"                 "F" #'widen
+        :desc "Org clock report"                    "R" #'org-clock-report
+        :desc "Org set effort"                      "e" #'org-set-effort
+        :desc "Generage Hugo blog post"             "h" #'org-hugo-export-wim-to-md
+        :desc "Org attach image"                    "c" #'org-attach-screenshot
+        :desc "Org add note"                        "n" #'org-add-note
+        :desc "Org archive default"                 "a" #'org-archive-subtree-default
+        )
+      )
     )
   )
 

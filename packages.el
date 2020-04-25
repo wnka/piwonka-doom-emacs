@@ -56,3 +56,4 @@
 (package! gnuplot)
 (package! gnuplot-mode)
 (package! kaolin-themes)
+(package! org-pomodoro)
