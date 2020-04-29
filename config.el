@@ -110,11 +110,13 @@
 
     (setq org-capture-templates
           '(
-            ("t" "Todo" entry (file+headline (lambda () (concat wnka/org-path "inbox.org")) "Inbox")
+            ("t" "Todo" entry (file (lambda () (concat wnka/org-path "inbox.org")))
              "* TODO %?\n  %i\n")
-            ("d" "Todo Today" entry (file+headline (lambda () (concat wnka/org-path "inbox.org")) "Inbox")
+            ("d" "Todo Today" entry (file (lambda () (concat wnka/org-path "inbox.org")))
              "* TODO %?\n  SCHEDULED: %t")
-            ("c" "Todo with Clipboard" entry (file+headline (lambda () (concat wnka/org-path "inbox.org")) "Inbox")
+            ("c" "Todo with Clipboard" entry (file (lambda () (concat wnka/org-path "inbox.org")))
+             "* TODO %?\n  %c" :empty-lines 1)
+            ("w" "Web with Clipboard" entry (file (lambda () (concat wnka/org-path "web.org")))
              "* TODO %?\n  %c" :empty-lines 1)
             )
           )
@@ -213,3 +215,4 @@
 (add-hook 'org-mode-hook #'turn-off-auto-fill)
 (add-hook 'org-journal-mode-hook #'turn-off-auto-fill)
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
+(setq plantuml-output-type "png")
