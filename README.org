@@ -1,3 +1,3 @@
 * What
 
-My doom-emacs config
+My doom-emacs config, to use clone this into your .doom.d directory.
