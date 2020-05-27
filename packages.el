@@ -56,3 +56,6 @@
 (package! gnuplot)
 (package! gnuplot-mode)
 (package! kaolin-themes)
+(package! hugo
+  :recipe (:host github :repo "aaronbieber/hugo.el"
+          :files ("hugo.el")))

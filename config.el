@@ -218,3 +218,6 @@
 (add-hook 'org-journal-mode-hook #'turn-off-auto-fill)
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
+
+;;; HUGO
+(use-package! hugo)
