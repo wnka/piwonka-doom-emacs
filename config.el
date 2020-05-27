@@ -201,11 +201,29 @@
                  (org-super-agenda-groups
                   '((:auto-parent t)))))
           (todo ""
+                ((org-agenda-overriding-header "DEADLINE/SCHEDULE")
+                 (org-super-agenda-groups '(
+                                            (:name "Due Soon"
+                                                   :deadline future
+                                                   :scheduled future
+                                                   )
+                                            (:name "Scheduled Soon"
+                                                   :scheduled future
+                                                   )
+                                            (:name "Overdue"
+                                                   :deadline past
+                                                   :scheduled past
+                                                   )
+                                            (:discard (:anything))
+                                            )
+                 )))
+          (todo ""
                  ((org-agenda-overriding-header "TO FILE")
                   (org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
                                             (list
                                              "inbox.org"
                                              "web.org"
+                                             "phone.org"
                                              )))))
           ))))
     )
