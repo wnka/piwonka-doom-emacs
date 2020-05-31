@@ -91,6 +91,7 @@
     (setq wnka/org-notes-path "~/ws/orgmode/src/PiwonkaOrgMode/notes/")
     (setq org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
                                    (list
+                                    "habits.org"
                                     "inbox.org"
                                     "personal.org"
                                     "work.org"
@@ -111,13 +112,13 @@
     (setq org-capture-templates
           '(
             ("t" "Todo" entry (file (lambda () (concat wnka/org-path "inbox.org")))
-             "* TODO %?\n  %i\n")
+             "* TODO %?\n%i\n")
             ("d" "Todo Today" entry (file (lambda () (concat wnka/org-path "inbox.org")))
-             "* TODO %?\n  SCHEDULED: %t")
+             "* TODO %?\nSCHEDULED: %t")
             ("c" "Todo with Clipboard" entry (file (lambda () (concat wnka/org-path "inbox.org")))
-             "* TODO %?\n  %c" :empty-lines 1)
+             "* TODO %?\n%c" :empty-lines 1)
             ("w" "Web with Clipboard" entry (file (lambda () (concat wnka/org-path "web.org")))
-             "* TODO %?\n  %c" :empty-lines 1)
+             "* TODO %?\n%c" :empty-lines 1)
             )
           )
 
