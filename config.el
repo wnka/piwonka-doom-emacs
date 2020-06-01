@@ -188,6 +188,7 @@
           (todo ""
                 ((org-agenda-overriding-header "DEADLINE/SCHEDULE")
                  (org-super-agenda-groups '(
+                                            (:discard (:habit t))
                                             (:name "Due Soon"
                                                    :deadline future
                                                    :scheduled future
