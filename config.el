@@ -25,7 +25,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;(setq doom-theme 'doom-laserwave)
-(setq doom-theme 'kaolin-galaxy)
+(setq doom-theme 'twilight-anti-bright)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -171,7 +171,16 @@
     (org-super-agenda-mode)
     (setq org-agenda-custom-commands
       '(("g" "Good View"
-         ((agenda ""
+         (
+          (todo ""
+                ((org-agenda-overriding-header "DO IT")
+                 (org-super-agenda-groups '(
+                                            (:name "Priority"
+                                                   :priority>= "C"
+                                                   )
+                                            (:discard (:anything))
+                                            ))))
+          (agenda ""
                   ((org-agenda-overriding-header "TODAY")
                    (org-agenda-span 'day)
                    (org-agenda-start-day (org-today))
