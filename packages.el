@@ -64,3 +64,4 @@
 ;;           :files ("vivid-theme.el")))
 (package! twilight-bright-theme)
 (package! twilight-anti-bright-theme)
+(package! yaml-mode)
