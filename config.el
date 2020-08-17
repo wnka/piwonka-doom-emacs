@@ -97,6 +97,7 @@
                                     "personal.org"
                                     "work.org"
                                     "web.org"
+                                    "1on1.org"
                                     )))
 
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
@@ -128,6 +129,7 @@
     (setq org-agenda-start-on-weekday nil)
     (setq org-refile-targets '(
                                ("work.org" . (:level . 1))
+                               ("1on1.org" . (:level . 2))
                                ("personal.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
