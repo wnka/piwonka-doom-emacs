@@ -97,6 +97,7 @@
                                     "personal.org"
                                     "work.org"
                                     "web.org"
+                                    "birthdays.org"
                                     "1on1.org"
                                     )))
 
@@ -175,14 +176,6 @@
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
-          (todo ""
-                ((org-agenda-overriding-header "DO IT")
-                 (org-super-agenda-groups '(
-                                            (:name "Priority"
-                                                   :priority>= "C"
-                                                   )
-                                            (:discard (:anything))
-                                            ))))
           (agenda ""
                   ((org-agenda-overriding-header "TODAY")
                    (org-agenda-span 'day)
@@ -197,24 +190,6 @@
                     (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
                  (org-super-agenda-groups
                   '((:auto-parent t)))))
-          (todo ""
-                ((org-agenda-overriding-header "DEADLINE/SCHEDULE")
-                 (org-super-agenda-groups '(
-                                            (:discard (:habit t))
-                                            (:name "Due Soon"
-                                                   :deadline future
-                                                   :scheduled future
-                                                   )
-                                            (:name "Scheduled Soon"
-                                                   :scheduled future
-                                                   )
-                                            (:name "Overdue"
-                                                   :deadline past
-                                                   :scheduled past
-                                                   )
-                                            (:discard (:anything))
-                                            )
-                 )))
           (todo ""
                  ((org-agenda-overriding-header "TO FILE")
                   (org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
