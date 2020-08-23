@@ -3,6 +3,9 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+;; If you start Emacs from Emacs.app in the Finder, this will pull in the path
+;; you'd see if you started from the shell
+(exec-path-from-shell-initialize)
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
