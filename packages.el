@@ -66,3 +66,4 @@
 (package! twilight-anti-bright-theme)
 (package! yaml-mode)
 (package! exec-path-from-shell)
+(package! magit-delta)
