@@ -3,6 +3,23 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+;; NATIVE SHIT - for gccemacs (which I'm currently not using because it was a pain and broke a lot)
+;; (setq comp-speed 2)
+;; (if (and (fboundp 'native-comp-available-p)
+;;            (native-comp-available-p))
+;;       (progn
+;;         (message "Native comp is available")
+;;         (add-to-list 'exec-path (expand-file-name "/usr/local/opt/gccemacs/bin"))
+;;         (setenv "LIBRARY_PATH" (concat (getenv "LIBRARY_PATH")
+;;                                        (when (getenv "LIBRARY_PATH")
+;;                                          ":")
+;;                                        (car (file-expand-wildcards
+;;                                              (expand-file-name "/usr/local/opt/gcc/lib/gcc/*")))))
+;;         ;; Only set after LIBRARY_PATH can find gcc libraries.
+;;         (setq comp-deferred-compilation t))
+;;   (message "Native comp is *not* available"))
+;; END NATIVE SHIT
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Phil Piwonka"
@@ -27,6 +44,14 @@
 (if (display-graphic-p)
     (setq doom-theme 'twilight-anti-bright)
   (setq doom-theme 'doom-one))
+
+;; Switch themes when macOS does its "auto" light/dark transitions
+(add-hook 'ns-system-appearance-change-functions
+          #'(lambda (appearance)
+              (mapc #'disable-theme custom-enabled-themes)
+              (pcase appearance
+                ('light (load-theme 'kaolin-breeze t))
+                ('dark (load-theme 'twilight-anti-bright t)))))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -166,6 +191,17 @@
         :desc "Open next entry" "n" #'org-journal-open-next-entry
         :desc "Search journal" "s" #'org-journal-search-forever))
     ))
+
+;;; Avy search stuff
+;;;
+(progn
+  (map! :leader
+        (:prefix ("a" . "avy") ;; avy bindings
+         :desc "Goto Char Timer" "s" #'avy-goto-char-timer
+         :desc "Goto word-1" "a" #'avy-goto-word-1
+         :desc "Next" "n" #'avy-next
+         :desc "Prev" "p" #'avy-prev
+         )))
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
