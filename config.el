@@ -53,6 +53,16 @@
                 ('light (load-theme 'kaolin-breeze t))
                 ('dark (load-theme 'twilight-anti-bright t)))))
 
+;; Enable magit-delta (coloring for diffs in magit)
+;; See https://github.com/dandavison/magit-delta
+(use-package! magit-delta
+  :after magit
+  :config
+  (setq
+    magit-delta-default-dark-theme "OneHalfDark"
+    magit-delta-default-light-theme "OneHalfLight")
+  (magit-delta-mode))
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/ws/orgmode/src/PiwonkaOrgMode/")
