@@ -254,5 +254,5 @@
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
 
-;;; HUGO
-(use-package! hugo)
+;;; Use bufler for buffer management
+(global-set-key "\C-x\C-b" 'bufler)
