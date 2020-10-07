@@ -256,3 +256,8 @@
 
 ;;; Use bufler for buffer management
 (global-set-key "\C-x\C-b" 'bufler)
+
+;;; HUGO
+(setq easy-hugo-basedir "~/Documents/hugo/pdp80/")
+(setq easy-hugo-url "https://pdp.dev")
+(setq easy-hugo-postdir "content/posts")

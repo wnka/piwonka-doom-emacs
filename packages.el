@@ -67,3 +67,4 @@
 (package! yaml-mode)
 (package! magit-delta)
 (package! bufler)
+(package! easy-hugo)
