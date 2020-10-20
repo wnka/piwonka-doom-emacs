@@ -45,7 +45,7 @@
 ;(if (display-graphic-p)
 ;    (setq doom-theme 'twilight-anti-bright)
 ;  (setq doom-theme 'doom-one))
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-Iosvkem)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
