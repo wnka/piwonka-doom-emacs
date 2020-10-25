@@ -59,12 +59,13 @@
 (package! hugo
   :recipe (:host github :repo "aaronbieber/hugo.el"
           :files ("hugo.el")))
-;; (package! vivid-theme
-;;   :recipe (:host github :repo "websymphony/vivid-theme"
-;;           :files ("vivid-theme.el")))
 (package! twilight-bright-theme)
 (package! twilight-anti-bright-theme)
 (package! yaml-mode)
 (package! magit-delta)
 (package! bufler)
 (package! easy-hugo)
+(package! oblique
+  :recipe (:host github :repo "zzkt/oblique-strategies"))
+(package! burly
+  :recipe (:host github :repo "alphapapa/burly.el"))

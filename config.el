@@ -255,3 +255,5 @@
 (setq easy-hugo-basedir "~/Documents/hugo/pdp80/")
 (setq easy-hugo-url "https://pdp.dev")
 (setq easy-hugo-postdir "content/posts")
+
+(setq oblique-edition "~/.emacs.d/.local/straight/repos/oblique-strategies/strategies/oblique-strategies-condensed.txt")
