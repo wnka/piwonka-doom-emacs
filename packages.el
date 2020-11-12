@@ -65,7 +65,5 @@
 (package! magit-delta)
 (package! bufler)
 (package! easy-hugo)
-(package! oblique
-  :recipe (:host github :repo "zzkt/oblique-strategies"))
 (package! burly
   :recipe (:host github :repo "alphapapa/burly.el"))
