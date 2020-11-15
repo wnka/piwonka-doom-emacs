@@ -196,6 +196,18 @@
         :desc "Search journal" "s" #'org-journal-search-forever))
     ))
 
+(setq org-roam-directory "~/Dropbox/org/roam")
+
+(use-package deft
+      :after org
+      :bind
+      ("C-c d" . deft)
+      :custom
+      (deft-recursive t)
+      (deft-use-filter-string-for-filename t)
+      (deft-default-extension "org")
+      (deft-directory "~/Dropbox/org/roam"))
+
 ;;; Avy search stuff
 ;;;
 (progn
