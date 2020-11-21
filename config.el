@@ -199,14 +199,14 @@
 (setq org-roam-directory "~/Dropbox/org/roam")
 
 (use-package deft
-      :after org
-      :bind
-      ("C-c d" . deft)
-      :custom
-      (deft-recursive t)
-      (deft-use-filter-string-for-filename t)
-      (deft-default-extension "org")
-      (deft-directory "~/Dropbox/org/roam"))
+  :after org
+  :bind
+  ("C-c d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory "~/Dropbox/org/roam"))
 
 ;;; Avy search stuff
 ;;;
@@ -218,6 +218,7 @@
          :desc "Next" "n" #'avy-next
          :desc "Prev" "p" #'avy-prev
          )))
+(global-set-key "\C-\\" 'avy-goto-word-1)
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda

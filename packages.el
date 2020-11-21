@@ -65,5 +65,3 @@
 (package! magit-delta)
 (package! bufler)
 (package! easy-hugo)
-(package! burly
-  :recipe (:host github :repo "alphapapa/burly.el"))
