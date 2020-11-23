@@ -195,6 +195,8 @@
         :desc "Open previous entry" "p" #'org-journal-open-previous-entry
         :desc "Open next entry" "n" #'org-journal-open-next-entry
         :desc "Search journal" "s" #'org-journal-search-forever))
+    (setq org-journal-date-prefix "#+TITLE: "
+          org-journal-time-prefix "* ")
     ))
 
 (setq org-roam-directory "~/Dropbox/org/roam")
