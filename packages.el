@@ -66,3 +66,4 @@
 (package! bufler)
 (package! easy-hugo)
 (package! company-org-roam)
+(package! helm-org-rifle)

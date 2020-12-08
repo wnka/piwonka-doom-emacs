@@ -201,15 +201,19 @@
 
 (setq org-roam-directory "~/Dropbox/org/roam")
 
-(use-package deft
-  :after org
-  :bind
-  ("C-c d" . deft)
-  :custom
-  (deft-recursive t)
-  (deft-use-filter-string-for-filename t)
-  (deft-default-extension "org")
-  (deft-directory "~/Dropbox/org/roam"))
+;;; Stolen from here:
+;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
+;;; I like these bindings so I don't have to go through the 'r' subtree
+(after! org-roam
+  (map! :leader
+        :prefix "n"
+        :desc "org-roam" "l" #'org-roam
+        :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+        :desc "org-roam-find-file" "f" #'org-roam-find-file
+        :desc "org-roam-show-graph" "g" #'org-roam-show-graph
+        :desc "org-roam-insert" "i" #'org-roam-insert
+        :desc "rifle" "e" #'helm-org-rifle
+        :desc "org-roam-capture" "c" #'org-roam-capture))
 
 (use-package company-org-roam
   :after org-roam
