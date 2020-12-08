@@ -211,6 +211,11 @@
   (deft-default-extension "org")
   (deft-directory "~/Dropbox/org/roam"))
 
+(use-package company-org-roam
+  :after org-roam
+  :config
+  (push 'company-org-roam company-backends))
+
 ;;; Avy search stuff
 ;;;
 (progn
@@ -221,7 +226,7 @@
          :desc "Next" "n" #'avy-next
          :desc "Prev" "p" #'avy-prev
          )))
-(global-set-key "\C-\\" 'avy-goto-word-1)
+(global-set-key "\C-\\" 'avy-goto-char-timer)
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
