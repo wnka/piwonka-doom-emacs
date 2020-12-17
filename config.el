@@ -183,6 +183,11 @@
   (add-to-list 'org-modules 'org-habit t)
   (setq org-habit-show-habits t))
 
+;;; Save all org buffers periodically (I think every 30 seconds)
+(after! org
+  (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+  )
+
 ;;; ORG-JOURNAL config
 (after! org
   (add-to-list 'org-modules 'org-journal t)
