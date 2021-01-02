@@ -166,15 +166,6 @@
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
-
-    ;; Make it so global clock in shows recent tasks
-    (defun pdp80/org-clock-in ()
-      (interactive)
-      (org-clock-in '(4)))
-
-    (global-set-key "\C-cI" 'pdp80/org-clock-in)
-    (global-set-key "\C-cO" 'org-clock-out)
-    (global-set-key "\C-cG" 'org-clock-goto)
     )
   )
 
@@ -205,6 +196,9 @@
     ))
 
 (setq org-roam-directory "~/Dropbox/org/roam")
+;;; Let each machine have it's own DB cache
+;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
+(setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
 
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
