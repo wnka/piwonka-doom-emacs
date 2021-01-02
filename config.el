@@ -201,6 +201,22 @@
 (setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
 
 ;;; Stolen from here:
+;;; https://oremacs.com/2020/12/31/happy-new-year/
+;;; and
+;;; https://github.com/abo-abo/oremacs/blob/15e6a33d314121ea0b3f1659dbc3ee8181dce854/modes/ora-org-roam.el
+(defun ora-roam-todo ()
+  "An ad-hoc agenda for `org-roam'."
+  (interactive)
+  (let* ((regex "^\\* TODO")
+         (b (get-buffer (concat "*ivy-occur counsel-rg \"" regex "\"*"))))
+    (if b
+        (progn
+          (switch-to-buffer b)
+          (ivy-occur-revert-buffer))
+      (setq unread-command-events (listify-key-sequence (kbd "C-c C-o M->")))
+      (counsel-rg regex org-roam-directory "--sort modified"))))
+
+;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
@@ -212,7 +228,8 @@
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-insert
         :desc "rifle" "e" #'helm-org-rifle
-        :desc "org-roam-capture" "c" #'org-roam-capture))
+        :desc "org-roam-capture" "c" #'org-roam-capture
+        :desc "Roam TODOs" "t" #'ora-roam-todo))
 
 (use-package company-org-roam
   :after org-roam
