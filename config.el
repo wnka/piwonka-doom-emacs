@@ -35,18 +35,18 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;(setq doom-font (font-spec :family "JetBrains Mono" :size 14))
-(setq doom-font (font-spec :family "Roboto Mono" :size 14))
+
+;;; Font settings
+;;; Influenced by:
+;;; https://github.com/pkazmier/doom-nebula-theme
+(setq doom-font (font-spec :family "Roboto Mono" :size 14)
+      doom-big-font (font-spec :family "Roboto Mono" :size 20)
+      doom-variable-pitch-font (font-spec :family "Roboto Mono" :size 12))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;(setq doom-theme 'doom-laserwave)
-;(if (display-graphic-p)
-;    (setq doom-theme 'twilight-anti-bright)
-;  (setq doom-theme 'doom-one))
-;(setq doom-theme 'doom-Iosvkem)
-(setq doom-theme 'zaiste)
+(setq doom-theme 'doom-nebula)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
