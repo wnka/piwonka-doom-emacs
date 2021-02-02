@@ -216,6 +216,15 @@
       (setq unread-command-events (listify-key-sequence (kbd "C-c C-o M->")))
       (counsel-rg regex org-roam-directory "--sort modified"))))
 
+
+;;; Helper for appending at the end of org files
+;;; Common action for me in org-roam is to open a file, go to the end of the file
+;;; and then add '* <current date>'
+ (defun pdp-org-roam-insert ()
+   (interactive)
+   (goto-char (point-max))
+   (insert (format-time-string "* %m/%d/%Y")))
+
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
@@ -229,6 +238,7 @@
         :desc "org-roam-insert" "i" #'org-roam-insert
         :desc "rifle" "e" #'helm-org-rifle
         :desc "org-roam-capture" "c" #'org-roam-capture
+        :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
         :desc "Roam TODOs" "t" #'ora-roam-todo))
 
 (use-package company-org-roam
