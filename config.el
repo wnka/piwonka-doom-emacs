@@ -240,6 +240,13 @@
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
         :desc "Roam TODOs" "t" #'ora-roam-todo))
+;;; Allow me to get sloppy with holding down control for these options I use a lot
+(global-set-key "\C-c\C-np" 'pdp-org-roam-insert)
+(global-set-key "\C-c\C-n\C-p" 'pdp-org-roam-insert)
+(global-set-key "\C-c\C-nf" 'org-roam-find-file)
+(global-set-key "\C-c\C-n\C-f" 'org-roam-find-file)
+(global-set-key "\C-c\C-ni" 'org-roam-insert)
+(global-set-key "\C-c\C-n\C-i" 'org-roam-insert)
 
 (use-package company-org-roam
   :after org-roam
