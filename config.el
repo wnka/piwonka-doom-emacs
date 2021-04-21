@@ -352,4 +352,6 @@ tasks."
         org-roam-server-network-label-wrap-length 20))
 (require 'org-protocol)
 (require 'org-roam-protocol)
+;;; How to set up org-protocol on Mac:
+;;; https://github.com/xuchunyang/setup-org-protocol-on-mac
 ;;; END org-roam-server
