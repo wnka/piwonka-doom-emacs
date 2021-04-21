@@ -68,3 +68,4 @@
 (package! company-org-roam)
 (package! helm-org-rifle)
 (package! org-ql)
+(package! org-roam-server)

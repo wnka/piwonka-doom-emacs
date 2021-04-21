@@ -118,19 +118,6 @@
       (interactive)
       (org-map-entries 'org-archive-subtree "/DONE" 'file))
     (global-set-key "\C-cnh" 'my-org-archive-done-tasks)
-    (setq wnka/org-path "~/Dropbox/org/")
-    (setq wnka/org-notes-path "~/ws/orgmode/src/PiwonkaOrgMode/notes/")
-    (setq org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
-                                   (list
-                                    "habits.org"
-                                    "inbox.org"
-                                    "personal.org"
-                                    "work.org"
-                                    "web.org"
-                                    "birthdays.org"
-                                    "1on1.org"
-                                    )))
-
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
     (setq org-agenda-skip-scheduled-if-done t)
@@ -144,13 +131,13 @@
 
     (setq org-capture-templates
           '(
-            ("t" "Todo" entry (file (lambda () (concat wnka/org-path "inbox.org")))
+            ("t" "Todo" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%i\n")
-            ("d" "Todo Today" entry (file (lambda () (concat wnka/org-path "inbox.org")))
+            ("d" "Todo Today" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\nSCHEDULED: %t")
-            ("c" "Todo with Clipboard" entry (file (lambda () (concat wnka/org-path "inbox.org")))
+            ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%c" :empty-lines 1)
-            ("w" "Web with Clipboard" entry (file (lambda () (concat wnka/org-path "web.org")))
+            ("w" "Web with Clipboard" entry (file (lambda () (concat org-directory "web.org")))
              "* TODO %?\n%c" :empty-lines 1)
             )
           )
@@ -183,7 +170,7 @@
 (after! org
   (add-to-list 'org-modules 'org-journal t)
   (progn
-    (setq org-journal-dir "~/ws/orgmode/src/PiwonkaOrgMode/journal/")
+    (setq org-journal-dir (concat org-directory "journal"))
     (setq org-journal-file-format "%Y%m%d.org")
     (map! :leader
       (:prefix ("j" . "journal") ;; org-journal bindings
@@ -274,28 +261,14 @@
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
-          (agenda ""
-                  ((org-agenda-overriding-header "TODAY")
-                   (org-agenda-span 'day)
-                   (org-agenda-start-day (org-today))
-                   (org-super-agenda-groups
-                    '((:auto-outline-path t)))
-                   ))
           (todo ""
                 ((org-agenda-overriding-header "NEXT")
                  (org-agenda-skip-function
                   '(or
                     (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
-                 (org-super-agenda-groups
-                  '((:auto-parent t)))))
+                 ))
           (todo ""
-                 ((org-agenda-overriding-header "TO FILE")
-                  (org-agenda-files (mapcar #'(lambda (orgfile) (concat wnka/org-path orgfile))
-                                            (list
-                                             "inbox.org"
-                                             "web.org"
-                                             "phone.org"
-                                             )))))
+                ((org-agenda-overriding-header "ROAM TODOS")))
           ))))
     )
   )
@@ -313,3 +286,70 @@
 (setq easy-hugo-basedir "~/Documents/hugo/pdp80/")
 (setq easy-hugo-url "https://pdp.dev")
 (setq easy-hugo-postdir "content/posts")
+
+;;; TODO from org-roam
+(defun pdp80-todo-p ()
+  "Return non-nil if current buffer has any TODO entry.
+
+TODO entries marked as done are ignored, meaning the this
+function returns nil if current buffer contains only completed
+tasks."
+  (org-element-map
+      (org-element-parse-buffer 'headline)
+      'headline
+    (lambda (h)
+      (eq (org-element-property :todo-type h)
+          'todo))
+    nil 'first-match))
+
+(defun pdp80-update-todo-tag ()
+  "Update TODO tag in the current buffer."
+  (when (and (not (active-minibuffer-window))
+             (org-roam--org-file-p buffer-file-name))
+    (let* ((file (buffer-file-name (buffer-base-buffer)))
+           (all-tags (org-roam--extract-tags file))
+           (prop-tags (org-roam--extract-tags-prop file))
+           (tags prop-tags))
+      (if (pdp80-todo-p)
+          (setq tags (seq-uniq (cons "todo" tags)))
+        (setq tags (remove "todo" tags)))
+      (unless (equal prop-tags tags)
+        (org-roam--set-global-prop
+         "roam_tags"
+         (combine-and-quote-strings tags))))))
+
+(defun pdp80-todo-files ()
+  "Return a list of note files containing todo tag."
+  (seq-map
+   #'car
+   (org-roam-db-query
+    [:select file
+             :from tags
+             :where (like tags (quote "%\"todo\"%"))])))
+
+(defun pdp80-update-todo-files (&rest _)
+  "Update the value of `org-agenda-files'."
+  (setq org-agenda-files (pdp80-todo-files)))
+
+(add-hook 'org-roam-file-setup-hook #'pdp80-update-todo-tag)
+(add-hook 'before-save-hook #'pdp80-update-todo-tag)
+(advice-add 'org-agenda :before #'pdp80-update-todo-files)
+;;; END TODO from org-roam
+
+;;; org-roam-server
+(use-package! org-roam-server
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+(require 'org-protocol)
+(require 'org-roam-protocol)
+;;; END org-roam-server
