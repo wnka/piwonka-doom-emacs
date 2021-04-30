@@ -69,3 +69,4 @@
 (package! helm-org-rifle)
 (package! org-ql)
 (package! org-roam-server)
+(package! tron-legacy-theme)

@@ -49,7 +49,7 @@
        ;;zen               ; distraction-free coding or writing
 
        :editor
-;       (evil +everywhere); come to the dark side, we have cookies
+       ;;(evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        ;;(format +onsave)  ; automated prettiness
@@ -59,7 +59,7 @@
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
-       snippets          ; my elves. They type so I don't have to
+       snippets            ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
@@ -163,7 +163,7 @@
        (rust +lsp)         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
-       (sh + lsp)          ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +lsp)           ; she sells {ba,z,fi}sh shells on the C xor
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
