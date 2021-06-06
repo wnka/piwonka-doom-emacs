@@ -39,14 +39,14 @@
 ;;; Font settings
 ;;; Influenced by:
 ;;; https://github.com/pkazmier/doom-nebula-theme
-(setq doom-font (font-spec :family "Roboto Mono" :size 14)
-      doom-big-font (font-spec :family "Roboto Mono" :size 20)
-      doom-variable-pitch-font (font-spec :family "Roboto Mono" :size 12))
+(setq doom-font (font-spec :family "Iosevka Term" :size 16)
+      doom-big-font (font-spec :family "Iosevka Term" :size 22)
+      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'tron-legacy)
+(setq doom-theme 'kaolin-blossom)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
