@@ -191,17 +191,17 @@
 ;;; https://oremacs.com/2020/12/31/happy-new-year/
 ;;; and
 ;;; https://github.com/abo-abo/oremacs/blob/15e6a33d314121ea0b3f1659dbc3ee8181dce854/modes/ora-org-roam.el
-(defun ora-roam-todo ()
-  "An ad-hoc agenda for `org-roam'."
-  (interactive)
-  (let* ((regex "^\\* TODO")
-         (b (get-buffer (concat "*ivy-occur counsel-rg \"" regex "\"*"))))
-    (if b
-        (progn
-          (switch-to-buffer b)
-          (ivy-occur-revert-buffer))
-      (setq unread-command-events (listify-key-sequence (kbd "C-c C-o M->")))
-      (counsel-rg regex org-roam-directory "--sort modified"))))
+;;;(defun ora-roam-todo ()
+;;;  "An ad-hoc agenda for `org-roam'."
+;;;  (interactive)
+;;;  (let* ((regex "^\\* TODO")
+;;;         (b (get-buffer (concat "*ivy-occur counsel-rg \"" regex "\"*"))))
+;;;    (if b
+;;;        (progn
+;;;          (switch-to-buffer b)
+;;;          (ivy-occur-revert-buffer))
+;;;      (setq unread-command-events (listify-key-sequence (kbd "C-c C-o M->")))
+;;;      (counsel-rg regex org-roam-directory "--sort modified"))))
 
 
 ;;; Helper for appending at the end of org files
@@ -212,17 +212,26 @@
    (goto-char (point-max))
    (insert (format-time-string "* %m/%d/%Y")))
 
+(use-package org-roam
+      :ensure t
+      :custom
+      (org-roam-directory (file-truename "~/Dropbox/org/roam/"))
+      :config
+      (org-roam-setup)
+      ;; If using org-roam-protocol
+      (require 'org-roam-protocol))
+
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
   (map! :leader
         :prefix "n"
-        :desc "org-roam" "l" #'org-roam
+        :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
         :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
-        :desc "org-roam-find-file" "f" #'org-roam-find-file
+        :desc "org-roam-find-file" "f" #'org-roam-node-find
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
-        :desc "org-roam-insert" "i" #'org-roam-insert
+        :desc "org-roam-insert" "i" #'org-roam-node-insert
         :desc "rifle" "e" #'helm-org-rifle
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
@@ -230,15 +239,10 @@
 ;;; Allow me to get sloppy with holding down control for these options I use a lot
 (global-set-key "\C-c\C-np" 'pdp-org-roam-insert)
 (global-set-key "\C-c\C-n\C-p" 'pdp-org-roam-insert)
-(global-set-key "\C-c\C-nf" 'org-roam-find-file)
-(global-set-key "\C-c\C-n\C-f" 'org-roam-find-file)
-(global-set-key "\C-c\C-ni" 'org-roam-insert)
-(global-set-key "\C-c\C-n\C-i" 'org-roam-insert)
-
-(use-package company-org-roam
-  :after org-roam
-  :config
-  (push 'company-org-roam company-backends))
+(global-set-key "\C-c\C-nf" 'org-roam-node-find)
+(global-set-key "\C-c\C-n\C-f" 'org-roam-node-find)
+(global-set-key "\C-c\C-ni" 'org-roam-node-insert)
+(global-set-key "\C-c\C-n\C-i" 'org-roam-node-insert)
 
 ;;; Avy search stuff
 ;;;
@@ -286,72 +290,21 @@
 (setq easy-hugo-basedir "~/Documents/hugo/pdp80/")
 (setq easy-hugo-url "https://pdp.dev")
 (setq easy-hugo-postdir "content/posts")
+;;; END HUGO
 
-;;; TODO from org-roam
-(defun pdp80-todo-p ()
-  "Return non-nil if current buffer has any TODO entry.
+;; org-roam-ui
+(use-package! websocket
+    :after org-roam)
 
-TODO entries marked as done are ignored, meaning the this
-function returns nil if current buffer contains only completed
-tasks."
-  (org-element-map
-      (org-element-parse-buffer 'headline)
-      'headline
-    (lambda (h)
-      (eq (org-element-property :todo-type h)
-          'todo))
-    nil 'first-match))
-
-(defun pdp80-update-todo-tag ()
-  "Update TODO tag in the current buffer."
-  (when (and (not (active-minibuffer-window))
-             (org-roam--org-file-p buffer-file-name))
-    (let* ((file (buffer-file-name (buffer-base-buffer)))
-           (all-tags (org-roam--extract-tags file))
-           (prop-tags (org-roam--extract-tags-prop file))
-           (tags prop-tags))
-      (if (pdp80-todo-p)
-          (setq tags (seq-uniq (cons "todo" tags)))
-        (setq tags (remove "todo" tags)))
-      (unless (equal prop-tags tags)
-        (org-roam--set-global-prop
-         "roam_tags"
-         (combine-and-quote-strings tags))))))
-
-(defun pdp80-todo-files ()
-  "Return a list of note files containing todo tag."
-  (seq-map
-   #'car
-   (org-roam-db-query
-    [:select file
-             :from tags
-             :where (like tags (quote "%\"todo\"%"))])))
-
-(defun pdp80-update-todo-files (&rest _)
-  "Update the value of `org-agenda-files'."
-  (setq org-agenda-files (pdp80-todo-files)))
-
-(add-hook 'org-roam-file-setup-hook #'pdp80-update-todo-tag)
-(add-hook 'before-save-hook #'pdp80-update-todo-tag)
-(advice-add 'org-agenda :before #'pdp80-update-todo-files)
-;;; END TODO from org-roam
-
-;;; org-roam-server
-(use-package! org-roam-server
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
-        org-roam-server-authenticate nil
-        org-roam-server-export-inline-images t
-        org-roam-server-serve-files nil
-        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
-(require 'org-protocol)
-(require 'org-roam-protocol)
-;;; How to set up org-protocol on Mac:
-;;; https://github.com/xuchunyang/setup-org-protocol-on-mac
-;;; END org-roam-server
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+    :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+;; END org-roam-ui

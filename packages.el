@@ -65,8 +65,12 @@
 (package! magit-delta)
 (package! bufler)
 (package! easy-hugo)
-(package! company-org-roam)
 (package! helm-org-rifle)
 (package! org-ql)
-(package! org-roam-server)
+(unpin! org-roam)
 (package! tron-legacy-theme)
+
+;; org-roam-ui
+(package! websocket)
+(package! org-roam-ui :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
+;; END org-roam-ui

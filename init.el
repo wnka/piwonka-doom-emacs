@@ -149,7 +149,7 @@
         +pandoc          ; export-with-pandoc support
         ;;+pomodoro        ; be fruitful with the tomato technique
         ;;+present         ; using org-mode for presentations
-        +roam)             ; org-roam?
+        +roam2)             ; org-roam?
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
