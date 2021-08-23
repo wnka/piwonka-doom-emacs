@@ -60,7 +60,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/ws/orgmode/src/PiwonkaOrgMode/")
+(setq org-directory "~/Dropbox/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -137,17 +137,22 @@
              "* TODO %?\nSCHEDULED: %t")
             ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%c" :empty-lines 1)
-            ("w" "Web with Clipboard" entry (file (lambda () (concat org-directory "web.org")))
-             "* TODO %?\n%c" :empty-lines 1)
-            )
-          )
+            ("l" "link" entry (file (lambda () (concat org-directory "inbox.org")))
+             "* TODO %?\n%a")
+          ))
+
+    ;; C-c x to do generic TODO without interactive template selection
+    (define-key global-map (kbd "C-c x")
+      (lambda () (interactive) (org-capture nil "t")))
+    ;; C-c z to open the "g"ood agenda view
+    (define-key global-map (kbd "C-c z")
+      (lambda () (interactive) (org-agenda nil "g")))
 
     (setq org-log-done 'time)
     (setq org-refile-use-outline-path nil)
     (setq org-agenda-start-on-weekday nil)
     (setq org-refile-targets '(
                                ("work.org" . (:level . 1))
-                               ("1on1.org" . (:level . 2))
                                ("personal.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
@@ -265,6 +270,13 @@
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
+          (agenda ""
+                  ((org-agenda-overriding-header "TODAY")
+                   (org-agenda-span 'day)
+                   (org-agenda-start-day (org-today))
+                   (org-super-agenda-groups
+                    '((:auto-outline-path t)))
+                   ))
           (todo ""
                 ((org-agenda-overriding-header "NEXT")
                  (org-agenda-skip-function
@@ -272,7 +284,23 @@
                     (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
                  ))
           (todo ""
-                ((org-agenda-overriding-header "ROAM TODOS")))
+                ((org-agenda-overriding-header "TO FILE")
+                 (org-agenda-files (mapcar #'(lambda (orgfile) (concat org-directory orgfile))
+                                           (list
+                                             "inbox.org"
+                                             )))))
+;;          (todo ""
+;;                ((org-agenda-overriding-header "DEADLINE/SCHEDULE")
+;;                 (org-super-agenda-groups '(
+;;                                            (:discard (:habit t))
+;;                                            (:name "Due Soon"
+;;                                             :scheduled future
+;;                                             )
+;;                                            (:name "Overdue"
+;;                                             :scheduled past
+;;                                             )
+;;                                            (:discard (:anything t)))
+;;                 ))
           ))))
     )
   )
@@ -293,20 +321,20 @@
 ;;; END HUGO
 
 ;; org-roam-ui
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-    :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start nil))
+;;(use-package! websocket
+;;    :after org-roam)
+;;
+;;(use-package! org-roam-ui
+;;    :after org-roam ;; or :after org
+;;;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;;;         a hookable mode anymore, you're advised to pick something yourself
+;;;;         if you don't care about startup time, use
+;;    :hook (after-init . org-roam-ui-mode)
+;;    :config
+;;    (setq org-roam-ui-sync-theme t
+;;          org-roam-ui-follow t
+;;          org-roam-ui-update-on-save t
+;;          org-roam-ui-open-on-start nil))
 ;; END org-roam-ui
 
 (use-package! cargo-mode
