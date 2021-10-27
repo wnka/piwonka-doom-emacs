@@ -20,17 +20,15 @@
 ;; font string. You generally only need these two:
 
 ;;; Font settings
-;;; Influenced by:
-;;; https://github.com/pkazmier/doom-nebula-theme
-;;(setq doom-font (font-spec :family "Iosevka Term" :size 16)
-;;      doom-big-font (font-spec :family "Iosevka Term" :size 22)
-;;      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
 
 ;; Get fonts from here:
 ;; https://github.com/ryanoasis/nerd-fonts
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
+;;;(setq doom-font (font-spec :family "Roboto Mono Light" :size 14)
+;;;      doom-big-font (font-spec :family "Roboto Mono Light" :size 14)
+;;;      doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -195,6 +193,13 @@
       ;; If using org-roam-protocol
       (require 'org-roam-protocol))
 
+;;; Quick function to open my inbox.org file
+(defun pdp-open-inbox ()
+  (interactive)
+  (find-file (expand-file-name (concat org-directory "/inbox.org")))
+  (revert-buffer)
+  )
+
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
@@ -202,17 +207,21 @@
   (map! :leader
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
-        :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+        :desc "pdp-open-inbox" "b" #'pdp-open-inbox
         :desc "org-roam-find-file" "f" #'org-roam-node-find
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-node-insert
         :desc "rifle" "e" #'helm-org-rifle
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
-        :desc "Roam TODOs" "t" #'ora-roam-todo))
+        )
+  )
+
 ;;; Allow me to get sloppy with holding down control for these options I use a lot
 (global-set-key "\C-c\C-np" 'pdp-org-roam-insert)
 (global-set-key "\C-c\C-n\C-p" 'pdp-org-roam-insert)
+(global-set-key "\C-c\C-nb" 'pdp-open-inbox)
+(global-set-key "\C-c\C-n\C-b" 'pdp-open-inbox)
 (global-set-key "\C-c\C-nf" 'org-roam-node-find)
 (global-set-key "\C-c\C-n\C-f" 'org-roam-node-find)
 (global-set-key "\C-c\C-ni" 'org-roam-node-insert)
@@ -304,3 +313,8 @@
   :config
   (global-blamer-mode 1))
 ;;; END BLAMER
+
+;;; company-mode
+;;; Change the delay to 2 seconds. I don't like it popping up all the damn time
+(setq company-idle-delay 2)
+;;; END company-mode

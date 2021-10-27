@@ -1,7 +1,9 @@
 # -*- mode: snippet -*-
 # name: Interview Question
-# key: q
+# key: iq
 # --
-**Me:** ${1:question}
-
-**Candidate:** $0
+**Competency**: $1
+**Question**: $2
+**Answer**:
+$0
+***
