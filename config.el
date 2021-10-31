@@ -3,23 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-;; NATIVE SHIT - for gccemacs (which I'm currently not using because it was a pain and broke a lot)
-;; (setq comp-speed 2)
-;; (if (and (fboundp 'native-comp-available-p)
-;;            (native-comp-available-p))
-;;       (progn
-;;         (message "Native comp is available")
-;;         (add-to-list 'exec-path (expand-file-name "/usr/local/opt/gccemacs/bin"))
-;;         (setenv "LIBRARY_PATH" (concat (getenv "LIBRARY_PATH")
-;;                                        (when (getenv "LIBRARY_PATH")
-;;                                          ":")
-;;                                        (car (file-expand-wildcards
-;;                                              (expand-file-name "/usr/local/opt/gcc/lib/gcc/*")))))
-;;         ;; Only set after LIBRARY_PATH can find gcc libraries.
-;;         (setq comp-deferred-compilation t))
-;;   (message "Native comp is *not* available"))
-;; END NATIVE SHIT
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Phil Piwonka"
@@ -39,23 +22,26 @@
 ;;; Font settings
 ;;; Influenced by:
 ;;; https://github.com/pkazmier/doom-nebula-theme
-(setq doom-font (font-spec :family "Iosevka Term" :size 16)
-      doom-big-font (font-spec :family "Iosevka Term" :size 22)
+;;(setq doom-font (font-spec :family "Iosevka Term" :size 16)
+;;      doom-big-font (font-spec :family "Iosevka Term" :size 22)
+;;      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
+
+;; Get fonts from here:
+;; https://github.com/ryanoasis/nerd-fonts
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'kaolin-blossom)
+(setq doom-theme 'doom-moonlight)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
 (use-package! magit-delta
   :after magit
   :config
-  (setq
-    magit-delta-default-dark-theme "OneHalfDark"
-    magit-delta-default-light-theme "OneHalfLight")
   (magit-delta-mode))
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -192,23 +178,6 @@
 ;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
 (setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
 
-;;; Stolen from here:
-;;; https://oremacs.com/2020/12/31/happy-new-year/
-;;; and
-;;; https://github.com/abo-abo/oremacs/blob/15e6a33d314121ea0b3f1659dbc3ee8181dce854/modes/ora-org-roam.el
-;;;(defun ora-roam-todo ()
-;;;  "An ad-hoc agenda for `org-roam'."
-;;;  (interactive)
-;;;  (let* ((regex "^\\* TODO")
-;;;         (b (get-buffer (concat "*ivy-occur counsel-rg \"" regex "\"*"))))
-;;;    (if b
-;;;        (progn
-;;;          (switch-to-buffer b)
-;;;          (ivy-occur-revert-buffer))
-;;;      (setq unread-command-events (listify-key-sequence (kbd "C-c C-o M->")))
-;;;      (counsel-rg regex org-roam-directory "--sort modified"))))
-
-
 ;;; Helper for appending at the end of org files
 ;;; Common action for me in org-roam is to open a file, go to the end of the file
 ;;; and then add '* <current date>'
@@ -311,31 +280,11 @@
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
 
-;;; Use bufler for buffer management
-(global-set-key "\C-x\C-b" 'bufler-switch-buffer)
-
 ;;; HUGO
-(setq easy-hugo-basedir "~/Documents/hugo/pdp80/")
+(setq easy-hugo-basedir "~/code/pdp80-blog/")
 (setq easy-hugo-url "https://pdp.dev")
 (setq easy-hugo-postdir "content/posts")
 ;;; END HUGO
-
-;; org-roam-ui
-;;(use-package! websocket
-;;    :after org-roam)
-;;
-;;(use-package! org-roam-ui
-;;    :after org-roam ;; or :after org
-;;;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;;;         a hookable mode anymore, you're advised to pick something yourself
-;;;;         if you don't care about startup time, use
-;;    :hook (after-init . org-roam-ui-mode)
-;;    :config
-;;    (setq org-roam-ui-sync-theme t
-;;          org-roam-ui-follow t
-;;          org-roam-ui-update-on-save t
-;;          org-roam-ui-open-on-start nil))
-;; END org-roam-ui
 
 (use-package! cargo-mode
   :config

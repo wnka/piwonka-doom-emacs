@@ -63,16 +63,10 @@
 (package! twilight-anti-bright-theme)
 (package! yaml-mode)
 (package! magit-delta)
-(package! bufler)
 (package! easy-hugo)
 (package! helm-org-rifle)
 (package! org-ql)
 (unpin! org-roam)
 (package! tron-legacy-theme)
-
-;; org-roam-ui
-(package! websocket)
-(package! org-roam-ui :recipe (:host github :repo "org-roam/org-roam-ui" :files ("*.el" "out")))
-;; END org-roam-ui
 
 (package! cargo-mode)
