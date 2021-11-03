@@ -59,14 +59,14 @@
 (package! hugo
   :recipe (:host github :repo "aaronbieber/hugo.el"
           :files ("hugo.el")))
-(package! twilight-bright-theme)
-(package! twilight-anti-bright-theme)
 (package! yaml-mode)
 (package! magit-delta)
 (package! easy-hugo)
 (package! helm-org-rifle)
 (package! org-ql)
 (unpin! org-roam)
-(package! tron-legacy-theme)
 
 (package! cargo-mode)
+
+;;; https://github.com/Artawower/blamer.el
+(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
