@@ -310,8 +310,14 @@
                     :background nil
                     :height 140
                     :italic t)))
-  :config
-  (global-blamer-mode 1))
+  )
+;; Add toggling blamer-mode to C-c-v-b
+(after! blamer
+  (map! :leader
+        :prefix "v"
+        :desc "blamer-mode" "b" #'blamer-mode
+        )
+  )
 ;;; END BLAMER
 
 ;;; company-mode
