@@ -145,6 +145,25 @@
     )
   )
 
+;;; Org ligatures
+(add-hook 'org-mode-hook (lambda ()
+                           "Beautify Org Checkbox Symbol"
+                           (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
+                           (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
+                           (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
+                           (push '("#+TITLE:" . "") prettify-symbols-alist)
+                           (push '("#+title:" . "") prettify-symbols-alist)
+                           (prettify-symbols-mode)))
+
 ;;; ORG-HABIT config
 (after! org
   (add-to-list 'org-modules 'org-habit t)
@@ -190,6 +209,7 @@
       (org-roam-directory (file-truename "~/Dropbox/org/roam/"))
       :config
       (org-roam-setup)
+      (setq org-roam-completion-system 'ivy)
       ;; If using org-roam-protocol
       (require 'org-roam-protocol))
 
@@ -324,3 +344,61 @@
 ;;; Change the delay to 2 seconds. I don't like it popping up all the damn time
 (setq company-idle-delay 2)
 ;;; END company-mode
+
+;;; ivy stuff
+;;; Borrowed from this config:
+;;; https://github.com/Artawower/.doom
+(use-package ivy-rich
+  :hook (ivy-mode . ivy-rich-mode)
+  :after ivy)
+
+(use-package counsel-projectile
+  :defer 0.5)
+
+(use-package all-the-icons-ivy-rich
+  :defer 0.5)
+
+(use-package all-the-icons-ivy-rich
+  :after (all-the-icons ivy-rich counsel-projectile all-the-icons-ivy-rich)
+  :config
+  (all-the-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1)
+
+  (let* ((col-def '((all-the-icons-ivy-rich-file-icon)
+                    (file-name-nondirectory (:width 0.2 :face (:foreground "#61AFEF" :slant 'italic)))
+                    ((lambda (str) (string-join (butlast (split-string (counsel-projectile-find-file-transformer str) "/")) "/")) (:width 0.4))
+                    ;; (counsel-projectile-find-file-transformer (:width 0.4))
+                    (all-the-icons-ivy-rich-project-file-size (:width 7 :face all-the-icons-ivy-rich-size-face))
+                    (all-the-icons-ivy-rich-project-file-modes (:width 12 :face all-the-icons-ivy-rich-file-modes-face))
+                    (all-the-icons-ivy-rich-project-file-id (:width 12 :face all-the-icons-ivy-rich-file-owner-face))
+                    (all-the-icons-ivy-rich-project-file-modification-time (:face all-the-icons-ivy-rich-time-face)))))
+    (ivy-rich-set-columns 'projectile-find-file col-def)
+    (ivy-rich-set-columns 'counsel-projectile-find-file col-def)
+    (ivy-rich-set-columns 'projectile--find-file col-def)))
+
+(use-package ivy-posframe
+  :after ivy
+  :init
+  (ivy-posframe-mode 1)
+  :config
+  (setq ivy-posframe-parameters '((internal-border-width . 2) (left-fringe . 18) (right-fringe . 18))
+        ivy-posframe-height 14
+        ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
+        ivy-posframe-font "JetBrainsMono Nerd Font 13")
+  (set-face-attribute 'ivy-posframe nil :foreground "white" :background "DarkSlateBlue")
+  (defun ivy-posframe-get-size ()
+    "Func for detect ivy posframe size after resize dynamically"
+    (list
+     ;; :height ivy-posframe-height
+     ;; :width ivy-posframe-width
+     :min-height (or ivy-posframe-min-height
+                     (let ((height (+ ivy-height 1)))
+                       (min height (or ivy-posframe-height height))
+                       ))
+     :min-width (or ivy-posframe-min-width
+                    (let ((width (round (* (frame-width) 0.9))))
+                      (min width (or ivy-posframe-width width))
+                      ))
+     ))
+  )
+;;; END ivy stuff
