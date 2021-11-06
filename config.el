@@ -401,4 +401,6 @@
                       ))
      ))
   )
+
+(global-set-key "\C-xb" 'ivy-switch-buffer)
 ;;; END ivy stuff
