@@ -374,7 +374,13 @@
                     (all-the-icons-ivy-rich-project-file-modification-time (:face all-the-icons-ivy-rich-time-face)))))
     (ivy-rich-set-columns 'projectile-find-file col-def)
     (ivy-rich-set-columns 'counsel-projectile-find-file col-def)
-    (ivy-rich-set-columns 'projectile--find-file col-def)))
+    (ivy-rich-set-columns 'projectile--find-file col-def))
+  (custom-set-faces
+   '(all-the-icons-ivy-rich-doc-face ((t (:foreground "white"))))
+   '(all-the-icons-ivy-rich-size-face ((t (:foreground "white"))))
+   '(all-the-icons-ivy-rich-time-face ((t (:foreground "white"))))
+   )
+  )
 
 (use-package ivy-posframe
   :after ivy
