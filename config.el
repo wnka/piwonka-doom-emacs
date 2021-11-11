@@ -75,6 +75,9 @@
 (global-set-key "\M-n" 'forward-list)
 (global-set-key "\M-p" 'backward-list)
 
+;; Use swiper for search
+(global-set-key "\C-s" 'swiper)
+
 ;; Display continuous lines
 (setq-default truncate-lines nil)
 ;; truncate even even when screen is split into multiple windows
@@ -97,7 +100,6 @@
 (use-package! org
   :config
   (progn
-    (global-set-key "\C-cnr" 'org-refile)
     (defun my-org-archive-done-tasks ()
       (interactive)
       (org-map-entries 'org-archive-subtree "/DONE" 'file))

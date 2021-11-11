@@ -1,3 +1,12 @@
 * What
 
 My doom-emacs config, to use clone this into your .doom.d directory.
+
+* How I build my emacs (macOS)
+
+#+begin_src bash
+brew install emacs-plus@28 --with-native-comp --with-nobu417-big-sur-icon --with-xwidgets
+brew link emacs-plus@28
+# ln location might vary, this was on an Arm mac that puts homebrew at /opt
+ln -s /opt/homebrew/opt/emacs-plus@28/Emacs.app /Applications
+#+end_src
