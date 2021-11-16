@@ -270,6 +270,12 @@
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
+          (todo ""
+                ((org-agenda-overriding-header "NEXT")
+                 (org-agenda-skip-function
+                  '(or
+                    (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
+                 ))
           (agenda ""
                   ((org-agenda-overriding-header "TODAY")
                    (org-agenda-span 'day)
@@ -277,30 +283,6 @@
                    (org-super-agenda-groups
                     '((:auto-outline-path t)))
                    ))
-          (todo ""
-                ((org-agenda-overriding-header "NEXT")
-                 (org-agenda-skip-function
-                  '(or
-                    (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
-                 ))
-          (todo ""
-                ((org-agenda-overriding-header "TO FILE")
-                 (org-agenda-files (mapcar #'(lambda (orgfile) (concat org-directory orgfile))
-                                           (list
-                                             "inbox.org"
-                                             )))))
-;;          (todo ""
-;;                ((org-agenda-overriding-header "DEADLINE/SCHEDULE")
-;;                 (org-super-agenda-groups '(
-;;                                            (:discard (:habit t))
-;;                                            (:name "Due Soon"
-;;                                             :scheduled future
-;;                                             )
-;;                                            (:name "Overdue"
-;;                                             :scheduled past
-;;                                             )
-;;                                            (:discard (:anything t)))
-;;                 ))
           ))))
     )
   )
