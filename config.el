@@ -311,6 +311,12 @@
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
 
+;;; Initial buffer = org-mode inbox
+; (setq initial-buffer-choice (concat org-directory "inbox.org"))
+(setq inhibit-splash-screen t)
+(org-agenda nil "g")
+(delete-other-windows)
+
 ;;; HUGO
 (setq easy-hugo-basedir "~/code/pdp80-blog/")
 (setq easy-hugo-url "https://pdp.dev")
@@ -412,3 +418,8 @@
 
 (global-set-key "\C-xb" 'ivy-switch-buffer)
 ;;; END ivy stuff
+
+;;; Dired
+(use-package all-the-icons-dired
+  :defer 5
+  :hook (dired-mode . all-the-icons-dired-mode))
