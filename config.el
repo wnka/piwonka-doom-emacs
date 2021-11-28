@@ -147,6 +147,62 @@
     )
   )
 
+;;; Org clock in stuff
+;;; Quick function to clock into an item in "clock.org" file
+;;; I use this to track where my time goes at a high level
+(defun pdp-clock-in-item (regexp)
+  (interactive (list (read-regexp "Regexp: ")))
+  (find-file (expand-file-name (concat org-directory "/clock.org")))
+
+  (org-clock-out nil t) ; "t" enables fail silently if no clocked item
+  (goto-char (point-min))
+
+  ;;; Find the item using the passed in Regexp
+  (isearch-mode t t)
+  (let ((isearch-regexp nil))
+    (isearch-yank-string regexp))
+  (org-clock-in)
+
+  ;;; Save the change, go back to where you were
+  (save-buffer)
+  (previous-buffer)
+  )
+
+;;; functions to track to specific clock items
+;;; I couldn't figure out a way to call
+;;; 'pdp-clock-in-item with an argument within the leader keymap
+;;; so I had to create these functions.
+(defun pdp-clock-in-meeting ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Meeting")
+)
+
+(defun pdp-clock-in-coding ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Coding")
+)
+
+(defun pdp-clock-in-interviewing ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Interviewing")
+)
+
+(defun pdp-clock-in-1on1 ()
+    (interactive)
+    (pdp-clock-in-item "* TODO 1-on-1")
+)
+
+; keymap for clocking in/out
+(map! :leader
+      (:prefix ("j" . "journal") ;; time journal bindings
+        :desc "Meeting" "m" #'pdp-clock-in-meeting
+        :desc "Coding" "c" #'pdp-clock-in-coding
+        :desc "Interviewing" "i" #'pdp-clock-in-interviewing
+        :desc "1-on-1" "1" #'pdp-clock-in-1on1
+        :desc "org-clock-out" "o" #'org-clock-out
+      ))
+;;; END Org clock in stuff
+
 ;;; Org ligatures
 (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"
@@ -175,22 +231,6 @@
 (after! org
   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
   )
-
-;;; ORG-JOURNAL config
-(after! org
-  (add-to-list 'org-modules 'org-journal t)
-  (progn
-    (setq org-journal-dir (concat org-directory "journal"))
-    (setq org-journal-file-format "%Y%m%d.org")
-    (map! :leader
-      (:prefix ("j" . "journal") ;; org-journal bindings
-        :desc "Create new journal entry" "j" #'org-journal-new-entry
-        :desc "Open previous entry" "p" #'org-journal-open-previous-entry
-        :desc "Open next entry" "n" #'org-journal-open-next-entry
-        :desc "Search journal" "s" #'org-journal-search-forever))
-    (setq org-journal-date-prefix "#+TITLE: "
-          org-journal-time-prefix "* ")
-    ))
 
 (setq org-roam-directory "~/Dropbox/org/roam")
 ;;; Let each machine have it's own DB cache
