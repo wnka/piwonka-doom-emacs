@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Pic for blog
+# key: pic
+# --
+![$1](/images/$0)
