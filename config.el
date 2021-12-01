@@ -150,7 +150,7 @@
 ;;; Org clock in stuff
 ;;; Quick function to clock into an item in "clock.org" file
 ;;; I use this to track where my time goes at a high level
-(defun pdp-clock-in-item (regexp)
+(defun pdp-clock-in-item (regexp &optional duration-in-minutes)
   (interactive (list (read-regexp "Regexp: ")))
   (find-file (expand-file-name (concat org-directory "/clock.org")))
 
@@ -162,6 +162,11 @@
   (let ((isearch-regexp nil))
     (isearch-yank-string regexp))
   (org-clock-in)
+
+  ;;; If duration is passed in, clock out right away
+  ;;; and set the clock out time in the future
+  (if duration-in-minutes
+      (org-clock-out nil nil (time-add nil (* duration-in-minutes 60))))
 
   ;;; Save the change, go back to where you were
   (save-buffer)
@@ -175,6 +180,16 @@
 (defun pdp-clock-in-meeting ()
     (interactive)
     (pdp-clock-in-item "* TODO Meeting")
+)
+
+(defun pdp-clock-in-meeting-30min ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Meeting" 30)
+)
+
+(defun pdp-clock-in-meeting-60min ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Meeting" 60)
 )
 
 (defun pdp-clock-in-coding ()
@@ -192,6 +207,11 @@
     (pdp-clock-in-item "* TODO 1-on-1")
 )
 
+(defun pdp-clock-in-assessments ()
+    (interactive)
+    (pdp-clock-in-item "* TODO Assessments")
+)
+
 ; keymap for clocking in/out
 (map! :leader
       (:prefix ("j" . "journal") ;; time journal bindings
@@ -199,7 +219,10 @@
         :desc "Coding" "c" #'pdp-clock-in-coding
         :desc "Interviewing" "i" #'pdp-clock-in-interviewing
         :desc "1-on-1" "1" #'pdp-clock-in-1on1
-        :desc "org-clock-out" "o" #'org-clock-out
+        :desc "CLOCK OUT" "o" #'org-clock-out
+        :desc "Assessments" "a" #'pdp-clock-in-assessments
+        :desc "30 minute Meeting" "3" #'pdp-clock-in-meeting-30min
+        :desc "60 minute Meeting" "6" #'pdp-clock-in-meeting-60min
       ))
 ;;; END Org clock in stuff
 
@@ -221,11 +244,6 @@
                            (push '("#+TITLE:" . "") prettify-symbols-alist)
                            (push '("#+title:" . "") prettify-symbols-alist)
                            (prettify-symbols-mode)))
-
-;;; ORG-HABIT config
-(after! org
-  (add-to-list 'org-modules 'org-habit t)
-  (setq org-habit-show-habits t))
 
 ;;; Save all org buffers periodically (I think every 30 seconds)
 (after! org

@@ -63,7 +63,6 @@
 (package! easy-hugo)
 (package! helm-org-rifle)
 (package! org-ql)
-(unpin! org-roam)
 
 (package! cargo-mode)
 
