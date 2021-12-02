@@ -436,7 +436,7 @@
         ivy-posframe-height 14
         ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
         ivy-posframe-font "JetBrainsMono Nerd Font 13")
-  (set-face-attribute 'ivy-posframe nil :foreground "white" :background "DarkSlateBlue")
+  (set-face-attribute 'ivy-posframe nil :foreground "white" :background "black")
   (defun ivy-posframe-get-size ()
     "Func for detect ivy posframe size after resize dynamically"
     (list
