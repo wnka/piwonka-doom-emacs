@@ -211,6 +211,16 @@
   (pdp-clock-in-helper "* TODO Assessments")
 )
 
+(defun pdp-clock-in-oncall ()
+  (interactive)
+  (pdp-clock-in-helper "* TODO Oncall")
+)
+
+(defun pdp-clock-in-email ()
+  (interactive)
+  (pdp-clock-in-helper "* TODO E-mail/Slack")
+)
+
 ; keymap for clocking in/out
 (map! :leader
       (:prefix ("j" . "journal") ;; time journal bindings
@@ -220,6 +230,8 @@
         :desc "1-on-1" "1" #'pdp-clock-in-1on1
         :desc "CLOCK OUT" "o" #'org-clock-out
         :desc "Assessments" "a" #'pdp-clock-in-assessments
+        :desc "Oncall" "o" #'pdp-clock-in-oncall
+        :desc "E-mail/Slack" "e" #'pdp-clock-in-email
       ))
 ;;; END Org clock in stuff
 
