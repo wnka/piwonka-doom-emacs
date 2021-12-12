@@ -39,31 +39,28 @@
 
 (defconst plang-font-lock-keywords-1
   (list
-   ; (regexp-opt '("any" "bool" "compose" "data" "enum" "event" "float" "int" "machine" "map" "module" "seq" "spec" "test" "this" "type" "union") t)
-   '("\\(any\\|bool\\|compose\\|data\\|e\\(?:num\\|vent\\)\\|float\\|int\\|m\\(?:a\\(?:chine\\|p\\)\\|odule\\)\\|s\\(?:eq\\|pec\\)\\|t\\(?:est\\|his\\|ype\\)\\|union\\)" . font-lock-builtin-face)
+   ; To generate these, do:
+   ; (regexp-opt '("any" "bool" "compose" "data" "enum" "event" "float" "int" "machine" "map" "module" "seq" "spec" "test" "this" "type" "union") 'words)
+   '("\\<\\(any\\|bool\\|compose\\|data\\|e\\(?:num\\|vent\\)\\|float\\|int\\|m\\(?:a\\(?:chine\\|p\\)\\|odule\\)\\|s\\(?:eq\\|pec\\)\\|t\\(?:est\\|his\\|ype\\)\\|union\\)\\>" . font-lock-builtin-face)
    '("\\('\\w*'\\)" . font-lock-variable-name-face))
   "Minimal highlighting expressions for PLANG mode.")
 
 (defconst plang-font-lock-keywords-2
   (append plang-font-lock-keywords-1
-                  (list
-; (regexp-opt '("cold" "fun" "hot" "observes" "receives" "sends" "start" "state" "test" "var") t)
- '("\\(cold\\|fun\\|hot\\|observes\\|receives\\|s\\(?:ends\\|ta\\(?:rt\\|te\\)\\)\\|test\\|var\\)" . font-lock-keyword-face)
+                  (list '("\\<\\(cold\\|fun\\|hot\\|observes\\|receives\\|s\\(?:ends\\|ta\\(?:rt\\|te\\)\\)\\|test\\|var\\)\\>" . font-lock-keyword-face)
                    '("\\<\\(TRUE\\|FALSE\\)\\>" . font-lock-constant-face)))
   "Additional Keywords to highlight in PLANG mode.")
 
 (defconst plang-font-lock-keywords-3
   (append plang-font-lock-keywords-2
                   (list
-                   ; (regexp-opt '("$" "defer" "do" "else" "entry" "exit" "goto" "if" "ignore" "on" "push" "sizeof" "while" "with") t)
-                   '("\\(\\$\\|d\\(?:efer\\|o\\)\\|e\\(?:lse\\|ntry\\|xit\\)\\|goto\\|i\\(?:f\\|gnore\\)\\|on\\|push\\|sizeof\\|w\\(?:hile\\|ith\\)\\)" . font-lock-constant-face)))
+                   '("\\<\\(\\$\\|d\\(?:efer\\|o\\)\\|e\\(?:lse\\|ntry\\|xit\\)\\|goto\\|i\\(?:f\\|gnore\\)\\|on\\|push\\|sizeof\\|w\\(?:hile\\|ith\\)\\)\\>" . font-lock-constant-face)))
   "Balls-out highlighting in PLANG mode.")
 
 (defconst plang-font-lock-keywords-4
   (append plang-font-lock-keywords-3
                   (list
-                   ; (regexp-opt '("announce" "assert" "case" "default" "e*" "goto" "in" "new" "pop" "print" "raise" "receive" "return" "send") t)
-                   '("\\(a\\(?:nnounce\\|ssert\\)\\|case\\|default\\|e\\*\\|goto\\|in\\|new\\|p\\(?:op\\|rint\\)\\|r\\(?:aise\\|e\\(?:ceive\\|turn\\)\\)\\|send\\)"
+                   '("\\<\\(a\\(?:nnounce\\|ssert\\)\\|case\\|default\\|e\\*\\|goto\\|in\\|new\\|p\\(?:op\\|rint\\)\\|r\\(?:aise\\|e\\(?:ceive\\|turn\\)\\)\\|send\\)\\>"
                      . font-lock-constant-face)))
   "Balls-out highlighting in PLANG mode.")
 
@@ -87,7 +84,7 @@
                 (save-excursion
                   (while not-indented ; Iterate backwards until we find an indentation hint
                         (forward-line -1)
-                        (if (looking-at "^.*}") ; This hint indicates that we need to indent at the level of the END_ token
+                        (if (looking-at "^.*}") ; This hint indicates that we need to indent at the level of the { token
                                 (progn
                                   (setq cur-indent (current-indentation))
                                   (setq not-indented nil))
