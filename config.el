@@ -472,3 +472,8 @@
 (use-package all-the-icons-dired
   :defer 5
   :hook (dired-mode . all-the-icons-dired-mode))
+
+;;; Show persp in the modeline
+;;; https://github.com/hlissner/doom-emacs/issues/314
+(after! doom-modeline
+  (setq doom-modeline-persp-name t))
