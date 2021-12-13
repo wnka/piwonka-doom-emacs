@@ -477,3 +477,5 @@
 ;;; https://github.com/hlissner/doom-emacs/issues/314
 (after! doom-modeline
   (setq doom-modeline-persp-name t))
+
+(use-package! plang-mode)
