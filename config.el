@@ -360,12 +360,6 @@
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
 
-;;; Initial buffer = org-mode inbox
-; (setq initial-buffer-choice (concat org-directory "inbox.org"))
-(setq inhibit-splash-screen t)
-(org-agenda nil "g")
-(delete-other-windows)
-
 ;;; HUGO
 (setq easy-hugo-basedir "~/code/pdp80-blog/")
 (setq easy-hugo-url "https://pdp.dev")
@@ -479,3 +473,18 @@
   (setq doom-modeline-persp-name t))
 
 (use-package! plang-mode)
+
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))

@@ -73,9 +73,12 @@
 (package! all-the-icons-ivy-rich)
 (package! ivy-posframe)
 (package! ivy
-  :pin "487e97a94a49ededc2485d845cc912a893e8cc72"
+;  :pin "487e97a94a49ededc2485d845cc912a893e8cc72"
   :recipe (:host github :repo "abo-abo/swiper"))
 
 (package! plang-mode
   :recipe (:host github :repo "wnka/plang-mode"
           :files ("plang-mode.el")))
+
+(unpin! org-roam)
+(package! org-roam-ui)
