@@ -282,6 +282,21 @@
       ;; If using org-roam-protocol
       (require 'org-roam-protocol))
 
+;;; Capture templates
+(setq org-roam-capture-templates
+  '(
+    ("d" "default" plain "%?"
+     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                        "#+title: ${title}\n")
+     :unnarrowed t)
+    ("p" "person" plain "%?"
+     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+                        ":PROPERTIES:\n:ROAM_ALIASES: \"${fullname}\"\n:END:\n#+title: ${title}\n\n- tags :: [[id:dfd98009-3b6a-4f32-8235-00131e66918c][People]]")
+     :unnarrowed t)
+    )
+  )
+
 ;;; Quick function to open my inbox.org file
 (defun pdp-open-inbox ()
   (interactive)
@@ -315,6 +330,21 @@
 (global-set-key "\C-c\C-n\C-f" 'org-roam-node-find)
 (global-set-key "\C-c\C-ni" 'org-roam-node-insert)
 (global-set-key "\C-c\C-n\C-i" 'org-roam-node-insert)
+
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 
 ;;; Avy search stuff
 ;;;
@@ -473,18 +503,3 @@
   (setq doom-modeline-persp-name t))
 
 (use-package! plang-mode)
-
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
