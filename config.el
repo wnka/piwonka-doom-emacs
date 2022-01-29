@@ -287,7 +287,7 @@
   '(
     ("d" "default" plain "%?"
      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}\n")
+                        "#+title: ${title}")
      :unnarrowed t)
     ("p" "person" plain "%?"
      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
