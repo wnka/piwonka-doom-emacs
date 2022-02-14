@@ -356,7 +356,11 @@
          :desc "Next" "n" #'avy-next
          :desc "Prev" "p" #'avy-prev
          )))
-(global-set-key "\C-\\" 'avy-goto-char-timer)
+;; I used to like avy-goto-char-timer
+;; but the variable input length slowed things down.
+;; 2 chars is enough to narrow down the targets without
+;; the sleeps to check if you're done with your input.
+(global-set-key "\C-\\" 'avy-goto-char-2)
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
@@ -422,8 +426,9 @@
 ;;; END BLAMER
 
 ;;; company-mode
-;;; Change the delay to 2 seconds. I don't like it popping up all the damn time
-(setq company-idle-delay 2)
+;;; Change the delay to 0.2 seconds. I used to have 2 seconds, but with a fast M1 machine
+;;; and nativecomp this is usable.
+(setq company-idle-delay 0.2)
 ;;; END company-mode
 
 ;;; ivy stuff

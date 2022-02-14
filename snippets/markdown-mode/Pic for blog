@@ -2,4 +2,4 @@
 # name: Pic for blog
 # key: pic
 # --
-![$1](/images/$0)
+{{< figure src="/images/$0" alt="$1" caption="$1" >}}
