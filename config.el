@@ -294,6 +294,11 @@
                         ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
                         ":PROPERTIES:\n:ROAM_ALIASES: \"${fullname}\"\n:END:\n#+title: ${title}\n\n- tags :: [[id:dfd98009-3b6a-4f32-8235-00131e66918c][People]]")
      :unnarrowed t)
+     ("l" "plan" plain "%?"
+     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+                        "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Start of the week\n\n* Midweek checkin\n\n* End of week\n\n* Org-clock for the last week")
+     :unnarrowed t)
     )
   )
 
