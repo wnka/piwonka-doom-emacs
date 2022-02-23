@@ -33,7 +33,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'kaolin-breeze)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
@@ -482,7 +482,7 @@
         ivy-posframe-height 14
         ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
         ivy-posframe-font "JetBrainsMono Nerd Font 13")
-  (set-face-attribute 'ivy-posframe nil :foreground "white" :background "black")
+;  (set-face-attribute 'ivy-posframe nil :foreground "white" :background "black")
   (defun ivy-posframe-get-size ()
     "Func for detect ivy posframe size after resize dynamically"
     (list
