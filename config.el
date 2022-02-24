@@ -513,3 +513,7 @@
   (setq doom-modeline-persp-name t))
 
 (use-package! plang-mode)
+
+;;; f-you so-long-mode, change the threshold to be obscenely long
+(after! so-long
+  (setq so-long-threshold 10000))
