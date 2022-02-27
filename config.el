@@ -366,6 +366,9 @@
 ;; 2 chars is enough to narrow down the targets without
 ;; the sleeps to check if you're done with your input.
 (global-set-key "\C-\\" 'avy-goto-char-2)
+;; Show candidate on all windows
+;; 'windows' in the emacs sense, aka the different views in an OS window
+(setq avy-all-windows t)
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
@@ -408,6 +411,7 @@
 (use-package! cargo-mode
   :config
   (add-hook 'rustic-mode-hook 'cargo-minor-mode))
+(use-package! rust-playground)
 
 ;;; BLAMER
 (use-package blamer
