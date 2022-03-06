@@ -435,11 +435,11 @@
 ;;; END BLAMER
 
 ;;; company-mode
-;;; Change the delay to 0.2 seconds. I used to have 2 seconds, but with a fast M1 machine
+;;; Change the delay to immediate. I used to have 2 seconds, but with a fast M1 machine
 ;;; and nativecomp this is usable.
 (setq company-idle-delay 0)
 ;;; Don't do completion automatically for these
-(setq company-global-modes '(not org-mode markdown-mode))
+(setq company-global-modes '(not org-mode markdown-mode text-mode))
 ;;; END company-mode
 
 ;;; ivy stuff
