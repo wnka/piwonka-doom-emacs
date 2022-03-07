@@ -67,7 +67,7 @@
 (package! cargo-mode)
 
 ;;; https://github.com/Artawower/blamer.el
-(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
+(package! blamer)
 
 (package! all-the-icons-dired)
 (package! all-the-icons-ivy-rich)
