@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: linkedin
+# key: linkedin
+# --
+Hey ${1:there}, thanks for reaching out. I'm not looking for new opportunities at this time, but should that change I'll keep you and ${2:your company} in mind.
+
+Cheers,
+Phil

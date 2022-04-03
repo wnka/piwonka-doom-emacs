@@ -435,11 +435,14 @@
 ;;; END BLAMER
 
 ;;; company-mode
-;;; Change the delay to immediate. I used to have 2 seconds, but with a fast M1 machine
-;;; and nativecomp this is usable.
-(setq company-idle-delay 0)
-;;; Don't do completion automatically for these
-(setq company-global-modes '(not org-mode markdown-mode text-mode))
+(after! company
+  :config
+  ;;; Change the delay to immediate. I used to have 2 seconds, but with a fast M1 machine
+  ;;; and nativecomp this is usable.
+  (setq company-idle-delay 0)
+   ;;; Don't do completion automatically for these
+  (setq company-global-modes '(not org-mode markdown-mode text-mode mu4e-compose-mode message-mode org-msg-mode org-msg-edit-mode))
+)
 ;;; END company-mode
 
 ;;; ivy stuff
@@ -523,3 +526,14 @@
 ;;; f-you so-long-mode, change the threshold to be obscenely long
 (after! so-long
   (setq so-long-threshold 10000))
+
+;;; Load my mu4e settings
+;;; There's nothing super private in there,
+;;; but it has addresses and prefs and stuff.
+(use-package! epa-file
+  :demand
+  :config
+  (epa-file-enable)
+  (setq epg-pinentry-mode nil)
+  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
+  )
