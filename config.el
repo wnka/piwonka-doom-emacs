@@ -534,6 +534,5 @@
   :demand
   :config
   (epa-file-enable)
-  (setq epg-pinentry-mode nil)
   (load (concat doom-private-dir "modules/mu4e.el.gpg"))
   )
