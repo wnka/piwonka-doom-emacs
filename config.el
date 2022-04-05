@@ -536,3 +536,7 @@
   (epa-file-enable)
   (load (concat doom-private-dir "modules/mu4e.el.gpg"))
   )
+
+;;; Load org-msg settings
+;;; Includes CSS styling and some preferences
+(load! (concat doom-private-dir "modules/org-msg.el"))
