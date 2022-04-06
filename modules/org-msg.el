@@ -6,7 +6,7 @@
   (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil tex:dvipng \\n:t")
 
   ;;; Set a signature
-  (setq org-msg-signature "\n-Phil\n\n")
+  (setq org-msg-signature "\n\n-Phil\n\n")
 
   ;;; Set HTML mail CSS styling
   (setq org-msg-enforce-css
