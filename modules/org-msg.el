@@ -4,11 +4,15 @@
   :config
   ;;; Add "\n:t" so that line breaks will be honored
   (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil tex:dvipng \\n:t")
+
+  ;;; Set a signature
+  (setq org-msg-signature "\n-Phil\n\n")
+
   ;;; Set HTML mail CSS styling
   (setq org-msg-enforce-css
         (let* ((font-family '(font-family . "sans-serif;"))
                (monospace-font '(font-family . "monospace;"))
-               (font-size '(font-size . "11pt"))
+               (font-size '(font-size . "10pt"))
                (font `(,font-family ,font-size))
                (line-height '(line-height . "1"))
                (theme-color "#000000")
@@ -26,7 +30,7 @@
                (inline-src `((background-color . "rgba(27,31,35,.05)")
                              (border-radius . "3px")
                              (padding . ".2em .4em")
-                             (font-size . "90%") ,monospace-font
+                             (font-size . "100%") ,monospace-font
                              (margin . 0)))
                (code-src
                 (mapcar (lambda (mode)
@@ -50,7 +54,7 @@
                                 (padding-top . "0px") (padding-left . "5px")))
             (nil signature (,@font (margin-bottom . "20px")))
             (blockquote nil ((padding . "2px 12px") (margin-left . "10px")
-                             (margin-top . "10px") (margin-bottom . "0")
+                             (margin-top . "10px") (margin-bottom . "10px")
                              (border-left . "3px solid #ccc")
                              (font-style . "italic")
                              (background . "#f9f9f9")))
