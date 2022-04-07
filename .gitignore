@@ -3,6 +3,4 @@
 *.log
 tmp/
 
-# This file should be encrypted in the repo. Don't worry, there's no passwords
-# in here but it has like my mail addresses and preferences and stuff.
-modules/mu4e.el
+custom.el
