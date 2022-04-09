@@ -125,6 +125,8 @@
              "* TODO %?\n%c" :empty-lines 1)
             ("l" "link" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%a")
+            ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
+             "* TODO Respond! %:fromname: %a\n%i\n" :immediate-finish t)
           ))
 
     ;; C-c x to do generic TODO without interactive template selection
