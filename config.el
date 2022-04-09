@@ -237,24 +237,33 @@
       ))
 ;;; END Org clock in stuff
 
-;;; Org ligatures
-(add-hook 'org-mode-hook (lambda ()
+;;; org-modern stuff
+(use-package org-modern
+  :config
+  (add-hook 'org-mode-hook #'org-modern-mode)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  (custom-set-faces
+   '(org-modern-date-active ((t :inherit org-modern-label :background "#615545" :foreground "#ffc777")))
+   '(org-modern-time-active ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
+   '(org-modern-date-inactive ((t :inherit org-modern-label :background "#615545" :foreground "#ffc777")))
+   '(org-modern-time-inactive ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
+   '(org-modern-done ((t :inherit org-modern-priority)))
+   )
+  ;;; Org ligatures
+  (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"
-                           (push '("#+BEGIN_SRC" . "↦" ) prettify-symbols-alist)
-                           (push '("#+END_SRC" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+BEGIN_EXAMPLE" . "↦" ) prettify-symbols-alist)
-                           (push '("#+END_EXAMPLE" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+BEGIN_QUOTE" . "↦" ) prettify-symbols-alist)
-                           (push '("#+END_QUOTE" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+begin_quote" . "↦" ) prettify-symbols-alist)
-                           (push '("#+end_quote" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+begin_example" . "↦" ) prettify-symbols-alist)
-                           (push '("#+end_example" . "⇤" ) prettify-symbols-alist)
-                           (push '("#+begin_src" . "↦" ) prettify-symbols-alist)
-                           (push '("#+end_src" . "⇤" ) prettify-symbols-alist)
                            (push '("#+TITLE:" . "") prettify-symbols-alist)
                            (push '("#+title:" . "") prettify-symbols-alist)
+                           (push '("SCHEDULED:" . "⧗") prettify-symbols-alist)
+                           (push '("DEADLINE:" . "⌘") prettify-symbols-alist)
+                           (push '("COMPLETED:" . "✓") prettify-symbols-alist)
+                           (push '("CLOSED:" . "✓") prettify-symbols-alist)
+                           (push '(":PROPERTIES:" . "") prettify-symbols-alist)
+                           (push '(":END:" . "↤") prettify-symbols-alist)
                            (prettify-symbols-mode)))
+  (setq org-modern-checkbox '((88 . "✓") (45 . "□–") (32 . "□")))
+  (setq org-ellipsis "↴")
+  )
 
 ;;; Save all org buffers periodically (I think every 30 seconds)
 (after! org

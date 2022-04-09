@@ -84,3 +84,4 @@
 (package! org-roam-ui)
 
 (package! rust-playground)
+(package! org-modern)
