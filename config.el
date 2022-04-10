@@ -126,7 +126,7 @@
             ("l" "link" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%a")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO Respond! %:fromname: %a\n%i\n" :immediate-finish t)
+             "* TODO %:fromname: %a :email:\n%i\n" :immediate-finish t)
           ))
 
     ;; C-c x to do generic TODO without interactive template selection
@@ -249,6 +249,9 @@
    '(org-modern-time-inactive ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
    '(org-modern-done ((t :inherit org-modern-priority)))
    )
+
+  ;;; I didn't like this. Turns "#+TITLE" in "TITLE"...
+  (setq org-modern-keyword nil)
   ;;; Org ligatures
   (add-hook 'org-mode-hook (lambda ()
                            "Beautify Org Checkbox Symbol"
@@ -324,6 +327,9 @@
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
+  (defun pdp-quick-email-capture ()
+    (interactive)
+    (org-capture nil "e"))
   (map! :leader
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
@@ -331,7 +337,7 @@
         :desc "org-roam-find-file" "f" #'org-roam-node-find
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-node-insert
-        :desc "rifle" "e" #'helm-org-rifle
+        :desc "quick email capture" "e" #'pdp-quick-email-capture
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
         )
@@ -387,25 +393,44 @@
   :config
   (progn
     (org-super-agenda-mode)
+    (setq org-agenda-block-separator (make-string (window-width) 9472)))
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
-          (todo ""
-                ((org-agenda-overriding-header "NEXT")
-                 (org-agenda-skip-function
-                  '(or
-                    (org-agenda-skip-entry-if 'nottodo '("NEXT"))))
-                 ))
           (agenda ""
-                  ((org-agenda-overriding-header "TODAY")
-                   (org-agenda-span 'day)
+                  ((org-agenda-overriding-header "Timeline")
+                   (org-agenda-span 'week)
                    (org-agenda-start-day (org-today))
                    (org-super-agenda-groups
                     '((:auto-outline-path t)))
                    ))
-          ))))
+          (alltodo "" ((org-agenda-overriding-header "Other")
+                       (org-super-agenda-groups
+                        '(
+                          (:name "Emails to Write"
+                           :tag "email"
+                           :order 21)
+                          (:name "Overdue"
+                           :deadline past
+                           :order 10)
+                          (:name "Scheduled earlier"
+                           :scheduled past
+                           :order 20)
+                          (:name "Next"
+                           :todo "NEXT"
+                           :order 30)
+                          (:name "Papers to read"
+                           :tag "papers"
+                           :order 40
+                           )
+                          (:name "Docs to write"
+                           :tag "doc"
+                           :order 22
+                           )
+                          (:discard (:anything t)
+                          )))))
+         ))))
     )
-  )
 
 ;;; Never wrap my shit
 (add-hook 'org-mode-hook #'turn-off-auto-fill)
