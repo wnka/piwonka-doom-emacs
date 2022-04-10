@@ -100,10 +100,16 @@
 (use-package! org
   :config
   (progn
-    (defun my-org-archive-done-tasks ()
+    ; this will archive "DONE" tasks for the whole file
+    ; from: https://stackoverflow.com/questions/6997387/how-to-archive-all-the-done-tasks-using-a-single-command
+    (defun pdp-org-archive-done-tasks ()
       (interactive)
-      (org-map-entries 'org-archive-subtree "/DONE" 'file))
-    (global-set-key "\C-cnh" 'my-org-archive-done-tasks)
+      (org-map-entries
+       (lambda ()
+         (org-archive-subtree)
+         (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
+       "/DONE" 'file))
+    (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
     (setq org-agenda-skip-scheduled-if-done t)
