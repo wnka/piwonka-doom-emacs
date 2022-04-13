@@ -247,7 +247,8 @@
 (use-package org-modern
   :config
   (add-hook 'org-mode-hook #'org-modern-mode)
-  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  ; Turn this off for the time being, it makes things ugly
+  ; (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
   (custom-set-faces
    '(org-modern-date-active ((t :inherit org-modern-label :background "#615545" :foreground "#ffc777")))
    '(org-modern-time-active ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
