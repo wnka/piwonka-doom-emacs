@@ -582,3 +582,6 @@
 ;;; Load org-msg settings
 ;;; Includes CSS styling and some preferences
 (load! (concat doom-private-dir "modules/org-msg.el"))
+
+;;; elfeed
+(setq rmh-elfeed-org-files (list (concat org-directory "feeds.org")))
