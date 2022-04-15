@@ -584,4 +584,66 @@
 (load! (concat doom-private-dir "modules/org-msg.el"))
 
 ;;; elfeed
-(setq rmh-elfeed-org-files (list (concat org-directory "feeds.org")))
+;;; Some stuff borrowed from here
+;;; https://cestlaz.github.io/posts/using-emacs-29-elfeed/
+(setq elfeed-db-directory "~/Dropbox/elfeeddb")
+
+(defun elfeed-mark-all-as-read ()
+  (interactive)
+  (mark-whole-buffer)
+  (elfeed-search-untag-all-unread))
+
+;;functions to support syncing .elfeed between machines
+;;makes sure elfeed reads index from disk before launching
+(defun bjm/elfeed-load-db-and-open ()
+  "Wrapper to load the elfeed db from disk before opening"
+  (interactive)
+  (elfeed-db-load)
+  (elfeed)
+  (elfeed-search-update--force))
+
+
+;;write to disk when quiting
+(defun bjm/elfeed-save-db-and-bury ()
+  "Wrapper to save the elfeed db to disk before burying buffer"
+  (interactive)
+  (elfeed-db-save)
+  (quit-window))
+
+(use-package elfeed
+  :ensure t
+  :bind (:map elfeed-search-mode-map
+         ("q" . bjm/elfeed-save-db-and-bury)
+         ("Q" . bjm/elfeed-save-db-and-bury)
+         ("v" . elfeed-search-browse-url)
+         ("u" . elfeed-update)
+         ("j" . mz/hydra-elfeed/body)
+         ("J" . mz/hydra-elfeed/body))
+  :config
+  (elfeed-search-set-filter "+unread")
+  )
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list (concat org-directory "feeds.org"))))
+
+(use-package elfeed-goodies
+  :ensure t
+  :config
+  (elfeed-goodies/setup)
+  (defalias 'elfeed-toggle-star
+    (elfeed-expose #'elfeed-search-toggle-all 'star))
+)
+
+(defhydra mz/hydra-elfeed ()
+     "filter"
+     ("r" elfeed-mark-all-as-read "Mark all as Read")
+     ("v" elfeed-search-browse-url "Open in Browser")
+     ("s" elfeed-toggle-star "Toggle star")
+     ("u" (elfeed-search-set-filter "+unread") "Unread" :color blue)
+     ("*" (elfeed-search-set-filter "@6-months-ago +star") "Starred" :color blue)
+     ("a" (elfeed-search-set-filter "@6-months-ago") "All" :color blue)
+     ("t" (elfeed-search-set-filter "@1-day-ago") "Today" :color blue)
+     )
