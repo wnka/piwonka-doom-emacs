@@ -618,11 +618,25 @@
          ("Q" . bjm/elfeed-save-db-and-bury)
          ("v" . elfeed-search-browse-url)
          ("u" . elfeed-update)
+         ("b" . ar/elfeed-search-browse-background-url)
          ("j" . mz/hydra-elfeed/body)
          ("J" . mz/hydra-elfeed/body))
   :config
   (elfeed-search-set-filter "+unread")
-  )
+  (defun ar/elfeed-search-browse-background-url ()
+    "Open current `elfeed' entry (or region entries) in browser without losing focus."
+    (interactive)
+    (let ((entries (elfeed-search-selected)))
+      (mapc (lambda (entry)
+              (assert (memq system-type '(darwin)) t "open command is macOS only")
+              (start-process (concat "open " (elfeed-entry-link entry))
+                             nil "open" "--background" (elfeed-entry-link entry))
+              (elfeed-untag entry 'unread)
+              (elfeed-search-update-entry entry))
+            entries)
+      (unless (or elfeed-search-remain-on-entry (use-region-p))
+        (forward-line))))
+)
 
 (use-package elfeed-org
   :ensure t
@@ -647,4 +661,5 @@
      ("*" (elfeed-search-set-filter "@6-months-ago +star") "Starred" :color blue)
      ("a" (elfeed-search-set-filter "@6-months-ago") "All" :color blue)
      ("t" (elfeed-search-set-filter "@1-day-ago") "Today" :color blue)
+     ("f" (elfeed-search-set-filter "+funny") "Funny" :color blue)
      )
