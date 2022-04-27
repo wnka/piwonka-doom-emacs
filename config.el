@@ -385,11 +385,8 @@
          :desc "Next" "n" #'avy-next
          :desc "Prev" "p" #'avy-prev
          )))
-;; I used to like avy-goto-char-timer
-;; but the variable input length slowed things down.
-;; 2 chars is enough to narrow down the targets without
-;; the sleeps to check if you're done with your input.
-(global-set-key "\C-\\" 'avy-goto-char-2)
+;; I like avy-goto-char-timer
+(global-set-key "\C-\\" 'avy-goto-char-timer)
 ;; Show candidate on all windows
 ;; 'windows' in the emacs sense, aka the different views in an OS window
 (setq avy-all-windows t)
