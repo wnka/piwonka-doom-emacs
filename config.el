@@ -403,7 +403,7 @@
          (
           (agenda ""
                   ((org-agenda-overriding-header "Timeline")
-                   (org-agenda-span 'week)
+                   (org-agenda-span 'day)
                    (org-agenda-start-day (org-today))
                    (org-super-agenda-groups
                     '((:auto-outline-path t)))
@@ -423,6 +423,9 @@
                           (:name "Next"
                            :todo "NEXT"
                            :order 30)
+                          (:name "From Phone"
+                           :file-path "phone.org"
+                           :order 35)
                           (:name "Papers to read"
                            :tag "papers"
                            :order 40
