@@ -33,7 +33,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'kaolin-blossom)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
@@ -250,11 +250,12 @@
   ; Turn this off for the time being, it makes things ugly
   ; (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
   (custom-set-faces
-   '(org-modern-date-active ((t :inherit org-modern-label :background "#615545" :foreground "#ffc777")))
-   '(org-modern-time-active ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
-   '(org-modern-date-inactive ((t :inherit org-modern-label :background "#615545" :foreground "#ffc777")))
-   '(org-modern-time-inactive ((t :inherit org-modern-label :background "#ffc777" :foreground "black")))
-   '(org-modern-done ((t :inherit org-modern-priority)))
+   '(org-modern-date-active ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
+   '(org-modern-time-active ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
+   '(org-modern-date-inactive ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
+   '(org-modern-time-inactive ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
+   '(org-modern-done ((t :inherit org-modern-priority :background "#000000" :foreground "#ef6787")))
+   '(org-modern-todo ((t :inherit org-modern-priority :background "#000000" :foreground "#8ee6d6")))
    )
 
   ;;; I didn't like this. Turns "#+TITLE" in "TITLE"...
