@@ -663,4 +663,6 @@
      ("a" (elfeed-search-set-filter "@6-months-ago") "All" :color blue)
      ("t" (elfeed-search-set-filter "@1-day-ago") "Today" :color blue)
      ("f" (elfeed-search-set-filter "+funny") "Funny" :color blue)
+     ("l" (elfeed-search-set-filter "+linux") "linux" :color blue)
+     ("b" (elfeed-search-set-filter "+bike") "bike" :color blue)
      )
