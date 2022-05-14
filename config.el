@@ -552,7 +552,7 @@
      ))
   )
 
-(global-set-key "\C-xb" 'ivy-switch-buffer)
+(global-set-key "\C-xb" 'counsel-switch-buffer)
 ;;; END ivy stuff
 
 ;;; Dired
