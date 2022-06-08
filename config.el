@@ -446,6 +446,10 @@
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 (setq plantuml-output-type "png")
 
+;;; Bind C-z to org-toggle-narrow-to-subtree
+;;; https://taonaw.com/2022-05-24/
+(global-set-key "\C-z" 'org-toggle-narrow-to-subtree)
+
 ;;; HUGO
 (setq easy-hugo-basedir "~/code/pdp80-blog/")
 (setq easy-hugo-url "https://pdp.dev")

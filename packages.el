@@ -85,3 +85,4 @@
 
 (package! rust-playground)
 (package! org-modern)
+(package! f)
