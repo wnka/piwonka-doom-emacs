@@ -513,7 +513,7 @@
   (ivy-rich-mode 1)
 
   (let* ((col-def '((all-the-icons-ivy-rich-file-icon)
-                    (file-name-nondirectory (:width 0.2 :face (:foreground "#61AFEF" :slant 'italic)))
+                    (file-name-nondirectory (:width 0.2 :face (:foreground "white" :slant 'italic)))
                     ((lambda (str) (string-join (butlast (split-string (counsel-projectile-find-file-transformer str) "/")) "/")) (:width 0.4))
                     ;; (counsel-projectile-find-file-transformer (:width 0.4))
                     (all-the-icons-ivy-rich-project-file-size (:width 7 :face all-the-icons-ivy-rich-size-face))
