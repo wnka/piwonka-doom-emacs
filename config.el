@@ -354,6 +354,8 @@
 ;;; Allow me to get sloppy with holding down control for these options I use a lot
 (global-set-key "\C-c\C-np" 'pdp-org-roam-insert)
 (global-set-key "\C-c\C-n\C-p" 'pdp-org-roam-insert)
+(global-set-key "\C-c\C-nl" 'org-roam-buffer-toggle)
+(global-set-key "\C-c\C-n\C-l" 'org-roam-buffer-toggle)
 (global-set-key "\C-c\C-nb" 'pdp-open-inbox)
 (global-set-key "\C-c\C-n\C-b" 'pdp-open-inbox)
 (global-set-key "\C-c\C-nf" 'org-roam-node-find)
@@ -418,9 +420,6 @@
                           (:name "Overdue"
                            :deadline past
                            :order 10)
-                          (:name "Scheduled earlier"
-                           :scheduled past
-                           :order 20)
                           (:name "Next"
                            :todo "NEXT"
                            :order 30)
