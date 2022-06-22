@@ -86,3 +86,5 @@
 (package! rust-playground)
 (package! org-modern)
 (package! f)
+(package! elfeed-tube
+  :recipe (:host github :repo "karthink/elfeed-tube"))
