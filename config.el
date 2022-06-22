@@ -23,8 +23,10 @@
 
 ;; Get fonts from here:
 ;; https://github.com/ryanoasis/nerd-fonts
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
+;; For Mac:
+;; brew tap homebrew/cask-fonts && brew install --cask font-roboto-mono-nerd-font
+(setq doom-font (font-spec :family "RobotoMono Nerd Font" :size 14)
+      doom-big-font (font-spec :family "RobotoMono Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
 ;;;(setq doom-font (font-spec :family "Roboto Mono Light" :size 14)
 ;;;      doom-big-font (font-spec :family "Roboto Mono Light" :size 14)
@@ -302,7 +304,8 @@
       (org-roam-setup)
       (setq org-roam-completion-system 'ivy)
       ;; If using org-roam-protocol
-      (require 'org-roam-protocol))
+      ;;(require 'org-roam-protocol)
+      )
 
 ;;; Capture templates
 (setq org-roam-capture-templates
@@ -632,7 +635,7 @@
     (interactive)
     (let ((entries (elfeed-search-selected)))
       (mapc (lambda (entry)
-              (assert (memq system-type '(darwin)) t "open command is macOS only")
+              ;(assert (memq system-type '(darwin)) t "open command is macOS only")
               (start-process (concat "open " (elfeed-entry-link entry))
                              nil "open" "--background" (elfeed-entry-link entry))
               (elfeed-untag entry 'unread)
