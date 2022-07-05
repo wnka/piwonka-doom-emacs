@@ -27,15 +27,14 @@
 ;; brew tap homebrew/cask-fonts && brew install --cask font-roboto-mono-nerd-font
 (setq doom-font (font-spec :family "RobotoMono Nerd Font" :size 14)
       doom-big-font (font-spec :family "RobotoMono Nerd Font" :size 16)
-      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16))
-;;;(setq doom-font (font-spec :family "Roboto Mono Light" :size 14)
-;;;      doom-big-font (font-spec :family "Roboto Mono Light" :size 14)
-;;;      doom-variable-pitch-font (font-spec :family "Roboto Mono Light" :size 14))
+      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
+      line-spacing 0.1
+      )
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'kaolin-blossom)
+(setq doom-theme 'doom-moonlight)
 
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
