@@ -249,7 +249,7 @@
   :config
   (add-hook 'org-mode-hook #'org-modern-mode)
   ; Turn this off for the time being, it makes things ugly
-  ; (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
+  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
   (custom-set-faces
    '(org-modern-date-active ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
    '(org-modern-time-active ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
@@ -424,7 +424,10 @@
                            :order 10)
                           (:name "Next"
                            :todo "NEXT"
-                           :order 30)
+                           :order 0)
+                          (:name "Priority"
+                           :priority>="C"
+                           :order 1)
                           (:name "From Phone"
                            :file-path "phone.org"
                            :order 35)
