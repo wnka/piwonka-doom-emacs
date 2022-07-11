@@ -130,8 +130,10 @@
              "* TODO %?\nSCHEDULED: %t")
             ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%c" :empty-lines 1)
-            ("l" "link" entry (file (lambda () (concat org-directory "inbox.org")))
+            ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%a")
+            ("s" "Should" entry (file (lambda () (concat org-directory "inbox.org")))
+             "* SHLD %?\n%i\n")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %:fromname: %a :email:\n%i\n" :immediate-finish t)
           ))
@@ -151,7 +153,7 @@
                                ("personal.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)" "CANCELLED(c)")))
+          '((sequence "TODO(t)" "SHLD(s)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
     )
   )
@@ -280,6 +282,9 @@
 ;;; Save all org buffers periodically (I think every 30 seconds)
 (after! org
   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+  (setq org-default-priority 66
+        org-priority-highest 66
+        org-priority-lowest 66)
   )
 
 (setq org-roam-directory "~/Dropbox/org/roam")
@@ -416,29 +421,18 @@
           (alltodo "" ((org-agenda-overriding-header "Other")
                        (org-super-agenda-groups
                         '(
-                          (:name "Emails to Write"
-                           :tag "email"
-                           :order 21)
-                          (:name "Overdue"
-                           :deadline past
-                           :order 10)
-                          (:name "Next"
-                           :todo "NEXT"
-                           :order 0)
                           (:name "Priority"
                            :priority>="C"
                            :order 1)
-                          (:name "From Phone"
-                           :file-path "phone.org"
-                           :order 35)
-                          (:name "Papers to read"
-                           :tag "papers"
-                           :order 40
-                           )
-                          (:name "Docs to write"
-                           :tag "doc"
-                           :order 22
-                           )
+                          (:name "Overdue"
+                           :deadline past
+                           :order 10)
+                          (:name "Emails to Write"
+                           :tag "email"
+                           :order 21)
+                          (:name "Should"
+                           :todo "SHLD"
+                           :order 22)
                           (:discard (:anything t)
                           )))))
          ))))
