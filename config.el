@@ -28,8 +28,9 @@
 (setq doom-font (font-spec :family "RobotoMono Nerd Font" :size 14)
       doom-big-font (font-spec :family "RobotoMono Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
-      line-spacing 0.1
       )
+
+(setq-default line-spacing 0.1)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
