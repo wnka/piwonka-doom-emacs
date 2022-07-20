@@ -398,6 +398,7 @@
          )))
 ;; I like avy-goto-char-timer
 (global-set-key "\C-\\" 'avy-goto-char-timer)
+(global-set-key "\M-\\" 'avy-goto-char-timer)
 ;; Show candidate on all windows
 ;; 'windows' in the emacs sense, aka the different views in an OS window
 (setq avy-all-windows t)
