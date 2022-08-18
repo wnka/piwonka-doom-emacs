@@ -106,11 +106,19 @@
     ; from: https://stackoverflow.com/questions/6997387/how-to-archive-all-the-done-tasks-using-a-single-command
     (defun pdp-org-archive-done-tasks ()
       (interactive)
+      ; take all SHLD entries that are over 7 days old and move them to DONE
+      ; I just want to end the endless build up
+      (org-ql-select (org-agenda-files)
+        '(and (todo "SHLD")
+              (not (ts :from -7)))
+        :action '(org-todo "DONE")
+        )
       (org-map-entries
        (lambda ()
          (org-archive-subtree)
          (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
-       "/DONE" 'file))
+       "/DONE" 'file)
+      )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
@@ -126,17 +134,17 @@
     (setq org-capture-templates
           '(
             ("t" "Todo" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%i\n")
+             "* TODO %?\n%u\n%i\n")
             ("d" "Todo Today" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\nSCHEDULED: %t")
+             "* TODO %?\n%u\nSCHEDULED: %t")
             ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%c" :empty-lines 1)
+             "* TODO %?\n%u\n%c" :empty-lines 1)
             ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%a")
+             "* TODO %?\n%u\n%a")
             ("s" "Should" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* SHLD %?\n%i\n")
+             "* SHLD %?\n%u\n%i\n")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %:fromname: %a :email:\n%i\n" :immediate-finish t)
+             "* TODO %:fromname: %a :email:\n%u\n%i\n" :immediate-finish t)
           ))
 
     ;; C-c x to do generic TODO without interactive template selection
