@@ -147,7 +147,7 @@
              "* TODO %?\n%u\n%c" :empty-lines 1)
             ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%u\n%a")
-            ("s" "Should" entry (file (lambda () (concat org-directory "inbox.org")))
+            ("s" "Should" entry (file (lambda () (concat org-directory "should.org")))
              "* SHLD %?\n%u\n%i\n")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %:fromname: %a :email:\n%u\n%i\n" :immediate-finish t)
@@ -173,94 +173,6 @@
     (setq org-use-fast-todo-selection t)
     )
   )
-
-;;; Org clock in stuff
-;;; Quick function to clock into an item in "clock.org" file
-;;; I use this to track where my time goes at a high level
-(defun pdp-clock-in-item (regexp &optional duration-in-minutes)
-  (interactive (list (read-regexp "Regexp: ")))
-  (find-file (expand-file-name (concat org-directory "/clock.org")))
-
-  (org-clock-out nil t) ; "t" enables fail silently if no clocked item
-  (goto-char (point-min))
-
-  ;;; Find the item using the passed in Regexp
-  (isearch-mode t t)
-  (let ((isearch-regexp nil))
-    (isearch-yank-string regexp))
-  (org-clock-in)
-
-  ;;; If duration is passed in, clock out right away
-  ;;; and set the clock out time in the future
-  (if duration-in-minutes
-      (org-clock-out nil nil (time-add nil (* duration-in-minutes 60))))
-
-  ;;; Save the change, go back to where you were
-  (save-buffer)
-  (previous-buffer)
-  )
-
-;;; Helper function that will ask for input
-;;; for many minutes should be added to the task's clock
-(defun pdp-clock-in-helper (regexp)
-    (interactive)
-    ; Default to 30 minutes
-    (setq n (read-number "How many minutes: " 30))
-    (pdp-clock-in-item regexp n)
-  )
-
-;;; functions to track to specific clock items
-;;; I couldn't figure out a way to call
-;;; 'pdp-clock-in-item with an argument within the leader keymap
-;;; so I had to create these functions.
-(defun pdp-clock-in-meeting ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO Meeting")
-)
-
-(defun pdp-clock-in-coding ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO Coding")
-)
-
-(defun pdp-clock-in-interviewing ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO Interviewing")
-)
-
-(defun pdp-clock-in-1on1 ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO 1-on-1")
-)
-
-(defun pdp-clock-in-assessments ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO Assessments")
-)
-
-(defun pdp-clock-in-oncall ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO Oncall")
-)
-
-(defun pdp-clock-in-email ()
-  (interactive)
-  (pdp-clock-in-helper "* TODO E-mail/Slack")
-)
-
-; keymap for clocking in/out
-(map! :leader
-      (:prefix ("j" . "journal") ;; time journal bindings
-        :desc "Meeting" "m" #'pdp-clock-in-meeting
-        :desc "Coding" "c" #'pdp-clock-in-coding
-        :desc "Interviewing" "i" #'pdp-clock-in-interviewing
-        :desc "1-on-1" "1" #'pdp-clock-in-1on1
-        :desc "CLOCK OUT" "o" #'org-clock-out
-        :desc "Assessments" "a" #'pdp-clock-in-assessments
-        :desc "Oncall" "o" #'pdp-clock-in-oncall
-        :desc "E-mail/Slack" "e" #'pdp-clock-in-email
-      ))
-;;; END Org clock in stuff
 
 ;;; org-modern stuff
 (use-package org-modern
