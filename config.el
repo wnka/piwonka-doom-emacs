@@ -110,14 +110,20 @@
       ; I just want to end the endless build up
       (org-ql-select (org-agenda-files)
         '(and (todo "SHLD")
-              (not (ts :from -7)))
-        :action '(org-todo "DONE")
+              (not (ts :from -7)) ; older than 7 days
+              (not (priority >= "C")) ; has no priority
+              (not (scheduled)) ; isn't scheduled
+              (not (deadline)) ; doesn't have a deadline
+              (not (tags "email")) ; doesn't have an email tag
+              )
+        :action '(org-todo "DONE") ; mark it as done
         )
       (org-map-entries
        (lambda ()
          (org-archive-subtree)
          (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
        "/DONE" 'file)
+      (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
@@ -160,6 +166,7 @@
     (setq org-refile-targets '(
                                ("work.org" . (:level . 1))
                                ("personal.org" . (:level . 1))
+                               ("should.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SHLD(s)" "|" "DONE(d)" "CANCELLED(c)")))
