@@ -165,8 +165,6 @@
     (setq org-agenda-start-on-weekday nil)
     (setq org-refile-targets '(
                                ("work.org" . (:level . 1))
-                               ("personal.org" . (:level . 1))
-                               ("should.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "SHLD(s)" "|" "DONE(d)" "CANCELLED(c)")))
@@ -266,6 +264,12 @@
   (revert-buffer)
   )
 
+(defun pdp-open-shoulds ()
+  (interactive)
+  (find-file (expand-file-name (concat org-directory "/should.org")))
+  (revert-buffer)
+  )
+
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
@@ -277,6 +281,7 @@
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
         :desc "pdp-open-inbox" "b" #'pdp-open-inbox
+        :desc "pdp-open-shoulds" "m" #'pdp-open-shoulds
         :desc "org-roam-find-file" "f" #'org-roam-node-find
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-node-insert
