@@ -142,7 +142,7 @@
             ("t" "Todo" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%u\n%i\n")
             ("d" "Todo Today" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%u\nSCHEDULED: %t")
+             "* TODO %?\nSCHEDULED: %t\n%u")
             ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%u\n%c" :empty-lines 1)
             ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
