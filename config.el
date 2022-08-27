@@ -30,8 +30,6 @@
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
       )
 
-(setq-default line-spacing 0.1)
-
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -102,8 +100,6 @@
 (use-package! org
   :config
   (progn
-    ; this will archive "DONE" tasks for the whole file
-    ; from: https://stackoverflow.com/questions/6997387/how-to-archive-all-the-done-tasks-using-a-single-command
     (defun pdp-org-archive-done-tasks ()
       (interactive)
       ; take all entries that are over 7 days old and archive them
@@ -206,12 +202,13 @@
 ;;; Save all org buffers periodically (I think every 30 seconds)
 (after! org
   (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+  ; I only want one priority
   (setq org-default-priority 66
         org-priority-highest 66
         org-priority-lowest 66)
   )
 
-(setq org-roam-directory "~/Dropbox/org/roam")
+(setq org-roam-directory (concat org-directory "roam"))
 ;;; Let each machine have it's own DB cache
 ;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
 (setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
@@ -227,7 +224,7 @@
 (use-package org-roam
       :ensure t
       :custom
-      (org-roam-directory (file-truename "~/Dropbox/org/roam/"))
+      (org-roam-directory (file-truename org-roam-directory))
       :config
       (org-roam-setup)
       (setq org-roam-completion-system 'ivy)
@@ -262,12 +259,6 @@
   (revert-buffer)
   )
 
-(defun pdp-open-shoulds ()
-  (interactive)
-  (find-file (expand-file-name (concat org-directory "/should.org")))
-  (revert-buffer)
-  )
-
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
@@ -279,7 +270,6 @@
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
         :desc "pdp-open-inbox" "b" #'pdp-open-inbox
-        :desc "pdp-open-shoulds" "m" #'pdp-open-shoulds
         :desc "org-roam-find-file" "f" #'org-roam-node-find
         :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-node-insert
@@ -318,15 +308,7 @@
 
 ;;; Avy search stuff
 ;;;
-(progn
-  (map! :leader
-        (:prefix ("a" . "avy") ;; avy bindings
-         :desc "Goto Char Timer" "s" #'avy-goto-char-timer
-         :desc "Goto word-1" "a" #'avy-goto-word-1
-         :desc "Next" "n" #'avy-next
-         :desc "Prev" "p" #'avy-prev
-         )))
-;; I like avy-goto-char-timer
+;;; I like avy-goto-char-timer
 (global-set-key "\C-\\" 'avy-goto-char-timer)
 (global-set-key "\M-\\" 'avy-goto-char-timer)
 ;; Show candidate on all windows
@@ -390,27 +372,6 @@
   :config
   (add-hook 'rustic-mode-hook 'cargo-minor-mode))
 (use-package! rust-playground)
-
-;;; BLAMER
-(use-package blamer
-  :defer 20
-  :custom
-  (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
-  :custom-face
-  (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
-                    :height 140
-                    :italic t)))
-  )
-;; Add toggling blamer-mode to C-c-v-b
-(after! blamer
-  (map! :leader
-        :prefix "v"
-        :desc "blamer-mode" "b" #'blamer-mode
-        )
-  )
-;;; END BLAMER
 
 ;;; company-mode
 (after! company
@@ -505,15 +466,15 @@
 (after! so-long
   (setq so-long-threshold 10000))
 
-;;; Load my mu4e settings
-;;; There's nothing super private in there,
-;;; but it has addresses and prefs and stuff.
-;(use-package! epa-file
-;  :demand
-;  :config
-;  (epa-file-enable)
-;  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
-;  )
+;; Load my mu4e settings
+;; There's nothing super private in there,
+;; but it has addresses and prefs and stuff.
+(use-package! epa-file
+  :demand
+  :config
+  (epa-file-enable)
+  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
+  )
 
 ;;; Load org-msg settings
 ;;; Includes CSS styling and some preferences
@@ -537,7 +498,6 @@
   (elfeed-db-load)
   (elfeed)
   (elfeed-search-update--force))
-
 
 ;;write to disk when quiting
 (defun bjm/elfeed-save-db-and-bury ()
@@ -563,7 +523,6 @@
     (interactive)
     (let ((entries (elfeed-search-selected)))
       (mapc (lambda (entry)
-              ;(assert (memq system-type '(darwin)) t "open command is macOS only")
               (start-process (concat "open " (elfeed-entry-link entry))
                              nil "open" "--background" (elfeed-entry-link entry))
               (elfeed-untag entry 'unread)
