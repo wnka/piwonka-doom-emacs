@@ -106,23 +106,21 @@
     ; from: https://stackoverflow.com/questions/6997387/how-to-archive-all-the-done-tasks-using-a-single-command
     (defun pdp-org-archive-done-tasks ()
       (interactive)
-      ; take all SHLD entries that are over 7 days old and move them to DONE
+      ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (org-agenda-files)
-        '(and (todo "SHLD")
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
+        '(or (and
               (not (ts :from -7)) ; older than 7 days
               (not (priority >= "C")) ; has no priority
               (not (scheduled)) ; isn't scheduled
               (not (deadline)) ; doesn't have a deadline
               (not (tags "email")) ; doesn't have an email tag
               )
-        :action '(org-todo "DONE") ; mark it as done
+             (todo "DONE")
+             (todo "CANCELLED")
+             )
+        :action '(org-archive-subtree) ; archive it
         )
-      (org-map-entries
-       (lambda ()
-         (org-archive-subtree)
-         (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
-       "/DONE" 'file)
       (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
@@ -510,12 +508,12 @@
 ;;; Load my mu4e settings
 ;;; There's nothing super private in there,
 ;;; but it has addresses and prefs and stuff.
-(use-package! epa-file
-  :demand
-  :config
-  (epa-file-enable)
-  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
-  )
+;(use-package! epa-file
+;  :demand
+;  :config
+;  (epa-file-enable)
+;  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
+;  )
 
 ;;; Load org-msg settings
 ;;; Includes CSS styling and some preferences
