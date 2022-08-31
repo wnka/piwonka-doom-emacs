@@ -106,14 +106,14 @@
       ; I just want to end the endless build up
       (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
         '(or (and
+              (todo "TODO" "SHLD")
               (not (ts :from -7)) ; older than 7 days
               (not (priority >= "C")) ; has no priority
               (not (scheduled)) ; isn't scheduled
               (not (deadline)) ; doesn't have a deadline
               (not (tags "email")) ; doesn't have an email tag
               )
-             (todo "DONE")
-             (todo "CANCELLED")
+             (todo "DONE" "CANCELLED")
              )
         :action '(org-archive-subtree) ; archive it
         )
@@ -607,3 +607,10 @@
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
   )
+
+;;; dap mode stuff
+(setq dap-auto-configure-mode t)
+(with-eval-after-load 'lsp-rust
+  (require 'dap-cpptools))
+; First time you set this up, do ~M-x dap-cpptools-setup~
+;;; END dap mode stuff
