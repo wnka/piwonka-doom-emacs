@@ -469,12 +469,7 @@
 ;; Load my mu4e settings
 ;; There's nothing super private in there,
 ;; but it has addresses and prefs and stuff.
-(use-package! epa-file
-  :demand
-  :config
-  (epa-file-enable)
-  (load (concat doom-private-dir "modules/mu4e.el.gpg"))
-  )
+(load (concat doom-private-dir "modules/mu4e.el"))
 
 ;;; Load org-msg settings
 ;;; Includes CSS styling and some preferences
