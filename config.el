@@ -105,18 +105,25 @@
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
       (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
-        '(or (and
+        '(and
               (todo "TODO" "SHLD")
-              (not (ts :from -7)) ; older than 7 days
+              (not (ts :from -10)) ; older than 10 days
               (not (priority >= "C")) ; has no priority
               (not (scheduled)) ; isn't scheduled
               (not (deadline)) ; doesn't have a deadline
               (not (tags "email")) ; doesn't have an email tag
-              )
-             (todo "DONE" "CANCELLED")
-             )
+        )
         :action '(org-archive-subtree) ; archive it
         )
+
+      ; Archive stuff that's DONE or CANCELLED
+      ; I originally had this as an 'or' in the above query, but it didn't work.
+      ; not sure why, oh well
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
+        '(todo "DONE" "CANCELLED")
+        :action '(org-archive-subtree) ; archive it
+        )
+
       (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
