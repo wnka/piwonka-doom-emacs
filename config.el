@@ -104,7 +104,7 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (concat org-directory "inbox.org")
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
         '(and
               (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
@@ -119,7 +119,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (concat org-directory "inbox.org")
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -353,13 +353,25 @@
           (org-ql-block '(and (todo "TODO")
                               (or (scheduled :to today) (deadline :to today))
                               )
-                        ((org-ql-block-header "Due Today")
-                        (org-super-agenda-groups '((:auto-parent t)))
+                        ((org-ql-block-header "Overdue + Today")
+                        (org-super-agenda-groups  '((:auto-planning t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (or (scheduled :on +1) (deadline :on +1))
+                              )
+                        ((org-ql-block-header "Tomorrow")
+                        (org-super-agenda-groups  '((:auto-planning t)))
                         ))
           (org-ql-block '(and (todo "TODO")
                               (priority >= "C")
                               )
                         ((org-ql-block-header "Priority")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          (org-ql-block '(and (todo "TODO")
+                              (tags "email")
+                              )
+                        ((org-ql-block-header "Emails to Write")
                          (org-super-agenda-groups '((:auto-parent t)))
                          ))
           (org-ql-block '(and (todo "TODO")
@@ -372,12 +384,6 @@
                         ((org-ql-block-header "Expiring")
                         (org-super-agenda-groups '((:auto-parent t)))
                         ))
-          (org-ql-block '(and (todo "TODO")
-                              (tags "email")
-                              )
-                        ((org-ql-block-header "Emails to Write")
-                         (org-super-agenda-groups '((:auto-parent t)))
-                         ))
           )))
         )
       )
