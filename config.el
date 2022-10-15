@@ -104,9 +104,9 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
+      (org-ql-select (concat org-directory "inbox.org")
         '(and
-              (todo "TODO" "SHLD")
+              (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
               (not (priority >= "C")) ; has no priority
               (not (scheduled)) ; isn't scheduled
@@ -119,7 +119,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "should.org"))
+      (org-ql-select (concat org-directory "inbox.org")
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -144,12 +144,8 @@
              "* TODO %?\n%u\n%i\n")
             ("d" "Todo Today" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\nSCHEDULED: %t\n%u")
-            ("c" "Todo with Clipboard" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%u\n%c" :empty-lines 1)
             ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\n%u\n%a")
-            ("s" "Should" entry (file (lambda () (concat org-directory "should.org")))
-             "* SHLD %?\n%u\n%i\n")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %:fromname: %a :email:\n%u\n%i\n" :immediate-finish t)
           ))
@@ -168,7 +164,7 @@
                                ("work.org" . (:level . 1))
                                ))
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "SHLD(s)" "|" "DONE(d)" "CANCELLED(c)")))
+          '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
     )
   )
@@ -233,10 +229,8 @@
       :custom
       (org-roam-directory (file-truename org-roam-directory))
       :config
-      (org-roam-setup)
+      (org-roam-db-autosync-enable)
       (setq org-roam-completion-system 'ivy)
-      ;; If using org-roam-protocol
-      ;;(require 'org-roam-protocol)
       )
 
 ;;; Capture templates
@@ -328,7 +322,6 @@
   :config
   (progn
     (org-super-agenda-mode)
-    (setq org-agenda-block-separator (make-string (window-width) 9472)))
     (setq org-agenda-custom-commands
       '(("g" "Good View"
          (
@@ -351,13 +344,45 @@
                           (:name "Emails to Write"
                            :tag "email"
                            :order 21)
-                          (:name "Should"
-                           :todo "SHLD"
-                           :order 22)
                           (:discard (:anything t)
                           )))))
-         ))))
-    )
+         ))
+        ; Example
+        ("p" "Phil's View"
+         (
+          (org-ql-block '(and (todo "TODO")
+                              (or (scheduled :to today) (deadline :to today))
+                              )
+                        ((org-ql-block-header "Due Today")
+                        (org-super-agenda-groups '((:auto-parent t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (priority >= "C")
+                              )
+                        ((org-ql-block-header "Priority")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          (org-ql-block '(and (todo "TODO")
+                              (not (ts :from -7))
+                              (not (priority >= "C")) ; has no priority
+                              (not (scheduled)) ; isn't scheduled
+                              (not (deadline)) ; doesn't have a deadline
+                              (not (tags "email")) ; doesn't have an email tag
+                              )
+                        ((org-ql-block-header "Expiring")
+                        (org-super-agenda-groups '((:auto-parent t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (tags "email")
+                              )
+                        ((org-ql-block-header "Emails to Write")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          )))
+        )
+      )
+  )
+
 
 ;;; Never wrap my shit
 (add-hook 'org-mode-hook #'turn-off-auto-fill)
