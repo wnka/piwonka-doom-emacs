@@ -277,6 +277,7 @@
         :desc "quick email capture" "e" #'pdp-quick-email-capture
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
+        :desc "random" "m" #'pdp-org-random-cleanups
         )
   )
 
@@ -389,6 +390,16 @@
       )
   )
 
+;;; Fun wacky function to give me a random TODO!
+(defun pdp-org-random-cleanups ()
+  (interactive)
+  (org-ql-search "~/Dropbox/org/inbox.org"
+               '(and
+                 (todo "TODO")
+                 )
+               :sort 'random
+               )
+  )
 
 ;;; Never wrap my shit
 (add-hook 'org-mode-hook #'turn-off-auto-fill)
