@@ -104,7 +104,7 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
         '(and
               (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
@@ -119,7 +119,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -155,7 +155,7 @@
       (lambda () (interactive) (org-capture nil "t")))
     ;; C-c z to open the "g"ood agenda view
     (define-key global-map (kbd "C-c z")
-      (lambda () (interactive) (org-agenda nil "g")))
+      (lambda () (interactive) (org-agenda nil "p")))
 
     (setq org-log-done 'time)
     (setq org-refile-use-outline-path nil)
@@ -393,8 +393,7 @@
 ;;; Fun wacky function to give me a random TODO!
 (defun pdp-org-random-cleanups ()
   (interactive)
-  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
-(list "~/Dropbox/org/inbox.org" "~/Dropbox/org/phone.org")
+  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
                '(and
                  (todo "TODO")
                  )
@@ -519,11 +518,11 @@
 ;; Load my mu4e settings
 ;; There's nothing super private in there,
 ;; but it has addresses and prefs and stuff.
-(load (concat doom-private-dir "modules/mu4e.el"))
+(load (concat doom-user-dir "modules/mu4e.el"))
 
 ;;; Load org-msg settings
 ;;; Includes CSS styling and some preferences
-(load! (concat doom-private-dir "modules/org-msg.el"))
+(load! (concat doom-user-dir "modules/org-msg.el"))
 
 ;;; elfeed
 ;;; Some stuff borrowed from here
