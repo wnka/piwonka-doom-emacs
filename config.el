@@ -104,7 +104,7 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
         '(and
               (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
@@ -119,7 +119,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -393,7 +393,8 @@
 ;;; Fun wacky function to give me a random TODO!
 (defun pdp-org-random-cleanups ()
   (interactive)
-  (org-ql-search "~/Dropbox/org/inbox.org"
+  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "phone.org"))
+(list "~/Dropbox/org/inbox.org" "~/Dropbox/org/phone.org")
                '(and
                  (todo "TODO")
                  )
