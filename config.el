@@ -104,7 +104,7 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
         '(and
               (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
@@ -119,7 +119,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
+      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -385,6 +385,16 @@
                         ((org-ql-block-header "Expiring")
                         (org-super-agenda-groups '((:auto-parent t)))
                         ))
+          (org-ql-block '(and (todo "TODO")
+                              (ts :from -7)
+                              (not (priority >= "C")) ; has no priority
+                              (not (scheduled)) ; isn't scheduled
+                              (not (deadline)) ; doesn't have a deadline
+                              (not (tags "email")) ; doesn't have an email tag
+                              )
+                        ((org-ql-block-header "Stuff")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
           )))
         )
       )
@@ -393,7 +403,7 @@
 ;;; Fun wacky function to give me a random TODO!
 (defun pdp-org-random-cleanups ()
   (interactive)
-  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "work.org") (concat org-directory "phone.org"))
+  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
                '(and
                  (todo "TODO")
                  )
