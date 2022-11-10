@@ -584,6 +584,18 @@
             entries)
       (unless (or elfeed-search-remain-on-entry (use-region-p))
         (forward-line))))
+  (defun rakso/custom-elfeed-sort (a b)
+  (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
+         (b-tags (format "%s" (elfeed-entry-tags b)))
+         (a-title (elfeed-feed-title (elfeed-entry-feed a)))
+         (b-title (elfeed-feed-title (elfeed-entry-feed b))))
+    (if (string= a-tags b-tags)
+        (if (string= a-title b-title)
+            (< (elfeed-entry-date b) (elfeed-entry-date a))
+          (string< b-title a-title))
+      (string< a-tags b-tags))))
+
+  (setf elfeed-search-sort-function #'rakso/custom-elfeed-sort)
 )
 
 (use-package elfeed-org
