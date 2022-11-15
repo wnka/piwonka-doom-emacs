@@ -85,3 +85,4 @@
 (package! f)
 (package! elfeed-tube
   :recipe (:host github :repo "karthink/elfeed-tube"))
+(package! mastodon)

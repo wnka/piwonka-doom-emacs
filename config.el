@@ -680,3 +680,10 @@
   (require 'dap-cpptools))
 ; First time you set this up, do ~M-x dap-cpptools-setup~
 ;;; END dap mode stuff
+
+(use-package mastodon
+  :ensure t
+  :config
+  (setq mastodon-instance-url "https://hachyderm.io"
+        mastodon-active-user "pdp")
+  )
