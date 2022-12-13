@@ -25,7 +25,7 @@
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
 ;; brew tap homebrew/cask-fonts && brew install --cask font-roboto-mono-nerd-font
-(setq doom-font (font-spec :family "Hack Nerd Font" :size 14)
+(setq doom-font (font-spec :family "Hack Nerd Font" :size 15)
       doom-big-font (font-spec :family "Hack Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
       )
@@ -686,5 +686,4 @@
   :config
   (setq mastodon-instance-url "https://hachyderm.io"
         mastodon-active-user "pdp")
-  (load (concat doom-user-dir "init-mastodon.el"))
   )
