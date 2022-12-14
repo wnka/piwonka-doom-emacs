@@ -488,7 +488,7 @@
   (setq ivy-posframe-parameters '((internal-border-width . 2) (left-fringe . 18) (right-fringe . 18))
         ivy-posframe-height 14
         ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
-        ivy-posframe-font "JetBrainsMono Nerd Font 13")
+        ivy-posframe-font "Hack Nerd Font 13")
   (set-face-attribute 'ivy-posframe-border nil :background "white")
   (defun ivy-posframe-get-size ()
     "Func for detect ivy posframe size after resize dynamically"
