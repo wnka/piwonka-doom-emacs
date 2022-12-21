@@ -424,17 +424,6 @@
   (setq vertico-posframe-font "JetBrainsMono Nerd Font 13")
   )
 
-(use-package all-the-icons-completion
-  :after vertico-posframe
-  :config
-  (all-the-icons-completion-mode)
-  )
-
-;;; Dired
-(use-package all-the-icons-dired
-  :defer 5
-  :hook (dired-mode . all-the-icons-dired-mode))
-
 ;;; Show persp in the modeline
 ;;; https://github.com/hlissner/doom-emacs/issues/314
 (after! doom-modeline
@@ -486,6 +475,7 @@
          ("Q" . bjm/elfeed-save-db-and-bury)
          ("v" . elfeed-search-browse-url)
          ("u" . elfeed-update)
+         ("r" . elfeed-mark-all-as-read)
          ("b" . ar/elfeed-search-browse-background-url))
   :config
   (elfeed-search-set-filter "+unread")

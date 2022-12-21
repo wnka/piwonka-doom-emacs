@@ -59,7 +59,6 @@
 (package! cargo-mode)
 
 (package! all-the-icons-dired)
-(package! all-the-icons-completion)
 (package! org-modern)
 (package! vertico-posframe)
 (package! dap-mode)
