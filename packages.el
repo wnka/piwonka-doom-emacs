@@ -60,5 +60,4 @@
 
 (package! all-the-icons-dired)
 (package! org-modern)
-(package! vertico-posframe)
 (package! dap-mode)
