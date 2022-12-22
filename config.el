@@ -263,20 +263,14 @@
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
-  (defun pdp-quick-email-capture ()
-    (interactive)
-    (org-capture nil "e"))
   (map! :leader
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
         :desc "pdp-open-inbox" "b" #'pdp-open-inbox
         :desc "org-roam-find-file" "f" #'org-roam-node-find
-        :desc "org-roam-show-graph" "g" #'org-roam-show-graph
         :desc "org-roam-insert" "i" #'org-roam-node-insert
-        :desc "quick email capture" "e" #'pdp-quick-email-capture
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
-        :desc "random" "m" #'pdp-org-random-cleanups
         )
   )
 
@@ -384,22 +378,10 @@
       )
   )
 
-;;; Fun wacky function to give me a random TODO!
-(defun pdp-org-random-cleanups ()
-  (interactive)
-  (org-ql-search (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
-               '(and
-                 (todo "TODO")
-                 )
-               :sort 'random
-               )
-  )
-
 ;;; Never wrap my shit
 (add-hook 'org-mode-hook #'turn-off-auto-fill)
 (add-hook 'org-journal-mode-hook #'turn-off-auto-fill)
 (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
-(setq plantuml-output-type "png")
 
 ;;; Bind C-z to org-toggle-narrow-to-subtree
 ;;; https://taonaw.com/2022-05-24/
@@ -414,15 +396,6 @@
 (use-package! cargo-mode
   :config
   (add-hook 'rustic-mode-hook 'cargo-minor-mode))
-
-(use-package vertico-posframe
-  :after vertico
-  :init
-  (vertico-posframe-mode 1)
-  :config
-  (setq vertico-posframe-parameters '((internal-border-width . 2) (left-fringe . 8) (right-fringe . 8)))
-  (setq vertico-posframe-font "JetBrainsMono Nerd Font 13")
-  )
 
 ;;; Show persp in the modeline
 ;;; https://github.com/hlissner/doom-emacs/issues/314
