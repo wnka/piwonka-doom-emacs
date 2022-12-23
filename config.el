@@ -143,8 +143,6 @@
              "* TODO %?\n%u\n%i\n")
             ("d" "Todo Today" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %?\nSCHEDULED: %t\n%u")
-            ("l" "Link" entry (file (lambda () (concat org-directory "inbox.org")))
-             "* TODO %?\n%u\n%a")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %:fromname: %a :email:\n%u\n%i\n" :immediate-finish t)
           ))
@@ -229,7 +227,6 @@
       (org-roam-directory (file-truename org-roam-directory))
       :config
       (org-roam-db-autosync-enable)
-      (setq org-roam-completion-system 'ivy)
       )
 
 ;;; Capture templates
