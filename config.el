@@ -154,6 +154,7 @@
     (define-key global-map (kbd "C-c z")
       (lambda () (interactive) (org-agenda nil "p")))
 
+    (add-hook 'org-mode-hook #'turn-off-auto-fill)
     (setq org-log-done 'time)
     (setq org-refile-use-outline-path nil)
     (setq org-agenda-start-on-weekday nil)
@@ -163,11 +164,14 @@
     (setq org-todo-keywords
           '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
     (setq org-use-fast-todo-selection t)
+    ;;; Bind C-z to org-toggle-narrow-to-subtree
+    ;;; https://taonaw.com/2022-05-24/
+    (global-set-key "\C-z" 'org-toggle-narrow-to-subtree)
     )
   )
 
 ;;; org-modern stuff
-(use-package org-modern
+(use-package! org-modern
   :config
   (add-hook 'org-mode-hook #'org-modern-mode)
   ; Turn this off for the time being, it makes things ugly
@@ -208,58 +212,61 @@
         org-priority-lowest 66)
   )
 
-(setq org-roam-directory (concat org-directory "roam"))
-;;; Let each machine have it's own DB cache
-;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
-(setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
+(after! markdown
+  (add-hook 'markdown-mode-hook #'turn-off-auto-fill)
+)
 
-;;; Helper for appending at the end of org files
-;;; Common action for me in org-roam is to open a file, go to the end of the file
-;;; and then add '* <current date>'
- (defun pdp-org-roam-insert ()
-   (interactive)
-   (goto-char (point-max))
-   (insert (format-time-string "* %m/%d/%Y")))
+(use-package! org-roam
+  :after org
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename (concat org-directory "roam")))
+  :config
+  ;;; Let each machine have it's own DB cache
+  ;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
+  (setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
 
-(use-package org-roam
-      :ensure t
-      :custom
-      (org-roam-directory (file-truename org-roam-directory))
-      :config
-      (org-roam-db-autosync-enable)
-      )
-
-;;; Capture templates
-(setq org-roam-capture-templates
-  '(
-    ("d" "default" plain "%?"
-     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        "#+title: ${title}")
-     :unnarrowed t)
-    ("p" "person" plain "%?"
-     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
-                        ":PROPERTIES:\n:ROAM_ALIASES: \"${fullname}\"\n:END:\n#+title: ${title}\n\n- tags :: [[id:dfd98009-3b6a-4f32-8235-00131e66918c][People]]")
-     :unnarrowed t)
-     ("l" "plan" plain "%?"
-     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
-                        "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Start of the week\n\n* Midweek checkin\n\n* End of week\n\n* Org-clock for the last week")
-     :unnarrowed t)
-    )
-  )
-
-;;; Quick function to open my inbox.org file
-(defun pdp-open-inbox ()
-  (interactive)
-  (find-file (expand-file-name (concat org-directory "/inbox.org")))
-  (revert-buffer)
+  (org-roam-db-autosync-enable)
+  ;;; Capture templates
+  (setq org-roam-capture-templates
+        '(
+          ("d" "default" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                              "#+title: ${title}")
+           :unnarrowed t)
+          ("p" "person" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+                              ":PROPERTIES:\n:ROAM_ALIASES: \"${fullname}\"\n:END:\n#+title: ${title}\n\n- tags :: [[id:dfd98009-3b6a-4f32-8235-00131e66918c][People]]")
+           :unnarrowed t)
+          ("l" "plan" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+                              "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Start of the week\n\n* Midweek checkin\n\n* End of week\n\n* Org-clock for the last week")
+           :unnarrowed t)
+          )
+        )
   )
 
 ;;; Stolen from here:
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
+  ;;; Quick function to open my inbox.org file
+  (defun pdp-open-inbox ()
+    (interactive)
+    (find-file (expand-file-name (concat org-directory "/inbox.org")))
+    (revert-buffer)
+    )
+
+  ;;; Helper for appending at the end of org files
+  ;;; Common action for me in org-roam is to open a file, go to the end of the file
+  ;;; and then add '* <current date>'
+  (defun pdp-org-roam-insert ()
+    (interactive)
+    (goto-char (point-max))
+    (insert (format-time-string "* %m/%d/%Y")))
+
   (map! :leader
         :prefix "n"
         :desc "org-roam-buffer-toggle" "l" #'org-roam-buffer-toggle
@@ -283,14 +290,17 @@
 (global-set-key "\C-c\C-ni" 'org-roam-node-insert)
 (global-set-key "\C-c\C-n\C-i" 'org-roam-node-insert)
 
-;;; Avy search stuff
-;;;
-;;; I like avy-goto-char-timer
-(global-set-key (kbd "C-<return>") 'avy-goto-char-timer)
-(global-set-key (kbd "M-<return>") 'avy-goto-char-timer)
-;; Show candidate on all windows
-;; 'windows' in the emacs sense, aka the different views in an OS window
-(setq avy-all-windows t)
+(use-package! avy
+  :config
+  ;;; Avy search stuff
+  ;;;
+  ;;; I like avy-goto-char-timer
+  (global-set-key (kbd "C-<return>") 'avy-goto-char-timer)
+  (global-set-key (kbd "M-<return>") 'avy-goto-char-timer)
+  ;; Show candidate on all windows
+  ;; 'windows' in the emacs sense, aka the different views in an OS window
+  (setq avy-all-windows t)
+  )
 
 ;;; ORG-SUPER-AGENDA config
 (use-package! org-super-agenda
@@ -375,20 +385,12 @@
       )
   )
 
-;;; Never wrap my shit
-(add-hook 'org-mode-hook #'turn-off-auto-fill)
-(add-hook 'org-journal-mode-hook #'turn-off-auto-fill)
-(add-hook 'markdown-mode-hook #'turn-off-auto-fill)
-
-;;; Bind C-z to org-toggle-narrow-to-subtree
-;;; https://taonaw.com/2022-05-24/
-(global-set-key "\C-z" 'org-toggle-narrow-to-subtree)
-
-;;; HUGO
-(setq easy-hugo-basedir "~/code/pdp80-blog/")
-(setq easy-hugo-url "https://pdp.dev")
-(setq easy-hugo-postdir "content/posts")
-;;; END HUGO
+(use-package! easy-hugo
+  :config
+  (setq easy-hugo-basedir "~/code/pdp80-blog/")
+  (setq easy-hugo-url "https://pdp.dev")
+  (setq easy-hugo-postdir "content/posts")
+  )
 
 (use-package! cargo-mode
   :config
@@ -403,42 +405,19 @@
 (after! so-long
   (setq so-long-threshold 10000))
 
-;; Load my mu4e settings
-;; There's nothing super private in there,
-;; but it has addresses and prefs and stuff.
-(load (concat doom-user-dir "modules/mu4e.el"))
+(use-package! mu4e
+  :config
+  ;; Load my mu4e settings
+  ;; There's nothing super private in there,
+  ;; but it has addresses and prefs and stuff.
+  (load (concat doom-user-dir "modules/mu4e.el"))
 
-;;; Load org-msg settings
-;;; Includes CSS styling and some preferences
-(load! (concat doom-user-dir "modules/org-msg.el"))
+  ;;; Load org-msg settings
+  ;;; Includes CSS styling and some preferences
+  (load! (concat doom-user-dir "modules/org-msg.el"))
+  )
 
-;;; elfeed
-;;; Some stuff borrowed from here
-;;; https://cestlaz.github.io/posts/using-emacs-29-elfeed/
-(setq elfeed-db-directory "~/Dropbox/elfeeddb")
-
-(defun elfeed-mark-all-as-read ()
-  (interactive)
-  (mark-whole-buffer)
-  (elfeed-search-untag-all-unread))
-
-;;functions to support syncing .elfeed between machines
-;;makes sure elfeed reads index from disk before launching
-(defun bjm/elfeed-load-db-and-open ()
-  "Wrapper to load the elfeed db from disk before opening"
-  (interactive)
-  (elfeed-db-load)
-  (elfeed)
-  (elfeed-search-update--force))
-
-;;write to disk when quiting
-(defun bjm/elfeed-save-db-and-bury ()
-  "Wrapper to save the elfeed db to disk before burying buffer"
-  (interactive)
-  (elfeed-db-save)
-  (quit-window))
-
-(use-package elfeed
+(use-package! elfeed
   :ensure t
   :bind (:map elfeed-search-mode-map
          ("q" . bjm/elfeed-save-db-and-bury)
@@ -448,7 +427,33 @@
          ("r" . elfeed-mark-all-as-read)
          ("b" . ar/elfeed-search-browse-background-url))
   :config
+  ;;; elfeed
+  ;;; Some stuff borrowed from here
+  ;;; https://cestlaz.github.io/posts/using-emacs-29-elfeed/
+  (setq elfeed-db-directory "~/Dropbox/elfeeddb")
+
+  (defun elfeed-mark-all-as-read ()
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
+
+  ;;functions to support syncing .elfeed between machines
+  ;;makes sure elfeed reads index from disk before launching
+  (defun bjm/elfeed-load-db-and-open ()
+    "Wrapper to load the elfeed db from disk before opening"
+    (interactive)
+    (elfeed-db-load)
+    (elfeed)
+    (elfeed-search-update--force))
+
+  ;;write to disk when quiting
+  (defun bjm/elfeed-save-db-and-bury ()
+    "Wrapper to save the elfeed db to disk before burying buffer"
+    (interactive)
+    (elfeed-db-save)
+    (quit-window))
   (elfeed-search-set-filter "+unread")
+
   (defun ar/elfeed-search-browse-background-url ()
     "Open current `elfeed' entry (or region entries) in browser without losing focus."
     (interactive)
@@ -476,7 +481,7 @@
   (setf elfeed-search-sort-function #'rakso/custom-elfeed-sort)
 )
 
-(use-package elfeed-org
+(use-package! elfeed-org
   :ensure t
   :config
   (elfeed-org)
@@ -484,7 +489,7 @@
 
 ;; Configure lsp-mode for rust
 ;; From: https://robert.kra.hn/posts/rust-emacs-setup/
-(use-package lsp-mode
+(use-package! lsp-mode
   :ensure
   :commands lsp
   :custom
@@ -503,7 +508,7 @@
   :config
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
-(use-package lsp-ui
+(use-package! lsp-ui
   :ensure
   :commands lsp-ui-mode
   :custom
@@ -515,9 +520,18 @@
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
   )
 
-;;; dap mode stuff
-(setq dap-auto-configure-mode t)
-(with-eval-after-load 'lsp-rust
-  (require 'dap-cpptools))
-; First time you set this up, do ~M-x dap-cpptools-setup~
-;;; END dap mode stuff
+(use-package! dap-mode
+  :config
+  ; First time you set this up, do ~M-x dap-cpptools-setup~
+  (setq dap-auto-configure-mode t)
+  (with-eval-after-load 'lsp-rust
+    (require 'dap-cpptools))
+  )
+
+(use-package! marginalia
+    :config
+    ; I had to add this so that when I open a Projectile project
+    ; and it then opens the file selector I'd get annotations.
+    ; Otherwise it was plain.
+    (add-to-list 'marginalia-prompt-categories '("Find file" . file))
+    )
