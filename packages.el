@@ -51,38 +51,15 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! org-super-agenda)
-(package! graphviz-dot-mode)
-(package! gnuplot)
-(package! gnuplot-mode)
-(package! kaolin-themes)
 (package! yaml-mode)
 (package! magit-delta)
 (package! easy-hugo)
-(package! helm-org-rifle)
 (package! org-ql)
 
 (package! cargo-mode)
 
-;;; https://github.com/Artawower/blamer.el
-(package! blamer)
-
 (package! all-the-icons-dired)
-(package! all-the-icons-ivy-rich)
-(package! ivy-posframe)
-(package! ivy
-;  :pin "487e97a94a49ededc2485d845cc912a893e8cc72"
-  :recipe (:host github :repo "abo-abo/swiper"))
-
-(package! plang-mode
-  :recipe (:host github :repo "wnka/plang-mode"
-          :files ("plang-mode.el")))
-
-(unpin! org-roam)
-(package! org-roam-ui)
-
-(package! rust-playground)
+(package! all-the-icons-completion)
 (package! org-modern)
-(package! f)
-(package! elfeed-tube
-  :recipe (:host github :repo "karthink/elfeed-tube"))
-(package! mastodon)
+(package! vertico-posframe)
+(package! dap-mode)

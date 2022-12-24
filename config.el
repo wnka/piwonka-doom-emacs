@@ -68,15 +68,14 @@
 ;; they are implemented.
 
 ;; Make it so I can pull up M-x more easily
-(global-set-key "\C-x\C-m" 'counsel-M-x)
-(global-set-key "\C-xm" 'counsel-M-x)
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-xm" 'execute-extended-command)
 
 ;; Make jumping around lists/parens easy
 (global-set-key "\M-n" 'forward-list)
 (global-set-key "\M-p" 'backward-list)
 
-;; Use swiper for search
-(global-set-key "\C-s" 'swiper)
+(global-set-key "\C-s" 'consult-line)
 
 ;; Display continuous lines
 (setq-default truncate-lines nil)
@@ -293,26 +292,11 @@
 (global-set-key "\C-c\C-ni" 'org-roam-node-insert)
 (global-set-key "\C-c\C-n\C-i" 'org-roam-node-insert)
 
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-    :after org-roam ;; or :after org
-;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-;;         a hookable mode anymore, you're advised to pick something yourself
-;;         if you don't care about startup time, use
-;;  :hook (after-init . org-roam-ui-mode)
-    :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
-
 ;;; Avy search stuff
 ;;;
 ;;; I like avy-goto-char-timer
-(global-set-key "\C-\\" 'avy-goto-char-timer)
-(global-set-key "\M-\\" 'avy-goto-char-timer)
+(global-set-key (kbd "C-<return>") 'avy-goto-char-timer)
+(global-set-key (kbd "M-<return>") 'avy-goto-char-timer)
 ;; Show candidate on all windows
 ;; 'windows' in the emacs sense, aka the different views in an OS window
 (setq avy-all-windows t)
@@ -430,84 +414,21 @@
 (use-package! cargo-mode
   :config
   (add-hook 'rustic-mode-hook 'cargo-minor-mode))
-(use-package! rust-playground)
 
-;;; company-mode
-(after! company
-  :config
-  ;;; Change the delay to immediate. I used to have 2 seconds, but with a fast M1 machine
-  ;;; and nativecomp this is usable.
-  (setq company-idle-delay 0)
-   ;;; Don't do completion automatically for these
-  (setq company-global-modes '(not org-mode markdown-mode text-mode mu4e-compose-mode message-mode org-msg-mode org-msg-edit-mode))
-)
-;;; END company-mode
-
-;;; ivy stuff
-;;; Borrowed from this config:
-;;; https://github.com/Artawower/.doom
-(use-package ivy-rich
-  :hook (ivy-mode . ivy-rich-mode)
-  :after ivy)
-
-(use-package counsel-projectile
-  :defer 0.5)
-
-(use-package all-the-icons-ivy-rich
-  :defer 0.5)
-
-(use-package all-the-icons-ivy-rich
-  :after (all-the-icons ivy-rich counsel-projectile all-the-icons-ivy-rich)
-  :config
-  (all-the-icons-ivy-rich-mode 1)
-  (ivy-rich-mode 1)
-
-  (let* ((col-def '((all-the-icons-ivy-rich-file-icon)
-                    (file-name-nondirectory (:width 0.2 :face (:foreground "white" :slant 'italic)))
-                    ((lambda (str) (string-join (butlast (split-string (counsel-projectile-find-file-transformer str) "/")) "/")) (:width 0.4))
-                    ;; (counsel-projectile-find-file-transformer (:width 0.4))
-                    (all-the-icons-ivy-rich-project-file-size (:width 7 :face all-the-icons-ivy-rich-size-face))
-                    (all-the-icons-ivy-rich-project-file-modes (:width 12 :face all-the-icons-ivy-rich-file-modes-face))
-                    (all-the-icons-ivy-rich-project-file-id (:width 12 :face all-the-icons-ivy-rich-file-owner-face))
-                    (all-the-icons-ivy-rich-project-file-modification-time (:face all-the-icons-ivy-rich-time-face)))))
-    (ivy-rich-set-columns 'projectile-find-file col-def)
-    (ivy-rich-set-columns 'counsel-projectile-find-file col-def)
-    (ivy-rich-set-columns 'projectile--find-file col-def))
-  (custom-set-faces
-   '(all-the-icons-ivy-rich-doc-face ((t (:foreground "white"))))
-   '(all-the-icons-ivy-rich-size-face ((t (:foreground "white"))))
-   '(all-the-icons-ivy-rich-time-face ((t (:foreground "white"))))
-   )
-  )
-
-(use-package ivy-posframe
-  :after ivy
+(use-package vertico-posframe
+  :after vertico
   :init
-  (ivy-posframe-mode 1)
+  (vertico-posframe-mode 1)
   :config
-  (setq ivy-posframe-parameters '((internal-border-width . 2) (left-fringe . 18) (right-fringe . 18))
-        ivy-posframe-height 14
-        ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center))
-        ivy-posframe-font "Hack Nerd Font 13")
-  (set-face-attribute 'ivy-posframe-border nil :background "white")
-  (defun ivy-posframe-get-size ()
-    "Func for detect ivy posframe size after resize dynamically"
-    (list
-     ;; :height ivy-posframe-height
-     ;; :width ivy-posframe-width
-     :min-height (or ivy-posframe-min-height
-                     (let ((height (+ ivy-height 1)))
-                       (min height (or ivy-posframe-height height))
-                       ))
-     :min-width (or ivy-posframe-min-width
-                    (let ((width (round (* (frame-width) 0.9))))
-                      (min width (or ivy-posframe-width width))
-                      ))
-     ))
+  (setq vertico-posframe-parameters '((internal-border-width . 2) (left-fringe . 8) (right-fringe . 8)))
+  (setq vertico-posframe-font "JetBrainsMono Nerd Font 13")
   )
 
-(global-set-key "\C-xb" 'counsel-switch-buffer)
-;;; END ivy stuff
+(use-package all-the-icons-completion
+  :after vertico-posframe
+  :config
+  (all-the-icons-completion-mode)
+  )
 
 ;;; Dired
 (use-package all-the-icons-dired
@@ -518,8 +439,6 @@
 ;;; https://github.com/hlissner/doom-emacs/issues/314
 (after! doom-modeline
   (setq doom-modeline-persp-name t))
-
-(use-package! plang-mode)
 
 ;;; f-you so-long-mode, change the threshold to be obscenely long
 (after! so-long
@@ -567,9 +486,7 @@
          ("Q" . bjm/elfeed-save-db-and-bury)
          ("v" . elfeed-search-browse-url)
          ("u" . elfeed-update)
-         ("b" . ar/elfeed-search-browse-background-url)
-         ("j" . mz/hydra-elfeed/body)
-         ("J" . mz/hydra-elfeed/body))
+         ("b" . ar/elfeed-search-browse-background-url))
   :config
   (elfeed-search-set-filter "+unread")
   (defun ar/elfeed-search-browse-background-url ()
@@ -584,6 +501,7 @@
             entries)
       (unless (or elfeed-search-remain-on-entry (use-region-p))
         (forward-line))))
+
   (defun rakso/custom-elfeed-sort (a b)
   (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
          (b-tags (format "%s" (elfeed-entry-tags b)))
@@ -603,43 +521,6 @@
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list (concat org-directory "feeds.org"))))
-
-(use-package elfeed-goodies
-  :ensure t
-  :config
-  (elfeed-goodies/setup)
-  (defalias 'elfeed-toggle-star
-    (elfeed-expose #'elfeed-search-toggle-all 'star))
-)
-
-(defhydra mz/hydra-elfeed ()
-     "filter"
-     ("r" elfeed-mark-all-as-read "Mark all as Read")
-     ("v" elfeed-search-browse-url "Open in Browser")
-     ("s" elfeed-toggle-star "Toggle star")
-     ("u" (elfeed-search-set-filter "+unread") "Unread" :color blue)
-     ("*" (elfeed-search-set-filter "@6-months-ago +star") "Starred" :color blue)
-     ("a" (elfeed-search-set-filter "@6-months-ago") "All" :color blue)
-     ("t" (elfeed-search-set-filter "@1-day-ago") "Today" :color blue)
-     ("f" (elfeed-search-set-filter "+funny") "Funny" :color blue)
-     ("l" (elfeed-search-set-filter "+linux") "linux" :color blue)
-     ("b" (elfeed-search-set-filter "+bike") "bike" :color blue)
-     )
-
-(use-package elfeed-tube
-  :after elfeed
-  :demand t
-  :config
-  ;; (setq elfeed-tube-auto-save-p nil) ;; t is auto-save (not default)
-  ;; (setq elfeed-tube-auto-fetch-p t) ;;  t is auto-fetch (default)
-  (elfeed-tube-setup)
-
-  :bind (:map elfeed-show-mode-map
-         ("F" . elfeed-tube-fetch)
-         ([remap save-buffer] . elfeed-tube-save)
-         :map elfeed-search-mode-map
-         ("F" . elfeed-tube-fetch)
-         ([remap save-buffer] . elfeed-tube-save)))
 
 ;; Configure lsp-mode for rust
 ;; From: https://robert.kra.hn/posts/rust-emacs-setup/
@@ -680,10 +561,3 @@
   (require 'dap-cpptools))
 ; First time you set this up, do ~M-x dap-cpptools-setup~
 ;;; END dap mode stuff
-
-(use-package mastodon
-  :ensure t
-  :config
-  (setq mastodon-instance-url "https://hachyderm.io"
-        mastodon-active-user "pdp")
-  )
