@@ -167,49 +167,75 @@
     ;;; Bind C-z to org-toggle-narrow-to-subtree
     ;;; https://taonaw.com/2022-05-24/
     (global-set-key "\C-z" 'org-toggle-narrow-to-subtree)
-    )
-  )
-
-;;; org-modern stuff
-(use-package! org-modern
-  :config
-  (add-hook 'org-mode-hook #'org-modern-mode)
-  ; Turn this off for the time being, it makes things ugly
-  (add-hook 'org-agenda-finalize-hook #'org-modern-agenda)
-  (custom-set-faces
-   '(org-modern-date-active ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
-   '(org-modern-time-active ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
-   '(org-modern-date-inactive ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
-   '(org-modern-time-inactive ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
-   '(org-modern-done ((t :inherit org-modern-priority :background "#000000" :foreground "#ef6787")))
-   '(org-modern-todo ((t :inherit org-modern-priority :background "#000000" :foreground "#8ee6d6")))
-   )
-
-  ;;; I didn't like this. Turns "#+TITLE" in "TITLE"...
-  (setq org-modern-keyword nil)
-  ;;; Org ligatures
-  (add-hook 'org-mode-hook (lambda ()
-                           "Beautify Org Checkbox Symbol"
-                           (push '("#+TITLE:" . "") prettify-symbols-alist)
-                           (push '("#+title:" . "") prettify-symbols-alist)
-                           (push '("SCHEDULED:" . "⧗") prettify-symbols-alist)
-                           (push '("DEADLINE:" . "⌘") prettify-symbols-alist)
-                           (push '("COMPLETED:" . "✓") prettify-symbols-alist)
-                           (push '("CLOSED:" . "✓") prettify-symbols-alist)
-                           (push '(":PROPERTIES:" . "") prettify-symbols-alist)
-                           (push '(":END:" . "↤") prettify-symbols-alist)
-                           (prettify-symbols-mode)))
-  (setq org-modern-checkbox '((88 . "✓") (45 . "□–") (32 . "□")))
-  (setq org-ellipsis "↴")
-  )
-
-;;; Save all org buffers periodically (I think every 30 seconds)
-(after! org
-  (add-hook 'auto-save-hook 'org-save-all-org-buffers)
-  ; I only want one priority
-  (setq org-default-priority 66
-        org-priority-highest 66
-        org-priority-lowest 66)
+    (add-hook 'auto-save-hook 'org-save-all-org-buffers)
+    ; I only want one priority
+    (setq org-default-priority 66
+          org-priority-highest 66
+          org-priority-lowest 66)
+    ;;; Org ligatures
+    (add-hook 'org-mode-hook (lambda ()
+                               "Beautify Org Checkbox Symbol"
+                               (push '("#+TITLE:" . "") prettify-symbols-alist)
+                               (push '("#+title:" . "") prettify-symbols-alist)
+                               (push '("SCHEDULED:" . "⧗") prettify-symbols-alist)
+                               (push '("DEADLINE:" . "⌘") prettify-symbols-alist)
+                               (push '("COMPLETED:" . "✓") prettify-symbols-alist)
+                               (push '("CLOSED:" . "✓") prettify-symbols-alist)
+                               (push '(":PROPERTIES:" . "") prettify-symbols-alist)
+                               (push '(":END:" . "↤") prettify-symbols-alist)
+                               (prettify-symbols-mode)))
+    (setq org-ellipsis "↴")
+    (setq org-agenda-custom-commands
+      '(
+        ("p" "Phil's View"
+         (
+          (org-ql-block '(and (todo "TODO")
+                              (or (scheduled :to today) (deadline :to today))
+                              )
+                        ((org-ql-block-header "Overdue + Today")
+                        (org-super-agenda-groups  '((:auto-planning t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (or (scheduled :on +1) (deadline :on +1))
+                              )
+                        ((org-ql-block-header "Tomorrow")
+                        (org-super-agenda-groups  '((:auto-planning t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (priority >= "C")
+                              )
+                        ((org-ql-block-header "Priority")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          (org-ql-block '(and (todo "TODO")
+                              (tags "email")
+                              )
+                        ((org-ql-block-header "Emails to Write")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          (org-ql-block '(and (todo "TODO")
+                              (not (ts :from -7))
+                              (not (priority >= "C")) ; has no priority
+                              (not (scheduled)) ; isn't scheduled
+                              (not (deadline)) ; doesn't have a deadline
+                              (not (tags "email")) ; doesn't have an email tag
+                              )
+                        ((org-ql-block-header "Expiring")
+                        (org-super-agenda-groups '((:auto-parent t)))
+                        ))
+          (org-ql-block '(and (todo "TODO")
+                              (ts :from -7)
+                              (not (priority >= "C")) ; has no priority
+                              (not (scheduled)) ; isn't scheduled
+                              (not (deadline)) ; doesn't have a deadline
+                              (not (tags "email")) ; doesn't have an email tag
+                              )
+                        ((org-ql-block-header "Stuff")
+                         (org-super-agenda-groups '((:auto-parent t)))
+                         ))
+          )))
+        )
+      )
   )
 
 (after! markdown

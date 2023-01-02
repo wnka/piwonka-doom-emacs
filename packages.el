@@ -50,14 +50,10 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-(package! org-super-agenda)
-(package! yaml-mode)
 (package! magit-delta)
 (package! easy-hugo)
 (package! org-ql)
 
 (package! cargo-mode)
 
-(package! all-the-icons-dired)
-(package! org-modern)
 (package! dap-mode)
