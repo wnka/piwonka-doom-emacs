@@ -321,8 +321,8 @@
   ;;; Avy search stuff
   ;;;
   ;;; I like avy-goto-char-timer
-  (global-set-key (kbd "C-<return>") 'avy-goto-char-timer)
-  (global-set-key (kbd "M-<return>") 'avy-goto-char-timer)
+  (global-set-key (kbd "C-\\") 'avy-goto-char-timer)
+  (global-set-key (kbd "M-\\") 'avy-goto-char-timer)
   ;; Show candidate on all windows
   ;; 'windows' in the emacs sense, aka the different views in an OS window
   (setq avy-all-windows t)
