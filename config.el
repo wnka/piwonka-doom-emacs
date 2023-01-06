@@ -440,7 +440,8 @@
 
   ;;; Load org-msg settings
   ;;; Includes CSS styling and some preferences
-  (load! (concat doom-user-dir "modules/org-msg.el"))
+  ;;; I'm turning this off for now, org-msg is kinda busted
+  ;;; (load! (concat doom-user-dir "modules/org-msg.el"))
   )
 
 (use-package! elfeed
@@ -470,7 +471,9 @@
     (interactive)
     (elfeed-db-load)
     (elfeed)
-    (elfeed-search-update--force))
+    (elfeed-search-update--force)
+    (elfeed-update)
+    )
 
   ;;write to disk when quiting
   (defun bjm/elfeed-save-db-and-bury ()
@@ -561,3 +564,8 @@
     ; Otherwise it was plain.
     (add-to-list 'marginalia-prompt-categories '("Find file" . file))
     )
+
+; persist history across sessions.
+(use-package savehist
+  :init
+  (savehist-mode))
