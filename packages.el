@@ -57,3 +57,4 @@
 (package! cargo-mode)
 
 (package! dap-mode)
+(package! org-modern)

@@ -575,3 +575,19 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;; Org-modern tweaks
+(use-package! org-modern
+  :config
+  (custom-set-faces
+      '(org-modern-date-active ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
+      '(org-modern-time-active ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
+      '(org-modern-date-inactive ((t :inherit org-modern-priority :background "#615545" :foreground "#EED47E")))
+      '(org-modern-time-inactive ((t :inherit org-modern-priority :background "#EED47E" :foreground "black")))
+      '(org-modern-done ((t :inherit org-modern-priority :background "#000000" :foreground "#ef6787")))
+      '(org-modern-todo ((t :inherit org-modern-priority :background "#000000" :foreground "#8ee6d6")))
+      )
+  ;;; I didn't like this. Turns "#+TITLE" in "TITLE"...
+  (setq org-modern-keyword nil)
+  (add-hook 'org-mode-hook #'org-modern-mode)
+  )
