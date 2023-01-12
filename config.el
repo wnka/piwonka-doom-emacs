@@ -235,6 +235,9 @@
                          ))
           )))
         )
+        ;;; Let's use SUPER for handy shit.
+        (global-set-key (kbd "s-n") 'org-capture)
+        (global-set-key (kbd "s-m") (lambda () (interactive) (org-agenda nil "p")))
       )
   )
 
@@ -251,6 +254,9 @@
   ;;; Let each machine have it's own DB cache
   ;;; Borrowed from https://www.reddit.com/r/orgmode/comments/kocvjb/can_i_sync_orgroam_across_devices_if_so_what_is/
   (setq org-roam-db-location (expand-file-name (concat "org-roam." (system-name) ".db") org-roam-directory))
+
+  ;;; CMD-o to open org roam
+  (global-set-key (kbd "s-o") 'org-roam-node-find)
 
   (org-roam-db-autosync-enable)
   ;;; Capture templates
