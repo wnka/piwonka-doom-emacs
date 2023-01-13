@@ -236,7 +236,7 @@
           )))
         )
         ;;; Let's use SUPER for handy shit.
-        (global-set-key (kbd "s-n") 'org-capture)
+        (global-set-key (kbd "s-n") (lambda () (interactive)(org-capture nil "t")))
         (global-set-key (kbd "s-m") (lambda () (interactive) (org-agenda nil "p")))
       )
   )
