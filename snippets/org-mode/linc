@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: linc
+# key: linc
+# --
+[[`(current-kill 0)`][$0]]
