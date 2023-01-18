@@ -237,7 +237,7 @@
         )
         ;;; Let's use SUPER for handy shit.
         (global-set-key (kbd "s-n") (lambda () (interactive) (org-capture nil "t")))
-        (global-set-key (kbd "s-m") (lambda () (interactive) (org-agenda nil "p")))
+        (global-set-key (kbd "s-a") (lambda () (interactive) (org-agenda nil "p")))
         (global-set-key (kbd "s-i") 'pdp-open-inbox)
       )
   )
@@ -449,6 +449,7 @@
   ;;; Includes CSS styling and some preferences
   ;;; I'm turning this off for now, org-msg is kinda busted
   ;;; (load! (concat doom-user-dir "modules/org-msg.el"))
+  (global-set-key (kbd "s-m") '=mu4e)
   )
 
 (use-package! elfeed
