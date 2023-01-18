@@ -516,7 +516,7 @@
       (string< a-tags b-tags))))
 
   (setf elfeed-search-sort-function #'rakso/custom-elfeed-sort)
-)
+  (global-set-key (kbd "s-r") 'bjm/elfeed-load-db-and-open)
 
 (use-package! elfeed-org
   :ensure t
