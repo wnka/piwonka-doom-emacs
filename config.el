@@ -145,6 +145,9 @@
              "* TODO %?\nSCHEDULED: %t\n%u")
             ("e" "Email" entry (file (lambda () (concat org-directory "inbox.org")))
              "* TODO %:fromname: %a :email:\n%u\n%i\n" :immediate-finish t)
+            ; This doesn't work, the title doesn't apply.
+            ("u" "org-protocol" entry (file (lambda () (concat org-directory "inbox.org")))
+             "* TODO %?\n%u\n%i\n" :immediate-finish t)
           ))
 
     ;; C-c x to do generic TODO without interactive template selection
@@ -235,11 +238,17 @@
                          ))
           )))
         )
-        ;;; Let's use SUPER for handy shit.
-        (global-set-key (kbd "s-n") (lambda () (interactive) (org-capture nil "t")))
-        (global-set-key (kbd "s-a") (lambda () (interactive) (org-agenda nil "p")))
-        (global-set-key (kbd "s-i") 'pdp-open-inbox)
-      )
+    ;;; Quick function to open my inbox.org file
+    (defun pdp-open-inbox ()
+      (interactive)
+      (find-file (expand-file-name (concat org-directory "/inbox.org")))
+      (revert-buffer))
+
+    ;;; Let's use SUPER for handy shit.
+    (global-set-key (kbd "s-n") (lambda () (interactive) (org-capture nil "t")))
+    (global-set-key (kbd "s-a") (lambda () (interactive) (org-agenda nil "p")))
+    (global-set-key (kbd "s-i") 'pdp-open-inbox)
+    )
   )
 
 (after! markdown
@@ -285,13 +294,6 @@
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
-  ;;; Quick function to open my inbox.org file
-  (defun pdp-open-inbox ()
-    (interactive)
-    (find-file (expand-file-name (concat org-directory "/inbox.org")))
-    (revert-buffer)
-    )
-
   ;;; Helper for appending at the end of org files
   ;;; Common action for me in org-roam is to open a file, go to the end of the file
   ;;; and then add '* <current date>'
@@ -423,6 +425,7 @@
   (setq easy-hugo-basedir "~/code/pdp80-blog/")
   (setq easy-hugo-url "https://pdp.dev")
   (setq easy-hugo-postdir "content/posts")
+  (global-set-key (kbd "s-b") 'easy-hugo)
   )
 
 (use-package! cargo-mode
@@ -599,3 +602,11 @@
   (setq org-modern-keyword nil)
   (add-hook 'org-mode-hook #'org-modern-mode)
   )
+
+;;; Function for Raycast "agenda" script
+;;; Influenced by: https://mken.weblog.lol/2023/01/showing-my-org-mode-agenda-using-raycast
+(defun my/show-agenda ()
+  (let ((agenda-frame (make-frame-command)))
+    (select-frame agenda-frame)
+    (org-agenda nil "p")
+    (x-focus-frame agenda-frame)))
