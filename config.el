@@ -24,9 +24,9 @@
 ;; Get fonts from here:
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
-;; brew tap homebrew/cask-fonts && brew install --cask font-roboto-mono-nerd-font
-(setq doom-font (font-spec :family "Hack Nerd Font" :size 15)
-      doom-big-font (font-spec :family "Hack Nerd Font" :size 16)
+;; brew tap homebrew/cask-fonts && brew install --cask font-blex-mono-nerd-font
+(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 15)
+      doom-big-font (font-spec :family "BlexMono Nerd Font" :size 15)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
       )
 
@@ -103,7 +103,7 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
+      (org-ql-select (concat org-directory "inbox.org")
         '(and
               (todo "TODO")
               (not (ts :from -10)) ; older than 10 days
@@ -118,7 +118,7 @@
       ; Archive stuff that's DONE or CANCELLED
       ; I originally had this as an 'or' in the above query, but it didn't work.
       ; not sure why, oh well
-      (org-ql-select (list (concat org-directory "inbox.org") (concat org-directory "work.org"))
+      (org-ql-select (concat org-directory "inbox.org")
         '(todo "DONE" "CANCELLED")
         :action '(org-archive-subtree) ; archive it
         )
@@ -243,6 +243,15 @@
       (interactive)
       (find-file (expand-file-name (concat org-directory "/inbox.org")))
       (revert-buffer))
+
+    ;;; Function for Raycast "agenda" script
+    ;;; Influenced by: https://mken.weblog.lol/2023/01/showing-my-org-mode-agenda-using-raycast
+    (defun pdp-show-agenda ()
+      (interactive)
+      (let ((agenda-frame (make-frame-command)))
+        (select-frame agenda-frame)
+        (org-agenda nil "p")
+        (x-focus-frame agenda-frame)))
 
     ;;; Let's use SUPER for handy shit.
     (global-set-key (kbd "s-n") (lambda () (interactive) (org-capture nil "t")))
@@ -602,11 +611,3 @@
   (setq org-modern-keyword nil)
   (add-hook 'org-mode-hook #'org-modern-mode)
   )
-
-;;; Function for Raycast "agenda" script
-;;; Influenced by: https://mken.weblog.lol/2023/01/showing-my-org-mode-agenda-using-raycast
-(defun my/show-agenda ()
-  (let ((agenda-frame (make-frame-command)))
-    (select-frame agenda-frame)
-    (org-agenda nil "p")
-    (x-focus-frame agenda-frame)))
