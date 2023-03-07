@@ -196,13 +196,6 @@
                               (or (scheduled :to today) (deadline :to today))
                               )
                         ((org-ql-block-header "Overdue + Today")
-                        (org-super-agenda-groups  '((:auto-planning t)))
-                        ))
-          (org-ql-block '(and (todo "TODO")
-                              (or (scheduled :on +1) (deadline :on +1))
-                              )
-                        ((org-ql-block-header "Tomorrow")
-                        (org-super-agenda-groups  '((:auto-planning t)))
                         ))
           (org-ql-block '(and (todo "TODO")
                               (priority >= "C")
@@ -217,7 +210,7 @@
                          (org-super-agenda-groups '((:auto-parent t)))
                          ))
           (org-ql-block '(and (todo "TODO")
-                              (not (ts :from -7))
+                              (not (ts :from -10))
                               (not (priority >= "C")) ; has no priority
                               (not (scheduled)) ; isn't scheduled
                               (not (deadline)) ; doesn't have a deadline
@@ -227,7 +220,7 @@
                         (org-super-agenda-groups '((:auto-parent t)))
                         ))
           (org-ql-block '(and (todo "TODO")
-                              (ts :from -7)
+                              (ts :from -10)
                               (not (priority >= "C")) ; has no priority
                               (not (scheduled)) ; isn't scheduled
                               (not (deadline)) ; doesn't have a deadline
@@ -384,13 +377,6 @@
                               (or (scheduled :to today) (deadline :to today))
                               )
                         ((org-ql-block-header "Overdue + Today")
-                        (org-super-agenda-groups  '((:auto-planning t)))
-                        ))
-          (org-ql-block '(and (todo "TODO")
-                              (or (scheduled :on +1) (deadline :on +1))
-                              )
-                        ((org-ql-block-header "Tomorrow")
-                        (org-super-agenda-groups  '((:auto-planning t)))
                         ))
           (org-ql-block '(and (todo "TODO")
                               (priority >= "C")
