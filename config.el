@@ -112,7 +112,7 @@
               (not (deadline)) ; doesn't have a deadline
               (not (tags "email")) ; doesn't have an email tag
         )
-        :action '(org-archive-subtree) ; archive it
+        :action '(org-todo "DONE") ; mark it as done
         )
 
       ; Archive stuff that's DONE or CANCELLED
@@ -597,3 +597,5 @@
   (setq org-modern-keyword nil)
   (add-hook 'org-mode-hook #'org-modern-mode)
   )
+
+(use-package! graphviz-dot-mode)
