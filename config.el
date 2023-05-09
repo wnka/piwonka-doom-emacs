@@ -198,36 +198,14 @@
                         ((org-ql-block-header "Overdue + Today")
                         ))
           (org-ql-block '(and (todo "TODO")
+                              (or (scheduled :from +1 :to +1) (deadline :from +1 :to +1))
+                              )
+                        ((org-ql-block-header "Tomorrow")
+                         ))
+          (org-ql-block '(and (todo "TODO")
                               (priority >= "C")
                               )
                         ((org-ql-block-header "Priority")
-                         (org-super-agenda-groups '((:auto-parent t)))
-                         ))
-          (org-ql-block '(and (todo "TODO")
-                              (tags "email")
-                              )
-                        ((org-ql-block-header "Emails to Write")
-                         (org-super-agenda-groups '((:auto-parent t)))
-                         ))
-          (org-ql-block '(and (todo "TODO")
-                              (not (ts :from -10))
-                              (not (priority >= "C")) ; has no priority
-                              (not (scheduled)) ; isn't scheduled
-                              (not (deadline)) ; doesn't have a deadline
-                              (not (tags "email")) ; doesn't have an email tag
-                              )
-                        ((org-ql-block-header "Expiring")
-                        (org-super-agenda-groups '((:auto-parent t)))
-                        ))
-          (org-ql-block '(and (todo "TODO")
-                              (ts :from -10)
-                              (not (priority >= "C")) ; has no priority
-                              (not (scheduled)) ; isn't scheduled
-                              (not (deadline)) ; doesn't have a deadline
-                              (not (tags "email")) ; doesn't have an email tag
-                              )
-                        ((org-ql-block-header "Stuff")
-                         (org-super-agenda-groups '((:auto-parent t)))
                          ))
           )))
         )
