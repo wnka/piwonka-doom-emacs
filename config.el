@@ -323,7 +323,6 @@
                          ))
           )))
         )
-
     )
   )
 
@@ -347,92 +346,6 @@
 ;;; f-you so-long-mode, change the threshold to be obscenely long
 (after! so-long
   (setq so-long-threshold 10000))
-
-(use-package! mu4e
-  :config
-  ;; Load my mu4e settings
-  ;; There's nothing super private in there,
-  ;; but it has addresses and prefs and stuff.
-  (load (concat doom-user-dir "modules/mu4e.el"))
-
-  ;;; Load org-msg settings
-  ;;; Includes CSS styling and some preferences
-  ;;; I'm turning this off for now, org-msg is kinda busted
-  ;;; (load! (concat doom-user-dir "modules/org-msg.el"))
-  (global-set-key (kbd "s-m") '=mu4e)
-  )
-
-(use-package! elfeed
-  :ensure t
-  :bind (:map elfeed-search-mode-map
-         ("q" . bjm/elfeed-save-db-and-bury)
-         ("Q" . bjm/elfeed-save-db-and-bury)
-         ("v" . elfeed-search-browse-url)
-         ("u" . elfeed-update)
-         ("r" . elfeed-mark-all-as-read)
-         ("b" . ar/elfeed-search-browse-background-url))
-  :config
-  ;;; elfeed
-  ;;; Some stuff borrowed from here
-  ;;; https://cestlaz.github.io/posts/using-emacs-29-elfeed/
-  (setq elfeed-db-directory "~/Dropbox/elfeeddb")
-
-  (defun elfeed-mark-all-as-read ()
-    (interactive)
-    (mark-whole-buffer)
-    (elfeed-search-untag-all-unread))
-
-  ;;functions to support syncing .elfeed between machines
-  ;;makes sure elfeed reads index from disk before launching
-  (defun bjm/elfeed-load-db-and-open ()
-    "Wrapper to load the elfeed db from disk before opening"
-    (interactive)
-    (elfeed-db-load)
-    (elfeed)
-    (elfeed-search-update--force)
-    (elfeed-update)
-    )
-
-  ;;write to disk when quiting
-  (defun bjm/elfeed-save-db-and-bury ()
-    "Wrapper to save the elfeed db to disk before burying buffer"
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
-  (elfeed-search-set-filter "+unread")
-
-  (defun ar/elfeed-search-browse-background-url ()
-    "Open current `elfeed' entry (or region entries) in browser without losing focus."
-    (interactive)
-    (let ((entries (elfeed-search-selected)))
-      (mapc (lambda (entry)
-              (start-process (concat "open " (elfeed-entry-link entry))
-                             nil "open" "--background" (elfeed-entry-link entry))
-              (elfeed-untag entry 'unread)
-              (elfeed-search-update-entry entry))
-            entries)
-      (unless (or elfeed-search-remain-on-entry (use-region-p))
-        (forward-line))))
-
-  (defun rakso/custom-elfeed-sort (a b)
-  (let* ((a-tags (format "%s" (elfeed-entry-tags a)))
-         (b-tags (format "%s" (elfeed-entry-tags b)))
-         (a-title (elfeed-feed-title (elfeed-entry-feed a)))
-         (b-title (elfeed-feed-title (elfeed-entry-feed b))))
-    (if (string= a-tags b-tags)
-        (if (string= a-title b-title)
-            (< (elfeed-entry-date b) (elfeed-entry-date a))
-          (string< b-title a-title))
-      (string< a-tags b-tags))))
-
-  (setf elfeed-search-sort-function #'rakso/custom-elfeed-sort)
-  (global-set-key (kbd "s-r") 'bjm/elfeed-load-db-and-open))
-
-(use-package! elfeed-org
-  :ensure t
-  :config
-  (elfeed-org)
-  (setq rmh-elfeed-org-files (list (concat org-directory "feeds.org"))))
 
 ;; Configure lsp-mode for rust
 ;; From: https://robert.kra.hn/posts/rust-emacs-setup/

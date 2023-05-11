@@ -60,4 +60,3 @@
 (package! org-modern)
 (package! graphviz-dot-mode
   :recipe (:host github :repo "ppareit/graphviz-dot-mode"))
-(package! shanty-themes)
