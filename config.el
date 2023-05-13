@@ -191,6 +191,11 @@
                                (push '("#+begin_quote" . "✎") prettify-symbols-alist)
                                (push '("#+end_quote" . "↩") prettify-symbols-alist)
                                (prettify-symbols-mode)))
+
+    ;;; Change some color stuff
+    (custom-set-faces
+     '(org-todo ((t (:background "#4F894C" :distant-foreground "#4F894C" :foreground "#eef" :weight bold)))))
+
     (setq org-ellipsis "↴")
     ;;; Quick function to open my inbox.org file
     (defun pdp-open-inbox ()
@@ -306,27 +311,28 @@
   :config
   (progn
     (org-super-agenda-mode)
-        (setq org-agenda-custom-commands
-      '(
-        ("p" "Phil's View"
+    (setq org-agenda-custom-commands
+      '(("p" "Phil View"
          (
-          (org-ql-block '(and (todo "TODO")
-                              (or (scheduled :to today) (deadline :to today))
-                              )
-                        ((org-ql-block-header "Overdue + Today")
-                        ))
-          (org-ql-block '(and (todo "TODO")
-                              (or (scheduled :from +1 :to +1) (deadline :from +1 :to +1))
-                              )
-                        ((org-ql-block-header "Tomorrow")
-                         ))
-          (org-ql-block '(and (todo "TODO")
-                              (priority >= "C")
-                              )
-                        ((org-ql-block-header "Priority")
-                         ))
-          )))
-        )
+          (agenda ""
+                  ((org-agenda-overriding-header "Timeline")
+                   (org-agenda-span 'day)
+                   (org-agenda-start-day (org-today))
+                   (org-super-agenda-groups
+                    '((:auto-outline-path t)))
+                   ))
+          (alltodo "" ((org-agenda-overriding-header "Other")
+                       (org-super-agenda-groups
+                        '(
+                          (:name "Priority"
+                           :priority>="C"
+                           :order 10)
+                          (:name "Overdue"
+                           :scheduled past
+                           :order 1)
+                          (:discard (:anything t)
+                          )))))
+         ))))
     )
   )
 
