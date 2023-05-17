@@ -316,17 +316,14 @@
          (
           (agenda ""
                   ((org-agenda-overriding-header "Timeline")
-                   (org-agenda-span 'day)
+                   (org-agenda-span 'week)
                    (org-agenda-start-day (org-today))
                    (org-super-agenda-groups
                     '((:auto-outline-path t)))
                    ))
-          (alltodo "" ((org-agenda-overriding-header "Other")
+          (alltodo "" ((org-agenda-overriding-header "Overdue")
                        (org-super-agenda-groups
                         '(
-                          (:name "Priority"
-                           :priority>="C"
-                           :order 10)
                           (:name "Overdue"
                            :scheduled past
                            :order 1)
