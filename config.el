@@ -33,8 +33,17 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-nord-aurora)
-
+;; (setq doom-theme 'doom-nord-aurora)
+;; NOTE: doom-theme isn't needed to by set thanks to auto-dark
+;; auto-dark will follow system preferences to flip between
+;; two themes for day/night
+(use-package! auto-dark
+  :config
+  (auto-dark-mode t)
+  :custom
+  (auto-dark-dark-theme 'doom-nord-aurora)
+  (auto-dark-light-theme 'doom-nord-light)
+  )
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
 (use-package! magit-delta
