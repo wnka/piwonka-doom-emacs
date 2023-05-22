@@ -330,12 +330,12 @@
                    (org-super-agenda-groups
                     '((:auto-outline-path t)))
                    ))
-          (alltodo "" ((org-agenda-overriding-header "Overdue")
+          (alltodo "" ((org-agenda-overriding-header "Priority")
                        (org-super-agenda-groups
                         '(
-                          (:name "Overdue"
-                           :scheduled past
-                           :order 1)
+                          (:name "Priority"
+                           :priority>="C"
+                           )
                           (:discard (:anything t)
                           )))))
          ))))
