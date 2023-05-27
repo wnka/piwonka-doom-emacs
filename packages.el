@@ -57,7 +57,6 @@
 (package! cargo-mode)
 
 (package! dap-mode)
-(package! org-modern)
 (package! graphviz-dot-mode
   :recipe (:host github :repo "ppareit/graphviz-dot-mode"))
 (package! auto-dark)
