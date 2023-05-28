@@ -57,7 +57,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
+(setq display-line-numbers-type t)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -402,6 +402,11 @@
   (setq dap-auto-configure-mode t)
   (with-eval-after-load 'lsp-rust
     (require 'dap-cpptools))
+  )
+
+(use-package! projectile
+  :config
+  (global-set-key (kbd "s-p") 'projectile-switch-project)
   )
 
 (use-package! marginalia
