@@ -329,6 +329,10 @@
               (progn
                 (org-update-all-dblocks))))))
     (add-hook 'before-save-hook #'pdp-autocalc-clocktable)
+    ;;; Have "Total Time" be in hours, not break into days.
+    ;;; I was getting confused about the total hours for a 40 hour week
+    ;;; being represented as "1 day 16 hours"
+    (setq org-duration-format (quote h:mm))
     ;;; END Org clock in stuff
     )
   )
