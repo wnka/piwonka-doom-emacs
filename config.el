@@ -41,7 +41,7 @@
   :config
   (auto-dark-mode t)
   :custom
-  (auto-dark-dark-theme 'doom-nord-aurora)
+  (auto-dark-dark-theme 'doom-henna)
   (auto-dark-light-theme 'doom-nord-light)
   )
 ;; Enable magit-delta (coloring for diffs in magit)
@@ -261,7 +261,7 @@
     (defun pdp-clock-in-helper (regexp)
       (interactive)
       ; Default to 30 minutes
-      (setq n (read-number "How many minutes: " 30))
+      (setq n (read-number (concat regexp " -- How many minutes: ") 30))
       (pdp-clock-in-item regexp n)
       )
 
