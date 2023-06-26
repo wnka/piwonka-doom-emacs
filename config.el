@@ -370,7 +370,7 @@
           ("l" "plan" plain "%?"
            :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                         ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
-                              "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Start of the week\n\n* Midweek checkin\n\n* End of week\n\n* Org-clock for the last week")
+                              "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Daily\n** Monday\n** Tuesday\n** Wednesday\n** Thursday\n** Friday\n* Bright Spots\n* Org-clock for the last week")
            :unnarrowed t)
           )
         )
