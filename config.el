@@ -412,6 +412,7 @@
     (interactive)
     (pdp-org-roam-plan-find (concat (org-read-date nil nil "++1" nil (org-read-date nil t "-sun")) ".plan"))
   )
+)
 
 ;;; Allow me to get sloppy with holding down control for these options I use a lot
 (global-set-key "\C-c\C-np" 'pdp-org-roam-insert)
