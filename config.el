@@ -315,6 +315,7 @@
            :desc "Oncall" "o" #'pdp-clock-in-oncall
            :desc "E-mail/Slack" "e" #'pdp-clock-in-email
            :desc "Open up clock.org" "j" #'pdp-open-clock
+           :desc "Open current plan" "p" #'pdp-org-roam-new-plan
            ))
 
     (defun pdp-autocalc-clocktable ()
@@ -397,6 +398,19 @@
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
         )
+
+  ;;; Helpers to find the .plan file for the current week.
+  (defun pdp-org-roam-plan-find (&optional title-or-alias)
+    (interactive current-prefix-arg)
+    (let ((node (org-roam-node-from-title-or-alias title-or-alias)))
+      (if node
+          (org-roam-node-visit node)
+        (let ((node (org-roam-node-read title-or-alias)))
+          (org-roam-capture- :node node))
+        )))
+  (defun pdp-org-roam-new-plan ()
+    (interactive)
+    (pdp-org-roam-plan-find (concat (org-read-date nil nil "++1" nil (org-read-date nil t "-sun")) ".plan"))
   )
 
 ;;; Allow me to get sloppy with holding down control for these options I use a lot
@@ -434,7 +448,7 @@
              (
               (agenda ""
                       ((org-agenda-overriding-header "Timeline")
-                       (org-agenda-span 'week)
+                       (org-agenda-span 'day)
                        (org-agenda-start-day (org-today))
                        (org-super-agenda-groups
                         '((:auto-outline-path t)))
