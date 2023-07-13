@@ -41,7 +41,7 @@
   :config
   (auto-dark-mode t)
   :custom
-  (auto-dark-dark-theme 'doom-henna)
+  (auto-dark-dark-theme 'doom-moonlight)
   (auto-dark-light-theme 'doom-nord-light)
   )
 ;; Enable magit-delta (coloring for diffs in magit)
