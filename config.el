@@ -25,8 +25,8 @@
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
 ;; brew tap homebrew/cask-fonts && brew install --cask font-blex-mono-nerd-font
-(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 15)
-      doom-big-font (font-spec :family "BlexMono Nerd Font" :size 15)
+(setq doom-font (font-spec :family "RobotoMono Nerd Font" :size 15)
+      doom-big-font (font-spec :family "RobotoMono Nerd Font" :size 15)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
       )
 
@@ -196,9 +196,9 @@
                                (push '(":PROPERTIES:" . "") prettify-symbols-alist)
                                (push '(":END:" . "↤") prettify-symbols-alist)
                                (push '("#+begin_src" . "✎") prettify-symbols-alist)
-                               (push '("#+end_src" . "↩︎") prettify-symbols-alist)
+                               (push '("#+end_src" . "↵") prettify-symbols-alist)
                                (push '("#+begin_quote" . "✎") prettify-symbols-alist)
-                               (push '("#+end_quote" . "↩") prettify-symbols-alist)
+                               (push '("#+end_quote" . "↵") prettify-symbols-alist)
                                (prettify-symbols-mode)))
 
     ;;; Change some color stuff
