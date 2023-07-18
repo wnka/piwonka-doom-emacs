@@ -304,11 +304,17 @@
       (pdp-clock-in-helper "* E-mail/Slack")
       )
 
+    (defun pdp-clock-in-docs ()
+      (interactive)
+      (pdp-clock-in-helper "* Doc Reading/Writing")
+      )
+
     ; keymap for clocking in/out
     (map! :leader
           (:prefix ("j" . "journal") ;; time journal bindings
            :desc "Meeting" "m" #'pdp-clock-in-meeting
            :desc "Coding" "c" #'pdp-clock-in-coding
+           :desc "Doc Reading/Writing" "d" #'pdp-clock-in-docs
            :desc "Interviewing" "i" #'pdp-clock-in-interviewing
            :desc "1-on-1" "1" #'pdp-clock-in-1on1
            :desc "Assessments" "a" #'pdp-clock-in-assessments
