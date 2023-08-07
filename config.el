@@ -124,13 +124,14 @@
         :action '(org-todo "DONE") ; mark it as done
         )
 
-      ; Archive stuff that's DONE or CANCELLED
-      ; I originally had this as an 'or' in the above query, but it didn't work.
-      ; not sure why, oh well
-      (org-ql-select (concat org-directory "inbox.org")
-        '(todo "DONE" "CANCELLED")
-        :action '(org-archive-subtree) ; archive it
-        )
+      ; I was using org-ql-select but you had to run it multiple times to
+      ; archive everything because the shifting of items in the file as things
+      ; got archived confused it. From: https://stackoverflow.com/a/27043756
+      (org-map-entries
+       (lambda ()
+         (org-archive-subtree)
+         (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
+       "/DONE" 'file)
 
       (org-save-all-org-buffers)
       )
