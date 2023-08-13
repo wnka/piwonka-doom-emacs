@@ -112,6 +112,8 @@
       (interactive)
       ; take all entries that are over 7 days old and archive them
       ; I just want to end the endless build up
+      ;
+      ; Mark items as DONE
       (org-ql-select (concat org-directory "inbox.org")
         '(and
               (todo "TODO")
@@ -124,6 +126,7 @@
         :action '(org-todo "DONE") ; mark it as done
         )
 
+      ; Archive DONE items
       ; I was using org-ql-select but you had to run it multiple times to
       ; archive everything because the shifting of items in the file as things
       ; got archived confused it. From: https://stackoverflow.com/a/27043756
@@ -136,6 +139,18 @@
       (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
+    (defun pdp-autoarchive ()
+      (when (derived-mode-p 'org-mode)
+        (save-excursion
+          (goto-char 0)
+          (if (string-equal (car
+                             (cdr
+                              (car
+                               (org-collect-keywords '("AUTOARCHIVE")))))
+                            "t")
+              (progn
+                (pdp-org-archive-done-tasks))))))
+    (add-hook 'before-save-hook #'pdp-autoarchive)
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
     (setq org-agenda-skip-scheduled-if-done t)
