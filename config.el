@@ -139,7 +139,7 @@
       (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
-    (defun pdp-autoarchive ()
+    (defun pdp-org-autoarchive ()
       (when (derived-mode-p 'org-mode)
         (save-excursion
           (goto-char 0)
@@ -150,7 +150,7 @@
                             "t")
               (progn
                 (pdp-org-archive-done-tasks))))))
-    (add-hook 'before-save-hook #'pdp-autoarchive)
+    (add-hook 'before-save-hook #'pdp-org-autoarchive)
     (setq org-agenda-sorting-strategy '(time-up priority-down category-up))
     (setq org-agenda-skip-deadline-if-done t)
     (setq org-agenda-skip-scheduled-if-done t)
