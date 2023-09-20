@@ -135,8 +135,6 @@
          (org-archive-subtree)
          (setq org-map-continue-from (org-element-property :begin (org-element-at-point))))
        "/DONE" 'file)
-
-      (org-save-all-org-buffers)
       )
     (global-set-key "\C-cnh" 'pdp-org-archive-done-tasks)
     (defun pdp-org-autoarchive ()
