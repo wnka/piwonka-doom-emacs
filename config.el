@@ -31,8 +31,8 @@
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
 ;; brew tap homebrew/cask-fonts && brew install --cask font-blex-mono-nerd-font
-(setq doom-font (font-spec :family "RobotoMono Nerd Font" :size 15)
-      doom-big-font (font-spec :family "RobotoMono Nerd Font" :size 15)
+(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 15)
+      doom-big-font (font-spec :family "BlexMono Nerd Font" :size 15)
       doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
       )
 
