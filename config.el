@@ -3,6 +3,12 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+; Since I use fish shell, add this. From `doom doctor': Fish (and possibly other
+; non-POSIX shells) is known to inject garbage output into some of the child
+; processes that Emacs spawns. Many Emacs packages/utilities will choke on this
+; output, causing unpredictable issues.
+(setq shell-file-name (executable-find "bash"))
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Phil Piwonka"
@@ -37,13 +43,18 @@
 ;; NOTE: doom-theme isn't needed to by set thanks to auto-dark
 ;; auto-dark will follow system preferences to flip between
 ;; two themes for day/night
-(use-package! auto-dark
-  :config
-  (auto-dark-mode t)
-  :custom
-  (auto-dark-dark-theme 'doom-moonlight)
-  (auto-dark-light-theme 'doom-nord-light)
-  )
+(if (display-graphic-p)
+    (progn
+      (use-package! auto-dark
+        :config
+        (auto-dark-mode t)
+        :custom
+        (auto-dark-dark-theme 'doom-moonlight)
+        (auto-dark-light-theme 'doom-nord-light)
+        ))
+    ;; else (optional)
+    (setq doom-theme 'doom-nord-aurora))
+
 ;; Enable magit-delta (coloring for diffs in magit)
 ;; See https://github.com/dandavison/magit-delta
 (use-package! magit-delta
