@@ -49,8 +49,8 @@
         :config
         (auto-dark-mode t)
         :custom
-        (auto-dark-dark-theme 'doom-moonlight)
-        (auto-dark-light-theme 'doom-nord-light)
+        (auto-dark-dark-theme 'doom-feather-dark)
+        (auto-dark-light-theme 'doom-flatwhite)
         ))
     ;; else (optional)
     (setq doom-theme 'doom-nord-aurora))
@@ -228,7 +228,12 @@
 
     ;;; Change some color stuff
     (custom-set-faces
-     '(org-todo ((t (:background "#4F894C" :distant-foreground "#4F894C" :foreground "#eef" :weight bold)))))
+     '(org-todo ((t (:background "#4F894C" :distant-foreground "#4F894C" :foreground "#eef" :weight bold))))
+     ; I don't want my org headers to be big
+     '(outline-1 ((t (:height 1.0))))
+     '(outline-2 ((t (:height 1.0))))
+     '(outline-3 ((t (:height 1.0))))
+     )
 
     (setq org-ellipsis "↴")
     ;;; Quick function to open my inbox.org file
