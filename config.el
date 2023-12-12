@@ -55,13 +55,6 @@
     ;; else (optional)
     (setq doom-theme 'doom-nord-aurora))
 
-;; Enable magit-delta (coloring for diffs in magit)
-;; See https://github.com/dandavison/magit-delta
-(use-package! magit-delta
-  :after magit
-  :config
-  (magit-delta-mode))
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
