@@ -59,3 +59,6 @@
 (package! graphviz-dot-mode
   :recipe (:host github :repo "ppareit/graphviz-dot-mode"))
 (package! auto-dark)
+
+(unpin! org-roam)
+(package! org-roam-ui)
