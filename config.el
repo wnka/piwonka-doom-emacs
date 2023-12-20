@@ -31,10 +31,8 @@
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
 ;; brew tap homebrew/cask-fonts && brew install --cask font-blex-mono-nerd-font
-(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 15)
-      doom-big-font (font-spec :family "BlexMono Nerd Font" :size 15)
-      doom-variable-pitch-font (font-spec :family "Iosevka Term" :size 16)
-      )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
