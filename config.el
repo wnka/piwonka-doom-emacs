@@ -50,8 +50,8 @@
         (auto-dark-dark-theme 'doom-feather-dark)
         (auto-dark-light-theme 'doom-flatwhite)
         ))
-    ;; else (optional)
-    (setq doom-theme 'doom-nord-aurora))
+    ;; else for terminals
+    (setq doom-theme 'doom-feather-dark))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
