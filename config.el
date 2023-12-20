@@ -426,6 +426,11 @@
         :desc "org-roam-insert" "i" #'org-roam-node-insert
         :desc "org-roam-capture" "c" #'org-roam-capture
         :desc "end-of-file-insert" "p" #'pdp-org-roam-insert
+        (:prefix-map ("d" . "Dailies/Journal")
+                     "d" #'org-roam-dailies-capture-today
+                     "o" #'org-roam-dailies-goto-today
+                     "g" #'org-roam-dailies-goto-date
+                     "m" #'org-roam-dailies-capture-tomorrow)
         )
 
   ;;; Helpers to find the .plan file for the current week.
