@@ -376,7 +376,8 @@
 ;;; Show persp in the modeline
 ;;; https://github.com/hlissner/doom-emacs/issues/314
 (after! doom-modeline
-  (setq doom-modeline-persp-name t))
+  (setq doom-modeline-persp-name t)
+  (setq doom-modeline-height 30))
 
 ;;; f-you so-long-mode, change the threshold to be obscenely long
 (after! so-long
