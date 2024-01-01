@@ -342,21 +342,22 @@
     (setq org-agenda-custom-commands
           '(("p" "Phil View"
              (
+              (alltodo ""
+                       ((org-agenda-overriding-header "Priority")
+                        (org-super-agenda-groups
+                         '(
+                           (:name "Priority"
+                            :priority>="C"
+                            )
+                           (:discard (:anything t)
+                                     )))))
               (agenda ""
                       ((org-agenda-overriding-header "Timeline")
-                       (org-agenda-span 'day)
+                       (org-agenda-span 'week)
                        (org-agenda-start-day (org-today))
                        (org-super-agenda-groups
                         '((:auto-outline-path t)))
                        ))
-              (alltodo "" ((org-agenda-overriding-header "Priority")
-                           (org-super-agenda-groups
-                            '(
-                              (:name "Priority"
-                               :priority>="C"
-                               )
-                              (:discard (:anything t)
-                                        )))))
               ))))
     )
   )
