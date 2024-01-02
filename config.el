@@ -343,7 +343,7 @@
           '(("p" "Phil View"
              (
               (alltodo ""
-                       ((org-agenda-overriding-header "Priority")
+                       (
                         (org-super-agenda-groups
                          '(
                            (:name "Priority"
@@ -352,13 +352,15 @@
                            (:discard (:anything t)
                                      )))))
               (agenda ""
-                      ((org-agenda-overriding-header "Timeline")
+                      (
                        (org-agenda-span 'week)
                        (org-agenda-start-day (org-today))
-                       (org-super-agenda-groups
-                        '((:auto-outline-path t)))
                        ))
               ))))
+    (setq org-agenda-prefix-format '(
+                                     (agenda  . "%-2T")
+                                     (todo  . "%-2T")
+                                     ))
     )
   )
 
