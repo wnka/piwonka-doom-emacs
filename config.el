@@ -464,3 +464,8 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+(use-package! treemacs
+  :config
+  (global-set-key (kbd "s-t") 'treemacs)
+  )
