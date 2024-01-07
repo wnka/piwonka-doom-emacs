@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Pic for blog
-# key: pic
-# --
-{{< figure src="/images/$0" alt="$1" caption="$1" >}}
