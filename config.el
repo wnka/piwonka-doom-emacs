@@ -51,8 +51,10 @@
         (auto-dark-light-theme 'doom-flatwhite)
         ))
     ;; else for terminals
-    (setq doom-theme 'doom-feather-dark)
-    (menu-bar-mode -1)
+    (progn
+      (setq doom-theme 'doom-feather-dark)
+      (menu-bar-mode -1)
+      )
     )
 
 ;; If you use `org' and don't want your org files in the default location below,
