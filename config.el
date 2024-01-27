@@ -53,9 +53,6 @@
     ;; else for terminals
   (setq doom-theme 'doom-feather-dark))
 
-;; I don't like the menu bar
-(menu-bar-mode -1)
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
@@ -477,3 +474,6 @@
   :config
   (global-set-key (kbd "s-t") 'treemacs)
   )
+
+;; I don't like the menu bar
+(menu-bar-mode -1)
