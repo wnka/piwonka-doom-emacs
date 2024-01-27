@@ -386,6 +386,11 @@
   (setq doom-modeline-persp-name t)
   (setq doom-modeline-height 30))
 
+;;; When using emacsclient, don't create a new workspace
+;;; every time.
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+
 ;;; f-you so-long-mode, change the threshold to be obscenely long
 (after! so-long
   (setq so-long-threshold 10000))
