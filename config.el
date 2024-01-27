@@ -294,6 +294,8 @@
         '(("d" "default" entry "* %<%I:%M %p>\n%?" :target
           (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")))
         )
+  (global-set-key (kbd "s-d") (lambda () (interactive) (org-roam-dailies-capture-today nil "d")))
+
   ;;; Helpers to find the .plan file for the current week.
   (defun pdp-org-roam-plan-find (&optional title-or-alias)
     (interactive current-prefix-arg)
