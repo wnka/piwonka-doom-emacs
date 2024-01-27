@@ -107,7 +107,7 @@
 (defalias 'gits 'magit-status)
 (defalias 'kr 'helm-show-kill-ring)
 
-(setq confirm-kill-emacs 'y-or-n-p)
+;(setq confirm-kill-emacs 'y-or-n-p)
 
 ;;; ORG
 (use-package! org
