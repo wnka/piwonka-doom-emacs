@@ -151,7 +151,7 @@
               (progn
                 (pdp-org-archive-done-tasks))))))
     (add-hook 'before-save-hook #'pdp-org-autoarchive)
-    (setq org-agenda-sorting-strategy '(time-up priority-down category-up tag-down))
+    (setq org-agenda-sorting-strategy '(time-up priority-down category-down tag-down))
     (setq org-agenda-skip-deadline-if-done t)
     (setq org-agenda-skip-scheduled-if-done t)
     (setq org-agenda-window-setup 'current-window)
