@@ -479,3 +479,106 @@
 
 ;; I don't like the menu bar
 (menu-bar-mode -1)
+
+;;; Org clock in stuff
+;;; Quick function to clock into an item in "clock.org" file
+;;; I use this to track where my time goes at a high level
+(defun pdp-clock-in-item (regexp &optional duration-in-minutes)
+  (interactive (list (read-regexp "Regexp: ")))
+  (find-file (expand-file-name (concat org-directory "/clock.org")))
+
+  (org-clock-out nil t) ; "t" enables fail silently if no clocked item
+  (goto-char (point-min))
+
+  ;;; Find the item using the passed in Regexp
+  (isearch-mode t t)
+  (let ((isearch-regexp nil))
+    (isearch-yank-string regexp))
+  (org-clock-in)
+
+  ;;; If duration is passed in, clock out right away
+  ;;; and set the clock out time in the future
+  (if duration-in-minutes
+      (org-clock-out nil nil (time-add nil (* duration-in-minutes 60))))
+
+  ;;; Save the change
+  (save-buffer)
+  )
+
+(defun pdp-open-clock ()
+  (interactive)
+  (find-file (expand-file-name (concat org-directory "/clock.org")))
+  (revert-buffer))
+
+;;; Helper function that will ask for input
+;;; for many minutes should be added to the task's clock
+(defun pdp-clock-in-helper (regexp)
+  (interactive)
+  ; Default to 30 minutes
+  (setq n (read-number (concat regexp " -- How many minutes: ") 30))
+  (pdp-clock-in-item regexp n)
+  )
+
+;;; functions to track to specific clock items
+;;; I couldn't figure out a way to call
+;;; 'pdp-clock-in-item with an argument within the leader keymap
+;;; so I had to create these functions.
+(defun pdp-clock-in-folks ()
+  (interactive)
+  (pdp-clock-in-helper "* Folks")
+  )
+
+(defun pdp-clock-in-customers ()
+  (interactive)
+  (pdp-clock-in-helper "* Customers")
+  )
+
+(defun pdp-clock-in-ic ()
+  (interactive)
+  (pdp-clock-in-helper "* IC")
+  )
+
+(defun pdp-clock-in-rhythm ()
+  (interactive)
+  (pdp-clock-in-helper "* Rhythm")
+  )
+
+(defun pdp-clock-in-learning ()
+  (interactive)
+  (pdp-clock-in-helper "* Learning")
+  )
+
+(defun pdp-clock-in-strategic ()
+  (interactive)
+  (pdp-clock-in-helper "* Strategic")
+  )
+
+; keymap for clocking in/out
+(map! :leader
+      (:prefix ("j" . "journal") ;; time journal bindings
+       :desc "Folks/Culture" "f" #'pdp-clock-in-folks
+       :desc "Customers" "c" #'pdp-clock-in-customers
+       :desc "IC Work" "i" #'pdp-clock-in-ic
+       :desc "Rhythm of the Business" "r" #'pdp-clock-in-rhythm
+       :desc "Learning" "l" #'pdp-clock-in-learning
+       :desc "Strategic Stuff" "s" #'pdp-clock-in-strategic
+       :desc "Open up clock.org" "j" #'pdp-open-clock
+       ))
+
+(defun pdp-autocalc-clocktable ()
+  (when (derived-mode-p 'org-mode)
+    (save-excursion
+      (goto-char 0)
+      (if (string-equal (car
+                         (cdr
+                          (car
+                           (org-collect-keywords '("AUTOCALC_CLOCKTABLES")))))
+                        "t")
+          (progn
+            (org-update-all-dblocks))))))
+(add-hook 'before-save-hook #'pdp-autocalc-clocktable)
+;;; Have "Total Time" be in hours, not break into days.
+;;; I was getting confused about the total hours for a 40 hour week
+;;; being represented as "1 day 16 hours"
+(setq org-duration-format (quote h:mm))
+;;; END Org clock in stuff
