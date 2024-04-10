@@ -246,17 +246,15 @@
   (setq org-roam-capture-templates
         '(
           ("d" "default" plain "%?"
-           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                               "#+title: ${title}")
            :unnarrowed t)
           ("p" "person" plain "%?"
-           :target (file+head "people/%<%Y%m%d%H%M%S>-${slug}.org"
-                                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+           :if-new (file+head "people/%<%Y%m%d%H%M%S>-${slug}.org"
                               ":PROPERTIES:\n:ROAM_ALIASES: \"${fullname}\"\n:END:\n#+title: ${title}\n\n- tags :: [[id:dfd98009-3b6a-4f32-8235-00131e66918c][People]]")
            :unnarrowed t)
           ("l" "plan" plain "%?"
-           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                                        ; I name these files after the persons work alias, then put their full name under "ROAM_ALIASES"
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                               "#+title: ${title}\n\n- tags :: [[id:95f115f1-c0c8-4cd3-8328-f85df945d469][.plan]]\n\n* To Try On\n\n* Daily\n** Monday\n** Tuesday\n** Wednesday\n** Thursday\n** Friday\n* Bright Spots")
            :unnarrowed t)
           )
