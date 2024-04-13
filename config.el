@@ -187,8 +187,8 @@
     ;;; Org ligatures
     (add-hook 'org-mode-hook (lambda ()
                                "Beautify Org Checkbox Symbol"
-                               (push '("#+TITLE:" . "") prettify-symbols-alist)
-                               (push '("#+title:" . "") prettify-symbols-alist)
+                               (push '("#+TITLE:" . "") prettify-symbols-alist)
+                               (push '("#+title:" . "") prettify-symbols-alist)
                                (push '("SCHEDULED:" . "⧗") prettify-symbols-alist)
                                (push '("DEADLINE:" . "⌘") prettify-symbols-alist)
                                (push '("COMPLETED:" . "✓") prettify-symbols-alist)
