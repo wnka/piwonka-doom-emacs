@@ -63,3 +63,5 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 (package! mermaid-mode)
+
+(package! structurizr-mode :recipe (:host github :repo "gilesp/structurizr-mode"))
