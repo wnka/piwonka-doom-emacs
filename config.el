@@ -30,9 +30,9 @@
 ;; Get fonts from here:
 ;; https://github.com/ryanoasis/nerd-fonts
 ;; For Mac:
-;; brew tap homebrew/cask-fonts && brew install --cask font-blex-mono-nerd-font
-(setq doom-font (font-spec :family "RecMonoLinear Nerd Font" :size 15)
-      doom-big-font (font-spec :family "RecMonoLinear Nerd Font" :size 20))
+;; brew tap homebrew/cask-fonts && brew install --cask font-fira-code-nerd-font
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 15)
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
