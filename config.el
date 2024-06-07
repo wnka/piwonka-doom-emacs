@@ -580,3 +580,9 @@
 ;;; being represented as "1 day 16 hours"
 (setq org-duration-format (quote h:mm))
 ;;; END Org clock in stuff
+
+;;; Prevent mouse wheel from fucking up font size.
+;;; https://lmno.lol/alvaro/hey-mouse-dont-mess-with-my-emacs-font-size
+(global-set-key (kbd "<pinch>") 'ignore)
+(global-set-key (kbd "<C-wheel-up>") 'ignore)
+(global-set-key (kbd "<C-wheel-down>") 'ignore)
