@@ -60,8 +60,5 @@
   :recipe (:host github :repo "ppareit/graphviz-dot-mode"))
 (package! auto-dark)
 
-(unpin! org-roam)
-(package! org-roam-ui)
-(package! mermaid-mode)
-
-(package! structurizr-mode :recipe (:host github :repo "gilesp/structurizr-mode"))
+;(package! mermaid-mode)
+;(package! structurizr-mode :recipe (:host github :repo "gilesp/structurizr-mode"))
