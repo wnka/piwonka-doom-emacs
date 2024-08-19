@@ -26,8 +26,8 @@
 ;; font string. You generally only need these two:
 
 ;;; Font settings
-(setq doom-font (font-spec :family "Cascadia Code NF" :size 15)
-      doom-big-font (font-spec :family "Cascadia Code NF" :size 20))
+(setq doom-font (font-spec :family "Berkeley Mono" :size 15)
+      doom-big-font (font-spec :family "Berkeley Mono" :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
