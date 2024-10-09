@@ -33,20 +33,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-nord-aurora)
-;; NOTE: doom-theme isn't needed to by set thanks to auto-dark
-;; auto-dark will follow system preferences to flip between
-;; two themes for day/night
-(if (display-graphic-p)
-    (progn
-      (use-package! auto-dark
-        :config
-        (auto-dark-mode t)
-        :custom
-        (auto-dark-dark-theme 'doom-feather-dark)
-        (auto-dark-light-theme 'doom-flatwhite)
-        ))
-    ;; else for terminals
-  (setq doom-theme 'doom-feather-dark))
+(setq doom-theme 'doom-feather-dark)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -260,6 +247,8 @@
 ;;; https://github.com/sunnyhasija/Academic-Doom-Emacs-Config/blob/master/config.el
 ;;; I like these bindings so I don't have to go through the 'r' subtree
 (after! org-roam
+  (load (concat doom-user-dir "modules/org-roam-gt.el"))
+  (org-roam-gt-mode)
   ;;; Helper for appending at the end of org files
   ;;; Common action for me in org-roam is to open a file, go to the end of the file
   ;;; and then add '* <current date>'
