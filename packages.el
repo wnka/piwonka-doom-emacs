@@ -62,3 +62,5 @@
 
 ;(package! mermaid-mode)
 ;(package! structurizr-mode :recipe (:host github :repo "gilesp/structurizr-mode"))
+
+(package! emacsql :pin "491105a")
